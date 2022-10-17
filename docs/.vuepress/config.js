@@ -65,12 +65,7 @@ export default defineUserConfig({
             },
             {
                 text: '百宝箱',
-                children: [
-                    {
-                        text: '学习网站',
-                        link: 'https://github.com'
-                    }
-                ]
+                link: '/doraemon',
             },
         ],
         sidebar: {
