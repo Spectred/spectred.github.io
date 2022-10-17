@@ -4,6 +4,10 @@ sidebar: 'auto'
 
 ## 官方文档
 
+[Java](https://docs.oracle.com/en/java/)
+
+[Go](https://go.dev/doc/)
+
 [Spring Framework](https://docs.spring.io/spring-framework/docs/)
 
 [Spring Boot](https://docs.spring.io/spring-boot/docs)
@@ -11,8 +15,6 @@ sidebar: 'auto'
 [Spring Cloud](https://docs.spring.io/spring-cloud/docs/)
 
 [Spring Security](https://docs.spring.io/spring-security)
-
-[Java](https://docs.oracle.com/en/java/)
 
 [Arthas](https://arthas.aliyun.com/doc/)
 
@@ -39,6 +41,8 @@ sidebar: 'auto'
 [Redis](https://redis.io/docs/)
 
 [Kubernetes](https://kubernetes.io/zh-cn/docs/home/)
+
+[Istio](https://istio.io/latest/zh/docs/)
 
 [Docker](https://docs.docker.com/)
 
@@ -74,4 +78,8 @@ sidebar: 'auto'
 
 ---
 
-## 好用的软件
+### 工具
+
+[Learn X in Y minutes](https://learnxinyminutes.com/)
+
+[XXL-Job](https://www.xuxueli.com/xxl-job/)
