@@ -99,3 +99,52 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
   缺点: 在某些情况下会导致主从数据不一致，例如`now()`
 
 - `MIXED`: 混合使用，优先使用`STAMENT`保存`bin log`，对于无法复制的操作使用`ROW`模式保存`bin log`
+
+**使用场景:**
+
+- 主从复制
+
+- 数据恢复
+
+  `mysqlbinlog`可以指定时间或时间位置恢复，做增量备份和恢复
+
+  > `mysqldump`可以定期全部备份数据库数据
+
+#### 6.2 [Redo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-redo-log.html)
+
+重做日志基于磁盘，用于崩溃恢复期间更正不完整事务，以循环方式写入(`ib_logfile0`、`ib_logfile1`)，记录所有对`Buffer Pool`修改的日志
+
+随着事务操作的执行就会产生`Redo Log`，在事务提交时将产生的`Redo Log`写入`Log Buffer`,等事务操作的脏页写入到磁盘后，`Redo Log`可重用复写，是`WAL`写前日志
+
+作用: 实现事务的**持久性**，防止在发生故障的时间点，尚有脏页未写入表`ibd`文件，在重启MySQL服务时，根据`Redo Log`重做，从而达到事务的未入磁盘的数据持久化
+
+- `bin Log`和`Redo Log`的区别
+
+|                  bin log                   |            Redo Log            |
+| :----------------------------------------: | :----------------------------: |
+|       MySQL Server层日志，二进制文件       |        InnoDB引擎的日志        |
+|           逻辑日志(记录更新过程)           | 物理日志(记录数据更新状态内容) |
+|       追加写(写完写下一个，不会覆写)       |    循环写(日志空间大小固定)    |
+| 主从复制，数据恢复(没有自动Crash Safe能力) |  服务器宕机后事务数据自动恢复  |
+
+#### 6.3 [Undo Logs](https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html)
+
+撤销日志，事务开始之前保存的被修改的数据备份，可回滚事务
+
+在事务开始之前产生，在事务提交时，将事务对应的`Undo Log`放到删除列表中，之后通过后台线程`Purge Thread`进行回收
+
+属于逻辑日志，记录一个变化的相反过程，例如`INSERT`对应`DELETE`
+
+存储: 采用`段`的方式管理和记录，有1024个回滚段
+
+`show variables like '%innodb_undo%';`
+
+**作用:** 
+
+- 实现事务的原子性
+
+  利用`Undo Log`中的备份数据恢复到事务开始之前的状态
+
+- 实现`MVCC`
+
+  事务未提交之前，`Undo Log`保存了未提交之前的数据，`Undo Log`中的数据可作为数据旧版本快照工其他事务进行快照读
