@@ -93,6 +93,20 @@ export default defineUserConfig({
                     collapsible: true,
                 }
             ],
+            '/frame/netty': [
+                {
+                    text: '源码分析',
+                    link: '/frame/netty/sourcecode.md'
+                },
+                {
+                    text: 'Socket',
+                    link: '/frame/netty/socket.md' 
+                },
+                {
+                    text: 'I/O模型',
+                    link: '/frame/netty/io.md'
+                }
+            ],
             '/cloud_native/microservices': [
                 {
                     text: 'microservices',
