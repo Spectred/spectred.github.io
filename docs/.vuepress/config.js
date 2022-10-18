@@ -98,6 +98,23 @@ export default defineUserConfig({
                     text: 'microservices',
                     collapsible: true,
                 }
+            ],
+            '/doraemon': [
+                {
+                    text: '常用网站',
+                    collapsible: false,
+                    link: '/doraemon/website'
+                },
+                {
+                    text: '平时积累',
+                    collapsible: true,
+                    children: [
+                        {
+                            text: 'Linux',
+                            link: '/doraemon/qianli/linux'
+                        }
+                    ]
+                }
             ]
         }
     }),
