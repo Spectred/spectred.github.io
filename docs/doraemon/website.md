@@ -79,3 +79,8 @@
 [Learn X in Y minutes](https://learnxinyminutes.com/)
 
 [XXL-Job](https://www.xuxueli.com/xxl-job/)
+
+### 软件
+[Charles](https://www.charlesproxy.com/)
+
+[PostMan](https://www.postman.com/)

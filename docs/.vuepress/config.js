@@ -100,19 +100,12 @@ export default defineUserConfig({
                 }
             ],
             '/doraemon': [
-                {
-                    text: '常用网站',
-                    collapsible: false,
-                    link: '/doraemon/website'
-                },
+                { text: '常用网站', link: '/doraemon/website' },
                 {
                     text: '平时积累',
                     collapsible: true,
                     children: [
-                        {
-                            text: 'Linux',
-                            link: '/doraemon/qianli/linux'
-                        }
+                        { text: 'Linux', link: '/doraemon/qianli/linux' }
                     ]
                 }
             ]
