@@ -148,3 +148,125 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 - 实现`MVCC`
 
   事务未提交之前，`Undo Log`保存了未提交之前的数据，`Undo Log`中的数据可作为数据旧版本快照工其他事务进行快照读
+
+#### 6.4 [Slow Query Log](https://dev.mysql.com/doc/refman/8.0/en/slow-query-log.html)
+
+慢查询日志，超过 [long_query_time](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_long_query_time) 秒的日志会记录，需要主动开启，可以通过 [mysqldumpslow](https://dev.mysql.com/doc/refman/8.0/en/mysqldumpslow.html) 命令进行查看(也可以直接查看,例如`cat slow.log`)，日志中主要包括的属性: 具体的语句，记录的时间，执行的时间等
+
+### 7. 有哪些索引
+
+#### 7.1 按照数据存储和键值逻辑关系
+
+- 聚簇索引  -  数据在索引数上(主键)
+- 非聚簇索引  -  数据不在索引数上(非主键)
+
+#### 7.2 按照索引的存储结构划分
+
+- B+ Tree
+- Hash
+- Full Text
+- R Tree
+
+#### 7.3 按照应用层次划分
+
+- 主键索引
+- 唯一索引
+- 普通索引
+- 复合索引
+
+### 8. 回表，覆盖索引，索引下推分别是什么
+
+#### 8.1 回表
+
+通过非聚簇索引得到主键，再到聚簇索引中查询数据
+
+#### 8.2 覆盖索引
+
+查询列被索引覆盖，不必从数据表中查询，例如`select name from tb where name ='x';`  其中`name`字段有索引
+
+#### 8.3 [索引下推](https://dev.mysql.com/doc/refman/8.0/en/index-condition-pushdown-optimization.html)
+
+将部分Server层的索引交给引擎层处理，减少回表次数，索引下推只适用于非聚簇索引
+
+### 9. 索引失效场景
+
+- 隐式转换
+- 内置函数
+- 数学运算(加减乘除)
+- `IS NULL` 或 `IS NOT NULL`
+- `!=` 或者 `NOT IN`
+- 条件中包含`OR` ,可能失效(OR 的一方无所索引，会导致全表查询)
+- 不符合最左前缀，联合索引不符合
+- MySQL估计全表比索引快
+- 过滤性不好，例如性别，不适合做索引
+
+### 10. SQL语句的优化
+
+先获取到慢查询日志，通过`Explain`分析执行计划
+
+- `type`
+
+  `NULL` > `const` > `eq_ref` > `ref` > `range` > `index` > `ALL`
+
+  - `const`: 主键/唯一索引等值查询
+  - `eq_ref`: 多表`join`,前表每一个记录都只能匹配后表的一个记录
+  - `ref`: 非唯一索引等值查询
+  - `range`: 索引范围查询
+  - `index`: 基于索引全表扫描
+
+- `key`: 真正用的索引
+
+- `rows`: 需要扫描多少行，越少越好
+
+- `key_len`: 越小越好
+
+- `Extra`: 额外信息
+
+  - `Using Index`: 覆盖索引
+  - `Using Where`: 回表
+  - `Using temporay`: 临时表，分组
+  - `Using filesort`: `order by` 没索引
+  - `Using join buffer`:  联表条件没索引
+
+### 11. MySQL如何优化
+
+#### 1. 参考官方文档: [Optimizaition](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)
+
+#### 2. 要符合开发规范
+
+- 避免`select *`
+- 减少`join`
+- 不在有限数据建立索引
+
+#### 3. SQL语句优化(慢查询，执行计划)
+
+#### 4. 表设计优化
+
+- 禁止`null`字段
+- 避免`text`大字段
+- 自增主键
+
+#### 5. 数据库配置
+
+- 全局内存参数
+- 线程内存参数
+
+#### 6. 硬件升级(内存，磁盘，网络)
+
+#### 7. 减少数据库的访问(本地缓存，分布式缓存)
+
+#### 8. 架构优化
+
+- 主从  -  读写分离
+- 分库分表
+
+> 分页优化 `select * from t where id >= (select id from t2 limit 10000,1) limit 10`
+
+
+
+
+
+
+
+
+
