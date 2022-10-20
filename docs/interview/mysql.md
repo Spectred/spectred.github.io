@@ -320,7 +320,7 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 
 - 脏读: 读取到另一个事务修改，但未提交的数据
 - 不可重复读: 一个事务中多次读取同一张记录不一致
-- [幻读(幻行](https://dev.mysql.com/doc/refman/8.0/en/innodb-next-key-locking.html)): 一个事务中多次相同条件查询的行数不一致
+- [幻读(幻行](https://dev.mysql.com/doc/refman/8.0/en/innodb-next-key-locking.html)): 在同一查询在不同时间产生不同的行，例如`select`执行两次，但第二次返回了第一次没有返回的行
 
 |          | 脏读 | 不可重复读 | 幻读 |
 | -------- | :--: | :--------: | :--: |
@@ -329,5 +329,38 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 | 可重复读 |  ✖️   |     ✖️      |  ✅   |
 | 串行化   |  ✖️   |     ✖️      |  ✖️   |
 
+### 13. [MVCC](https://dev.mysql.com/doc/refman/8.0/en/innodb-multi-versioning.html) - 多版本并发控制
 
+适用于`RC`、`RR`的隔离级别，适合读读、读写；如果发生读写冲突仍需要用锁
 
+**隐藏字段**: 
+
+- `DB_ROW_ID`: 递增的id,非必须，没有主键时有`row_id`
+- `DB_TRX_ID`: 操作该数据事务的事务ID
+- `DB_ROLL_PTR`: 指向该回滚段的`undo log`
+
+**事务版本号**: 事务每次开启前，都会从数据库获得一个自增的事务ID，用来判断事务执行的顺序
+
+**版本链**: 多个事务并行操作某一行数据时，不同事务对改行的修改产生多个版本，通过回滚指针形成的链表
+
+**快照读**：读取数据的可见版本(有旧版本)，不加锁，普通的`select`都是快照读
+
+**当前读**：读取数据的最新版本，显示加锁的都是当前读，例如`select * from t where id >1 [for update | lock in share mode]`
+
+**Read View**： 事务执行SQL语句时产生的读视图，在InnoDB中，每个SQL语句执行前都会有一个`ReadView`,用来做可见性判断（判断当前事务可见哪个版本的数据）
+
+#### 13.1 基于MVCC的查询记录流程
+
+1. 获取事务id （事务自己的版本号），获取`Read View`
+2. 查询得到的数据，和`Read View`中事务版本号进行比较
+3. 如果不符合`ReadView`可见性规则则从`Undo Log`中查询历史快照
+4. 返回符合规则的数据
+
+#### 13.2 MVCC解决不可重复读
+
+- 在`RC`，同事务每次查询产生一个新的`Read View`副本，产生不可重复读
+- 在`RR`,一个事务里只获取一次`Read View`，副本共用，保证可重复读
+
+#### 13.3 MVCC是否彻底解决了幻读？
+
+否，事务a先select,事务b insert,加gaplock，commit后gaplock释放，a再select和第一次一样，不加条件的update会作用到所有行，a再select回出现b的新行，且被a修改
