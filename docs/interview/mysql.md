@@ -1,3 +1,9 @@
+---
+sidebar: 'auto'
+---
+
+# MySQL
+
 ### 1. 体系架构
 
 ![](https://dev.mysql.com/doc/refman/8.0/en/images/mysql-architecture.png)
