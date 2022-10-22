@@ -364,3 +364,166 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 #### 13.3 MVCC是否彻底解决了幻读？
 
 否，事务a先select,事务b insert,加gaplock，commit后gaplock释放，a再select和第一次一样，不加条件的update会作用到所有行，a再select回出现b的新行，且被a修改
+
+### 14. MySQL中有哪些锁:lock:
+
+> :shark: [InnoDB Locking](https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html) 中介绍有共享锁锁、独占锁、意向锁，插入意向锁，记录锁，间隙锁，临键锁，自增锁，空间索引锁
+
+> 锁是加在索引记录上的
+
+#### 14.1 加锁范围
+
+1. **全局锁**
+
+   全库的逻辑备份
+
+2. **表级锁**
+
+   - 表锁: `lock tables ... read / write`
+   - MDL: 访问表时自动加锁
+
+3. **行锁**(`Row Lock`)
+
+   - `Record Lock`: 记录锁，锁定单个记录的锁
+   - `Gap Lock`：间隙锁，锁定索引记录的间隙(防幻读)，`(a,b)`
+   - `Next-Key Lock`：临键锁 `(a,b]`
+
+**如何加锁？**
+
+> 来源: https://blog.csdn.net/m0_67261762/article/details/125522033  侵删
+
+- `update ... where id = 1`
+  - 如果不存在id = 1的数据，则加锁范围:`(1,10]`
+  - 如果存在id = 1 的数据，则`Next-Key Lock`退化为`Record Lock`，即`[1]`
+
+- `update ... where id > 1 and id <10` , 加间隙锁
+
+- `update ... where id >1 and id <= 10`,加临键锁
+
+假设表t中已有数据如下，要执行`update ... where age = 5`
+
+| id   | Name | Age  |
+| ---- | ---- | ---- |
+| 1    | a    | 1    |
+| 10   | b    | 10   |
+
+- 如果age是索引，将产生3个索引范围`(-∞,1]`，`(1,10]`，`(10,+∞)`
+  - 由于`age=5`的记录不存在，且在`(1,10]`区间内，则对`(1,10]`的范围加锁
+  - 如果`age=5`的记录已存在，先对`(1,5]`加锁，再向右遍历到不满足条件位置`(5,10]`,综合就是`(1,10]`
+
+#### 14.2 乐观锁和悲观锁
+
+- 乐观锁: 对数据记录的版本进行对比，更新提交时进行冲突检测，使用版本号或者时间戳
+
+  `updte t set c = c+1 where version = 2;`
+
+- 悲观锁: 修改前进行锁定，S/X都属于悲观锁
+
+#### 14.3 操作类型
+
+- IS: 意向读锁，事务打算在表中的单个行上设置共享锁，`select ... for share`
+- IX: 意向写锁，表级锁，事务打算在表中的单个行上设置独占锁， `select ... for update`
+- S: 读锁，行级锁，允许持有锁的事务进行读
+- X: 写锁，行级锁，允许持有锁的事务进行更新、删除行
+
+### 15. [死锁](https://dev.mysql.com/doc/refman/8.0/en/innodb-deadlocks.html)
+
+查看死锁日志: `show engine innodb status \G`
+
+查看锁状态变量: `show status like 'innodb_row_lock%' \G`
+
+### 16. MySQL集群架构
+
+#### 16.1 主从模式
+
+数据可以从一个MySQL服务器主节点复制到一个或多个从节点
+
+必要条件: 1.从库连通主库，2.主从`server_id`不同，3.主库开启`binlog`
+
+实现原理: 
+
+1. 主库将数据的变更操作记录到`binlog`,`BinlogDump Thread`接到写入请求后，读取`binlog`信息推送给从库的`IO Thread`
+2. 从库的`IO Thread`读取主库的`binlog`,并写入到从库的`Relay Log`
+3. 从库的`SQL Thread`检测到`Relay Log`的变更请求，解析`Relay Log`的内容在从库中执行
+
+由于上述都是异步操作，一般成为**异步复制**
+
+异步主从复制存在的问题和解决:
+
+- 主库宕机后，数据可能丢失 => **[半同步复制](https://dev.mysql.com/doc/refman/8.0/en/replication-semisync.html)**: 让主库在某一个时间点等待，等到从库的ack，收到后才提交
+
+- 从库只有一个`SQL Thread`,主库压力大时从库复制延迟 => **并行复制**: 对`SQL Thread`采用多线程
+
+>  使用读写分离架构需要注意主从同步延迟和读写路由分配机制的问题
+
+**主从同步延迟**:
+
+- 写后立刻读： 在写入数据库后的一段时间内在主库读
+
+- 二次查询: 先从从库读，读不到读主库
+
+- 根据业务处理
+
+  实时性高的读主库，不高的读从库
+
+**读写路由分配机制**:
+
+- 基于编程和配置实现
+- 基于服务器端代理中间件的实现
+  - [MySQL Router](https://dev.mysql.com/doc/mysql-router/8.0/en/)
+  - [MyCat2](http://www.mycat.org.cn)
+  - [ShardingSphere](https://shardingsphere.apache.org)
+
+#### 16.2 双主模式
+
+> 避免主从的单点故障；两台服务器互为主从，双方复制
+>
+> 避免ID冲突更新丢失：双主单写
+
+[MHA](https://code.google.com/archive/p/mysql-master-ha/)
+
+### 17. 关于分库分表
+
+#### 17.1 拆分方式
+
+- 纵向拆分
+
+  分库分表: 解决表过多，表字段过度的问题
+
+  - 优点： 业务清晰，规则明确，易维护和扩展，便于冷热分离
+  - 缺点:  主键荣誉，引起`join`的复杂度，事务处理复杂，存在单表过大
+
+- 横向拆分
+
+  解决表中记录过多
+
+  拆分规则: `Range`,`Hash`
+
+  - 优点: 不存在单库大数据高并发性能瓶颈，提高稳定和负载
+  - 缺点: 跨库`join`性能差，分片事务一致性，数据扩容难度和维护量大
+
+#### 17.2 主键策略
+
+- UUID
+- 数据库ID
+- Redis生成ID
+- [Snowflake](https://github.com/twitter-archive/snowflake)：41bit毫秒数，10bit机器id，12bit流水号，0
+
+#### 17.3 分片策略
+
+- 基于范围(`Range`): 优点-扩容无需迁移，缺点-冷热不均
+- 哈希取模(`Hash`): 优点-分配均匀，缺点-扩容时大量迁移
+- 一致性哈希（哈希环）
+
+#### 17.4 扩展方案
+
+- 横向: 一个库变多个库-加机器
+- 纵向: 优化机器性能
+
+#### 17.5 扩容方案
+
+- 停机
+
+- 平滑扩容
+
+  新增两个库配置双主同步，配置双主双写，清理多余数据
