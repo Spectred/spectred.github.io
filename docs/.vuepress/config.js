@@ -73,6 +73,7 @@ export default defineUserConfig({
             '/interview': [
                 {
                     text: 'MySQL',
+                    collapsible: true,
                     link: '/interview/mysql.md'
                 },
                 {
