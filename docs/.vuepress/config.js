@@ -119,6 +119,15 @@ export default defineUserConfig({
                     link: '/frame/netty/io.md'
                 }
             ],
+            '/middleware/redis':[
+                {
+                    text: 'Redis',
+                    collapsible: true,
+                    children:[
+                        { text: '1. 安装', link: '/middleware/redis/started.md' }
+                    ]
+                }
+            ],
             '/cloud_native/microservices': [
                 {
                     text: 'microservices',
