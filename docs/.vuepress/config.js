@@ -10,6 +10,9 @@ export default defineUserConfig({
         navbar: [
             { text: '首页', link: '/', },
             { text: '😈面试', link: '/interview', },
+            {
+                text: 'Java', link: '/java'
+            },
             { text: '算法', link: '/algorithm', },
             {
                 text: '框架', children: [
