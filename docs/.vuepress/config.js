@@ -78,6 +78,11 @@ export default defineUserConfig({
                 {text: 'Redis',link: '/interview/redis.md' },
                 {text: '项目经历',link: '/interview/project.md' },
             ],
+            '/java': [
+                {text: '😈魔法',collapsible: true,children:[
+                    {text: '1. Unsafe',link: '/java/magic/unsafe.md'}
+                ]}
+            ],
             '/algorithm': [
                 {
                     text: '数学',
