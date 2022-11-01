@@ -86,6 +86,12 @@ export default defineUserConfig({
             ],
             '/algorithm': [
                 {
+                    text: '打卡',
+                    collapsible: true,
+                    link: '/algorithm/clockin.md'
+                   
+                },
+                {
                     text: '数学',
                     collapsible: true,
                     children: [
@@ -102,6 +108,7 @@ export default defineUserConfig({
                 {
                     text: '链表',
                     collapsible: true,
+                    
                 },
                 {
                     text: '二叉树',
