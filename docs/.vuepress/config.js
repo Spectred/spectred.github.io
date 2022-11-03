@@ -77,6 +77,7 @@ export default defineUserConfig({
                 {text: 'MySQL', collapsible: true, link: '/interview/mysql.md'},
                 {text: 'Redis',link: '/interview/redis.md' },
                 {text: 'Kafka',link: '/interview/kafka.md' },
+                {text: 'JVM',link: '/interview/jvm.md' },
                 {text: '项目经历',link: '/interview/project.md' },
             ],
             '/java': [
