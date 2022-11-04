@@ -64,7 +64,7 @@ sidebar: 'auto'
     }
 ```
 
-## ✅ 2022-11-04 ([25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/))
+## ✅ 2022-11-04 I ([25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/))
 ```java
     public ListNode reverseKGroup(ListNode head, int k) {
         if (head == null) return null;
@@ -87,5 +87,20 @@ sidebar: 'auto'
             curr = next;
         }
         return prev;
+    }
+```
+
+## ✅ 2022-11-04 II ([53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/))
+```java
+    public int maxSubArray(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        int dp0 = nums[0], res = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            dp0 = Math.max(nums[i], nums[i] + dp0);
+            res = Math.max(res, dp0);
+        }
+        return res;
     }
 ```
