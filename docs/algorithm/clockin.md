@@ -64,3 +64,28 @@ sidebar: 'auto'
     }
 ```
 
+## ✅ 2022-11-04 ([25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group/))
+```java
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null) return null;
+        ListNode a = head, b = head;
+        for (int i = 0; i < k; i++) {
+            if (b == null) return head;
+            b = b.next;
+        }
+        ListNode newHead = reverse(a, b);
+        a.next = reverseKGroup(b, k);
+        return newHead;
+    }
+
+    private ListNode reverse(ListNode a, ListNode b) {
+        ListNode prev = null, curr = a;
+        while (curr != b) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+```
