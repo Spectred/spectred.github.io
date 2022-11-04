@@ -141,3 +141,31 @@ sidebar: 'auto'
         }
     }
 ```
+
+## ✅ 2022-11-04 V (字符串包含)
+判断两个字符串是否包含，例如"abc"包含"ab"
+```java
+    private static boolean contains(String str, String a) {
+        char[] as = a.toCharArray();
+        char[] chars = str.toCharArray();
+        if (chars.length < a.length()) return false;
+        
+        char[] cs = new char[as.length];
+        for (int i = 0; i < chars.length; i++) {
+            for (int k = i; k < i + as.length; k++) {
+                if (k >= chars.length) continue;
+                cs[k - i] = chars[k];
+            }
+            if (eq(cs, as))
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean eq(char[] a, char[] b) {
+        if (a.length != b.length) return false;
+        for (int i = 0; i < a.length; i++)
+            if (a[i] != b[i]) return false;
+        return true;
+    }
+```
