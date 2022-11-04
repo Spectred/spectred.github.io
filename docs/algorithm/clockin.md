@@ -156,8 +156,7 @@ sidebar: 'auto'
                 if (k >= chars.length) continue;
                 cs[k - i] = chars[k];
             }
-            if (eq(cs, as))
-                return true;
+            if (eq(cs, as)) return true;
         }
         return false;
     }
