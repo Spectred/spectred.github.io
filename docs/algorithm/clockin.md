@@ -149,13 +149,11 @@ sidebar: 'auto'
         char[] as = a.toCharArray();
         char[] chars = str.toCharArray();
         if (chars.length < a.length()) return false;
-        
         char[] cs = new char[as.length];
         for (int i = 0; i < chars.length; i++) {
-            for (int k = i; k < i + as.length; k++) {
-                if (k >= chars.length) continue;
+            int length = Math.min(i + as.length, chars.length);
+            for (int k = i; k < length; k++)
                 cs[k - i] = chars[k];
-            }
             if (eq(cs, as)) return true;
         }
         return false;
