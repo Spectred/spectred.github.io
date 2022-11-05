@@ -166,3 +166,18 @@ sidebar: 'auto'
         return true;
     }
 ```
+
+## ✅ 2022-11-05 ([141. 环形链表](https://leetcode.cn/problems/linked-list-cycle/))
+```java
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) return false;
+        ListNode slow = head, fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) return false;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
+```
