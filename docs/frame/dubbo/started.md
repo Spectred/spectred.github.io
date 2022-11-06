@@ -11,3 +11,14 @@
 
 ## 1. 服务注册中新(`ZooKeeper`)
 
+```bash
+wget https://www.apache.org/dyn/closer.lua/zookeeper/zookeeper-3.8.0/apache-zookeeper-3.8.0-bin.tar.gz
+tar -zcvf apache-zookeeper-3.8.0-bin.tar.gz
+cp conf/zoo_sample.cfg  conf/zoo.cfg
+编辑配置文件
+data=$ZOOKEEPER_HOME/data
+
+bin/zkServer.sh start
+
+客户端: bin/zkCli.sh
+```
