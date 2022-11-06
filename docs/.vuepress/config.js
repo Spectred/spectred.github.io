@@ -24,6 +24,10 @@ export default defineUserConfig({
                         text: 'Netty',
                         link: '/frame/netty'
                     },
+                    {
+                        text: 'Dubbo',
+                        link: '/frame/dubbo'
+                    },
                 ]
             },
             {
@@ -116,20 +120,37 @@ export default defineUserConfig({
                     collapsible: true,
                 }
             ],
-            '/frame/netty': [
+            '/frame/netty':[
                 {
-                    text: '源码分析',
-                    link: '/frame/netty/sourcecode.md'
+                    text: 'Netty',
+                    children:[
+                        {
+                            text: '源码分析',
+                            link: '/frame/netty/sourcecode.md'
+                        },
+                        {
+                            text: 'Socket',
+                            link: '/frame/netty/socket.md' 
+                        },
+                        {
+                            text: 'I/O模型',
+                            link: '/frame/netty/io.md'
+                        }
+                    ]
                 },
+            ],
+            '/frame/dubbo':[
                 {
-                    text: 'Socket',
-                    link: '/frame/netty/socket.md' 
-                },
-                {
-                    text: 'I/O模型',
-                    link: '/frame/netty/io.md'
+                    text: 'Dubbo',
+                    children: [
+                        {
+                            text: '使用',
+                            link: '/frame/dubbo/started.md'
+                        }
+                    ]
                 }
             ],
+     
             '/middleware/redis':[
                 {
                     text: 'Redis',
