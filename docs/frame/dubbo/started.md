@@ -23,7 +23,7 @@ bin/zkServer.sh start
 客户端: bin/zkCli.sh
 ```
 
-## 1. 基于注解形式的基础使用
+## 1. 基于注解形式的使用
 
 ### 1.1 定义接口
 
@@ -145,7 +145,7 @@ public class DubboPureMain {
 
 ### 1.4 服务消费者
 
-[simple-provider](https://github.com/Spectred/x-rpc/tree/main/simple-dubbo/simple-provider)
+[simple-consumer](https://github.com/Spectred/x-rpc/tree/main/simple-dubbo/simple-consumer)
 
 1. pom.xml中引入dubbo相关依赖和要调用的接口
 
@@ -208,5 +208,113 @@ public class SimpleConsumerMain {
     static class ConsumerConfiguration {
     }
 }
+```
+
+## 2. 基于XML形式的使用
+
+#### 2.1 服务提供者
+
+[simple-xml-provider](https://github.com/Spectred/x-rpc/tree/main/simple-dubbo/simple-xml-provider)
+
+1. pom.xml中额外加入依赖
+
+```xml
+<dependency>
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo-config-spring</artifactId>
+</dependency>
+```
+
+2. 接口实现类
+
+```java
+public class HelloServiceImpl implements HelloService {
+    @Override
+    public String hello(String name) {
+        return "Hello," + name;
+    }
+}
+```
+
+3. 配置文件
+
+`src/main/resources/dubbo-provider.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                            http://dubbo.apache.org/schema/dubbo
+                            http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="simple-xml-provider"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:protocol name="dubbo"/>
+
+    <bean id="helloService" class="pers.swd.service.impl.HelloServiceImpl"/>
+
+    <dubbo:service interface="pers.swd.api.HelloService" ref="helloService"/>
+
+</beans>
+```
+
+4. 启动类
+
+```java
+public static void main(String[] args) throws IOException {
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-provider.xml");
+    context.start();
+    System.in.read();
+}
+```
+
+#### 2.2 服务消费者
+
+[simple-xml-consumer](https://github.com/Spectred/x-rpc/tree/main/simple-dubbo/simple-xml-consumer)
+
+1. pom依赖
+
+   同提供者
+
+2. 配置文件
+
+`src/main/resources/dubbo-consumer.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                            http://dubbo.apache.org/schema/dubbo
+                            http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="simple-xml-consumer"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:reference id="helloService" interface="pers.swd.api.HelloService"/>
+
+</beans>
+```
+
+3. 启动类
+
+```java
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-consumer.xml");
+        context.start();
+
+        HelloService helloService = context.getBean(HelloService.class);
+        String result = helloService.hello("World");
+
+        System.out.println(result);
+    }
 ```
 
