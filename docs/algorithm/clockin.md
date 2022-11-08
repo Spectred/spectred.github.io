@@ -202,3 +202,26 @@ sidebar: 'auto'
 ```
 
 ## ❌ 2022-11-07
+
+
+## ✅ 2022-11-08 ([5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/))
+```java
+    public String longestPalindrome(String s) {
+        String res = "";
+        for(int i=0,size=s.length();i<size;i++){
+            String s1 = palindrome(s,i,i);
+            String s2 = palindrome(s,i,i+1);
+            res = res.length() > s1.length() ? res : s1;
+            res = res.length() > s2.length() ? res : s2;
+        }
+        return res;
+    }
+
+    private String palindrome(String s,int l,int r){
+        while(l>=0 && r<s.length() && s.charAt(l) == s.charAt(r)){
+            l--;
+            r++;
+        }
+        return s.substring(l+1,r);
+    }
+```
