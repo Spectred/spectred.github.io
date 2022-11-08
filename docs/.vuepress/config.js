@@ -143,10 +143,8 @@ export default defineUserConfig({
                 {
                     text: 'Dubbo',
                     children: [
-                        {
-                            text: '使用',
-                            link: '/frame/dubbo/started.md'
-                        }
+                        {text: '使用', link: '/frame/dubbo/started.md'},
+                        {text: '使用', link: '/frame/dubbo/started.md'},
                     ]
                 }
             ],

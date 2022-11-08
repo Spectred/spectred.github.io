@@ -4,6 +4,8 @@
 >
 >**Apache Dubbo 是一款微服务框架，为大规模微服务实践提供高性能 RPC 通信、流量治理、可观测性等解决方案，**
 >**涵盖 Java、Golang 等多种语言 SDK 实现**
+>
+>[用法示例](https://dubbo.apache.org/zh/docsv2.7/user/examples/)
 
  **Dubbo架构**
 
@@ -318,3 +320,10 @@ public static void main(String[] args) throws IOException {
     }
 ```
 
+## 3. Dubbo管理控制台
+
+[dubbo-admin](https://github.com/apache/dubbo-admin)
+
+## 4. Dubbo配置项
+
+[配置说明](https://dubbo.apache.org/zh/docsv2.7/user/configuration/)
