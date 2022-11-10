@@ -156,19 +156,65 @@ Java内存模型规定所有的变量都存储在主内存，每条线程有自�
 - **轻量锁**（00）: 偏向锁时被另一个线程访问，升级为轻量锁，此线程会自旋获锁，不会阻塞
 - **重量锁**（10）: 轻量锁时，自旋的线程自旋一定次数后还没有获锁，进入阻塞升级为重量锁，阻塞其他线程，性能降低
 
+## 6. Java中线程有哪些状态，各个状态间是如何转换的
 
+> 在`java.lang.Thread.State`中定义了6种线程状态，在任意一个时间点，一个线程只能有且只有其中的一种状态，并且可以通过特定的方法在不同状态之间转换
 
+- `NEW` 新建
 
+  创建后尚未启动的线程处于这种状态
 
+- `RUNNABLE` 运行
 
+  `Thread#start()`包括操作系统线程状态中的`Running`和`Ready`,处于此状态的线程有可能正在执行，也有可能正在等待着操作系统为它分配执行时间 
 
+- `WAITING` 无限期等待
 
+  处于这中状态的线程不会被分配处理器执行时间，他们要等待被其他线程显示唤醒,`Object::wait()`,`Thread.join()`,`LockSupport::park()`
 
+- `TIMED_WAITING` 限期等待
 
+  处于这种状态的线程也不会被分配处理器执行时间，不过无需等待被其他线程显式唤醒，在一定时间之后他们会由系统自动唤醒
 
+​       `Thread.sleep， Object.wait with timeout， Thread.join with timeout，LockSupport.parkNanos，  LockSupport.parkUntil`
 
+- `BLOCKED` 阻塞
 
+  线程被阻塞，`synchronized`
 
+- `TERMINATED` 结束
+
+  线程已结束执行
+
+## 7. 线程池的参数，工作流程，有哪些拒绝策略，如何回收线程
+
+> `java.util.concurrent.ThreadPoolExecutor`
+
+- `corePoolSize`核心线程数，
+
+- `maximumPoolSize`最大线程数，
+
+- `keepAliveTime`+`unit`： 如果一个线程处于闲置(`idle`)状态并且当前的线程数量大于核心线程数，在指定时间后这个线程会被销毁
+
+- `workQueue` 在执行任务之前保存任务的队列
+- `threadFactory` 创建一个新线程时使用的工厂，可以用来设定线程名、是否为daemon线程等
+- `rejectedExecutionHandler` 拒绝策略，有4种: 抛出异常，直接丢弃(不抛异常），丢弃任务队列中等待时间最长的，谁提交任务谁来执行这个任务
+
+**工作流程**
+
+如果当前线程数量小于核心线程就创建核心线程，如果大于核心线程数就放到工作队列中，如果工作队列满了并且小于最大线程数，就创建非核心线程，如果大于最大线程数就采取拒绝策略
+
+**如何回收线程**
+
+线程池中的线程分为核心线程和非核心线程，核心线程常驻线程池，当工作任务队列满时，将会创建非核心线程来处理任务，当任务处理完成后，在一定时间内空闲的线程需要被回收，需要用到工作任务队列-阻塞队列中的`workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS)`方法，如果返回`null`则可以进行回收(调用`Thread#interrupt()`)
+
+默认情况下只会回收非核心线程，当`allowCoreThreadTimeOut`为`true`时也会回收核心线程，一般不要回收核心线程
+
+## 8. 并行流`Stream.parallelStream`可能有哪些问题
+
+`Stream.parallelStream`默认是通过`ForkJoinPool.commonPool`线程池来实现的，将流分为多个子流到不同的CPU中处理然后合并处理结果
+
+可能产生的问题: 共享资源的竞争，线程安全，死锁，线程切换，事务等
 
 
 
