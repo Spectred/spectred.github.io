@@ -80,6 +80,7 @@ export default defineUserConfig({
             '/interview': [
                 {text: 'JVM',link: '/interview/jvm.md' },
                 {text: 'Java',link: '/interview/java.md' },
+                {text: 'Spring',link: '/interview/spring.md' },
                 {text: 'MySQL', collapsible: true, link: '/interview/mysql.md'},
                 {text: 'Redis',link: '/interview/redis.md' },
                 {text: 'Kafka',link: '/interview/kafka.md' },
