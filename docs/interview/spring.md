@@ -193,6 +193,6 @@ API**网关**: Zuul , **Spring Cloud Gateway**
 
 **消息驱动**: **Spring Cloud Stream**
 
-**链路追踪**: **Spring Cloud Sleuth/Zipkin**
+**链路追踪**: **Spring Cloud Sleuth/Zipkin**，**SkyWalking**
 
 **分布式事务**: **Seata**
