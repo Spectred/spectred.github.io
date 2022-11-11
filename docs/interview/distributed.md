@@ -105,7 +105,11 @@ ZooKeeper实现的分布式锁:
 
 ## 2. 分布式缓存
 
-如何保证缓存和数据库一致性
+> 现在大多数缓存采用redis..
+
+### 2.1 Redis的持久化，高可用，缓存异常问题，缓存和数据库双写一致性问题
+
+> https://spectred.github.io/interview/redis.html
 
 ## 3. 分布基础理论
 
