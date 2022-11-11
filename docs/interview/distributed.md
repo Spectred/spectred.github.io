@@ -12,9 +12,15 @@ sidebarDepth: 1
 
 分布式锁实现多个进程对共享资源的互斥。实现方式上可以采用第三方中间件来做，如`MySQL`、`ZooKeeper`、`Redis`、`etcd`等
 
-### 1.1 基于Redis的分布式锁
+### 1.1 基于关系型数据库(MySQL)的分布式锁
 
-#### 1.1.1 `setnx lock v` 和`del lock`
+悲观锁： `select id from t where col = xx for update`，会一直阻塞到事务提交，
+
+乐观锁: `select id,old_version from t where col = xx`和 `update t set ver = old_version+1 where col=xx and ver=old_verison`
+
+### 1.2 基于Redis的分布式锁
+
+#### 1.2.1 `setnx lock v` 和`del lock`
 
 **加锁**时客户端1加锁成功 `SETNX lock 1 => 1`,客户端2加锁失败`SETNX lock 1 => 0`
 
@@ -22,7 +28,7 @@ sidebarDepth: 1
 
 **存在的问题**: 当客户端1中没能释放锁(如业务异常或进程崩溃)，导致其他客户端一直都拿不到锁，导致死锁 （这种情况需要人工介入解锁）
 
-#### 1.1.2 `set lock v ex n nx`
+#### 1.2.2 `set lock v ex n nx`
 
 为了避免死锁的问题，添加过期时间自动释放锁，用一行命令保证原子性，如`set lock 1 ex 10 nx => OK`,其他客户端尝试加锁时返回`(nil)`
 
@@ -32,7 +38,7 @@ A. 过期时间可能不准确，设置少了导致提前释放锁，设置多�
 
 B. 一个客户端可能释放了其他客户端锁持有的锁
 
-#### 1.1.3 `set lock $uuid ex n nx`
+#### 1.2.3 `set lock $uuid ex n nx`
 
 对于客户端释放其他客户端持有锁的问题，可以将val设置为一个随机且唯一的值(只有加锁的客户端知道，也可以是线程号)
 
@@ -50,7 +56,7 @@ else
 end
 ```
 
-#### 1.1.4 使用[Redisson](https://github.com/redisson/redisson)
+#### 1.2.4 使用[Redisson](https://github.com/redisson/redisson)
 
 为了解决锁可能提前过期的问题，可以在加锁时设置过期时间，然后通过守护线程定时检测锁的失效时间，如果快过期了但是业务操作还未完成，就自动进行续期
 
@@ -73,13 +79,13 @@ Redisson首先通过hash选择一个redis节点，然后执行加锁的Lua脚本
 
 由于是可重入锁，当val值为0时表示不再持有锁，通过`pub/sub`的方式进行释放锁执行`del lock`
 
-#### 1.1.5 RedLock
+#### 1.2.5 RedLock
 
 RedLock的大概流程是先有多于5个的Redis实例，然后分别向各个实例请求加锁，当大于半数加锁成功就认为是加锁成功，释放锁时操作所有节点
 
 但是要考虑加锁的耗时，网络等原因
 
-### 1.2 基于ZooKeeper的分布式锁
+### 1.3 基于ZooKeeper的分布式锁
 
 ZooKeeper实现的分布式锁: 
 
@@ -89,11 +95,13 @@ ZooKeeper实现的分布式锁:
 
 **可能有的问题**: ZooKeeper长时间收不到客户端的心跳(例如GC或者网络延迟)，也会把临时节点删除，导致其他客户端提前拿到了锁，但是原客户端认为自己有锁
 
-### 1.3 ZooKeeper和Redis实现分布式锁的优劣
+> ZooKeeper和Redis实现分布式锁的优劣
+>
+> ZooKeeper实现简单，不需要考虑锁的过期时间，通过`watcher`加锁失败可以等待锁的释放，实现乐观锁，
+>
+> 但是ZooKeeper的部署和运维成本高，性能上不如Redis，也存在着客户端与ZooKeeper长时间失联导致的锁提前释放的问题
 
-ZooKeeper实现简单，不需要考虑锁的过期时间，通过`watcher`加锁失败可以等待锁的释放，实现乐观锁，
 
-但是ZooKeeper的部署和运维成本高，性能上不如Redis，也存在着客户端与ZooKeeper长时间失联导致的锁提前释放的问题
 
 ## 2. 分布式缓存
 
