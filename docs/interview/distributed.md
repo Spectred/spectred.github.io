@@ -4,6 +4,8 @@ sidebarDepth: 1
 ---
 # 分布式
 
+> 👍🏻 [凤凰架构](https://icyfenix.cn/)
+
 ## 1. 分布式锁
 
 > [深度剖析：Redis分布式锁到底安全吗？看完这篇文章彻底懂了！](https://mp.weixin.qq.com/s/s8xjm1ZCKIoTGT3DCVA4aw)
@@ -105,22 +107,26 @@ ZooKeeper实现的分布式锁:
 
 ## 2. 分布式缓存
 
-> 现在大多数缓存采用redis..
+> 前端有页面和浏览器缓存，Application Cache，localStore等，
+>
+> 网络传输缓存，会有多层缓存，CDN,负载均衡，
+>
+> 服务端缓存，本地缓存:Guava,Map,Caffine,外部缓存大多数服务端缓存采用redis，
+>
+> 数据库缓存,MyBtais的一二级缓存，MySQL的缓存
 
-### 2.1 Redis的持久化，高可用，缓存异常问题，缓存和数据库双写一致性问题
+### 2.1 Redis的持久化，高可用，过期策略，缓存异常问题，缓存和数据库双写一致性问题
 
 > https://spectred.github.io/interview/redis.html
 
-## 3. 分布基础理论
-
-## 4. 分布式事务
+## 3. 分布式事务
 
 ## 5. 分布式服务
 
-## 6. 分布式锁
+## 6. 消息队列
 
-## 7. 消息队列
+## 7. 分布式存储
 
-## 8. 分布式存储
+## 8. 分布式高可用
 
-## 9. 分布式高可用
+## 9. 分布式基础理论
