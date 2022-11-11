@@ -262,3 +262,19 @@ sidebar: 'auto'
         return r;
     }
 ```
+
+## ✅ 2022-11-11 ([牛客网-华为-HJ12 字符串反转](https://www.nowcoder.com/practice/e45e078701ab4e4cb49393ae30f1bb04?tpId=37&tqId=21235&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=))
+```java
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        while(in.hasNext()){
+            String str = in.nextLine();
+            char[] cs = str.toCharArray();
+            for(int i = cs.length-1;i>=0;i--){
+                System.out.print(cs[i]);
+            }
+        }
+    }
+```
+
