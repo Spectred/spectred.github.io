@@ -263,7 +263,7 @@ sidebar: 'auto'
     }
 ```
 
-## ✅ 2022-11-11 ([牛客网-华为-HJ12 字符串反转](https://www.nowcoder.com/practice/e45e078701ab4e4cb49393ae30f1bb04?tpId=37&tqId=21235&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=))
+## ✅ 2022-11-11 ([牛客网-华为-HJ12 字符串反转]())
 ```java
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -278,3 +278,27 @@ sidebar: 'auto'
     }
 ```
 
+
+## ✅ 2022-11-12 ([148. 排序链表](https://leetcode.cn/problems/sort-list/))
+```java
+    public ListNode sortList(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        ListNode curr = head;
+        List<ListNode> list = new ArrayList<>();
+        while (curr != null) {
+            list.add(curr);
+            curr = curr.next;
+        }
+        list.sort(Comparator.comparingInt(x -> x.val));
+        for (int i = 0; i < list.size(); i++) {
+            ListNode node = null;
+            if (i+1<list.size()){
+                node = list.get(i+1);
+            }
+            list.get(i).next = node;
+        }
+        return list.get(0);
+    }
+```
