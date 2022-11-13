@@ -32,22 +32,11 @@ export default defineUserConfig({
             },
             {
                 text: '中间件', children: [
-                    {
-                        text: 'MySQL',
-                        link: '/middleware/mysql'
-                    },
-                    {
-                        text: 'Redis',
-                        link: '/middleware/redis'
-                    },
-                    {
-                        text: 'ZooKeeper',
-                        link: '/middleware/zookeeper'
-                    },
-                    {
-                        text: 'Kafka',
-                        link: '/middleware/kafka'
-                    }
+                    {text: 'MySQL',link: '/middleware/mysql' },
+                    {text: 'Redis',link: '/middleware/redis'},
+                    {text: 'ZooKeeper',link: '/middleware/zookeeper'},
+                    {text: 'Kafka',link: '/middleware/kafka'},
+                    {text: 'Pulsar',link: '/middleware/pulsar'}
                 ]
             },
             {
@@ -158,6 +147,15 @@ export default defineUserConfig({
                     collapsible: true,
                     children:[
                         { text: '1. 安装', link: '/middleware/redis/started.md' }
+                    ]
+                }
+            ],
+            '/middleware/pulsar':[
+                {
+                    text: 'Pulsar',
+                    collapsible: true,
+                    children:[
+                        { text: '1. 安装', link: '/middleware/pulsar/started.md' }
                     ]
                 }
             ],
