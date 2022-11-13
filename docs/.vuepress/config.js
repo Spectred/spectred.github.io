@@ -32,11 +32,11 @@ export default defineUserConfig({
             },
             {
                 text: '中间件', children: [
-                    {text: 'MySQL',link: '/middleware/mysql' },
-                    {text: 'Redis',link: '/middleware/redis'},
-                    {text: 'ZooKeeper',link: '/middleware/zookeeper'},
-                    {text: 'Kafka',link: '/middleware/kafka'},
-                    {text: 'Pulsar',link: '/middleware/pulsar'}
+                    { text: 'MySQL', link: '/middleware/mysql' },
+                    { text: 'Redis', link: '/middleware/redis' },
+                    { text: 'ZooKeeper', link: '/middleware/zookeeper' },
+                    { text: 'Kafka', link: '/middleware/kafka' },
+                    { text: 'Pulsar', link: '/middleware/pulsar' }
                 ]
             },
             {
@@ -67,26 +67,29 @@ export default defineUserConfig({
         ],
         sidebar: {
             '/interview': [
-                {text: 'JVM',link: '/interview/jvm.md' },
-                {text: 'Java',link: '/interview/java.md' },
-                {text: 'Spring',link: '/interview/spring.md' },
-                {text: 'MySQL', collapsible: true, link: '/interview/mysql.md'},
-                {text: 'Redis',link: '/interview/redis.md' },
-                {text: 'Kafka',link: '/interview/kafka.md' },
-                {text: '分布式', link: '/interview/distributed.md'},
-                {text: '项目经历',link: '/interview/project.md' },
+                { text: 'JVM', link: '/interview/jvm.md' },
+                { text: 'Java', link: '/interview/java.md' },
+                { text: 'Spring', link: '/interview/spring.md' },
+                { text: 'MySQL', collapsible: true, link: '/interview/mysql.md' },
+                { text: 'Redis', link: '/interview/redis.md' },
+                { text: 'Kafka', link: '/interview/kafka.md' },
+                { text: '分布式', link: '/interview/distributed.md' },
+                { text: '微服务', link: '/interview/microservices.md' },
+                { text: '项目经历', link: '/interview/project.md' },
             ],
             '/java': [
-                {text: '😈魔法',collapsible: true,children:[
-                    {text: '1. Unsafe',link: '/java/magic/unsafe.md'}
-                ]}
+                {
+                    text: '😈魔法', collapsible: true, children: [
+                        { text: '1. Unsafe', link: '/java/magic/unsafe.md' }
+                    ]
+                }
             ],
             '/algorithm': [
                 {
                     text: '打卡',
                     collapsible: true,
                     link: '/algorithm/clockin.md'
-                   
+
                 },
                 {
                     text: '数学',
@@ -105,24 +108,24 @@ export default defineUserConfig({
                 {
                     text: '链表',
                     collapsible: true,
-                    
+
                 },
                 {
                     text: '二叉树',
                     collapsible: true,
                 }
             ],
-            '/frame/netty':[
+            '/frame/netty': [
                 {
                     text: 'Netty',
-                    children:[
+                    children: [
                         {
                             text: '源码分析',
                             link: '/frame/netty/sourcecode.md'
                         },
                         {
                             text: 'Socket',
-                            link: '/frame/netty/socket.md' 
+                            link: '/frame/netty/socket.md'
                         },
                         {
                             text: 'I/O模型',
@@ -131,38 +134,47 @@ export default defineUserConfig({
                     ]
                 },
             ],
-            '/frame/dubbo':[
+            '/frame/dubbo': [
                 {
                     text: 'Dubbo',
                     children: [
-                        {text: '使用', link: '/frame/dubbo/started.md'},
-                        {text: '使用', link: '/frame/dubbo/started.md'},
+                        { text: '使用', link: '/frame/dubbo/started.md' },
+                        { text: '使用', link: '/frame/dubbo/started.md' },
                     ]
                 }
             ],
-     
-            '/middleware/redis':[
+
+            '/middleware/redis': [
                 {
                     text: 'Redis',
                     collapsible: true,
-                    children:[
+                    children: [
                         { text: '1. 安装', link: '/middleware/redis/started.md' }
                     ]
                 }
             ],
-            '/middleware/pulsar':[
+            '/middleware/pulsar': [
                 {
                     text: 'Pulsar',
                     collapsible: true,
-                    children:[
+                    children: [
                         { text: '1. 安装', link: '/middleware/pulsar/started.md' }
                     ]
                 }
             ],
             '/cloud_native/microservices': [
                 {
-                    text: 'microservices',
+                    text: '微服务',
                     collapsible: true,
+                    children: [
+                        {
+                            text: 'Spring Cloud', link: '/cloud_native/microservices/spring_cloud',
+                            children: [
+                                { text: '服务注册与发现', link: '/cloud_native/microservices/spring_cloud/discovery.md' },
+                                { text: '网关', link: '/cloud_native/microservices/spring_cloud/gateway.md' }
+                            ]
+                        }
+                    ]
                 }
             ],
             '/doraemon': [
