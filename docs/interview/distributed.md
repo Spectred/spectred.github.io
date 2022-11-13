@@ -188,7 +188,9 @@ ZooKeeper实现的分布式锁:
 
 > Seata 是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务
 
-## 5. 分布式服务
+## 4. 分布式消息队列
+
+> https://spectred.github.io/interview/kafka.html
 
 ## 6. 消息队列
 
