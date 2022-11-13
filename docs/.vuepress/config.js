@@ -170,6 +170,7 @@ export default defineUserConfig({
                         {
                             text: 'Spring Cloud', link: '/cloud_native/microservices/spring_cloud',
                             children: [
+                                { text: '项目简介', link: '/cloud_native/microservices/spring_cloud/info.md' },
                                 { text: '服务注册与发现', link: '/cloud_native/microservices/spring_cloud/discovery.md' },
                                 { text: '网关', link: '/cloud_native/microservices/spring_cloud/gateway.md' }
                             ]
