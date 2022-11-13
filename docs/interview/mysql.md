@@ -454,6 +454,8 @@ mysql>  SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 
 由于上述都是异步操作，一般成为**异步复制**
 
+
+
 异步主从复制存在的问题和解决:
 
 - 主库宕机后，数据可能丢失 => **[半同步复制](https://dev.mysql.com/doc/refman/8.0/en/replication-semisync.html)**: 让主库在某一个时间点等待，等到从库的ack，收到后才提交

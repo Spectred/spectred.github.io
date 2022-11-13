@@ -192,10 +192,50 @@ ZooKeeper实现的分布式锁:
 
 > https://spectred.github.io/interview/kafka.html
 
-## 6. 消息队列
+## 5. 分布式存储
 
-## 7. 分布式存储
+### 5.1 读写分离
 
-## 8. 分布式高可用
+> 适用于读多写少
 
-## 9. 分布式基础理论
+为了不让数据库的读成为业务瓶颈，同时也为了保证写库的成功率，一般采用读写分离保证。可一主一从，一主多从
+
+[MySQL的主从复制](https://spectred.github.io/interview/mysql.html#_16-mysql%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84)
+
+### 5.2 分库分表
+
+> 单表行数超过500万行或者单表容量超过2GB，才推荐分库分表
+
+[分库分表](https://spectred.github.io/interview/mysql.html#_17-%E5%85%B3%E4%BA%8E%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8)
+
+分库分表后，会引入分布式事务的问题，跨库关联查询(字段冗余)，跨库跨表的合并和排序(依赖分库分表中间件)
+
+## 6. 分布式基础理论
+
+### 6.1 CAP理论 
+
+CAP理论描述了在一个分布式系统中，涉及共享数据问题时，以下三个特性最多只能同步满足其中两个:
+
+- Consistency **一致性**: 数据在任何时刻任何分布式节点中所看大的都是符合预期的
+- Availability **可用性**: 系统不间断地提供服务能力
+- Partition Tolerance **分区容忍性**: 分布式环境中部分节点因网络原因而彼此失联后，系统仍能正确的提供服务的能力
+
+### 6.2 BASE达成最终一致性
+
+> ACID保证强一致性
+
+- Basically Available 基本可用性
+- Soft State 柔性事务
+- Eventually Consistent 最终一致性
+
+### 6.3 分布式共识
+
+> 目前面试还没被问过，被问到时再补充吧...:smile:
+
+#### 6.3.1 Paxos
+
+#### 6.3.2 Multi Paxos
+
+#### 6.3.3 Gossip
+
+#### 6.3.4 Raft
