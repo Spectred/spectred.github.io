@@ -302,3 +302,24 @@ sidebar: 'auto'
         return list.get(0);
     }
 ```
+
+## ❌ 2022-11-13
+
+## ❌ 2022-11-14
+
+
+## ✅ 2022-11-15 ([HJ6 质数因子](https://www.nowcoder.com/practice/196534628ca6490ebce2e336b47b3607?tpId=37&tqId=21229&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FjudgeStatus%3D3%26page%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=3&tags=&title=))
+```java
+    public static void main(String[] args) {
+        int a = 180;
+        for (int i = 2; i <= Math.sqrt(a); i++) {
+            while (a % i == 0) {
+                a = a / i;
+                System.out.print(i + " ");
+            }
+        }
+        if (a > 1) {
+            System.out.print(a + " ");
+        }
+    }
+```
