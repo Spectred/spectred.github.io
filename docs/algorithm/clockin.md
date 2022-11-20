@@ -332,3 +332,122 @@ sidebar: 'auto'
 
 ## ❌ 2022-11-19
 
+
+## ✅ 2022-11-20 ([146. LRU 缓存](https://leetcode.cn/problems/lru-cache/))
+```java
+class LRUCache {
+
+    Map<Integer,Node> map;
+
+    DoubleList cache;
+
+    int cap;
+
+    public LRUCache(int capacity) {
+        cap = capacity;
+        map = new HashMap<>();
+        cache = new DoubleList();
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        cache.remove(node);
+        cache.addList(node);
+        return node.val;
+    }
+    
+    public void put(int key, int val) {
+        Node oldNode = map.get(key);
+        Node newNode = new Node(key,val);
+
+        if(oldNode != null){
+            cache.remove(oldNode);
+            cache.addList(newNode);
+            map.put(key,newNode);
+            return;
+        }
+
+        if(cache.size == cap){
+            Node firstNode = cache.removeFirst();
+            map.remove(firstNode.key);
+        }
+        
+        cache.addList(newNode);
+        map.put(key,newNode);
+    }
+
+    class Node{
+        int key,val;
+        Node prev,next;
+        
+        public Node(int key,int val){
+            this.key = key;
+            this.val = val;
+        }
+    }
+
+    class DoubleList{
+        Node head,tail;
+
+        int size;
+
+        public DoubleList(){
+            size = 0;
+            head = new Node(0,0);
+            tail = new Node(0,0);
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        public void addList(Node x){
+            x.prev = tail.prev;
+            x.next = tail;
+            tail.prev.next = x;
+            tail.prev = x;
+            size++;
+        }
+
+        public void remove(Node x){
+            x.prev.next = x.next;
+            x.next.prev = x.prev;
+            size--;
+        }
+
+        public Node removeFirst(){
+            if(head.next == null) return null;
+            Node first = head.next;
+            remove(first);
+            return first;
+        }
+    }
+    
+}
+
+```
+
+```java
+class LRUCache extends LinkedHashMap{
+    private int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity,0.75f,true);
+        this.capacity = capacity;
+    }
+    
+    public int get(int key) {
+        Integer value = (Integer)super.get(key);
+        return value == null ? -1 : value;
+    }
+    
+    public void put(int key, int value) {
+        super.put(key,value);
+    }
+
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry eldest) {
+        return size() > this.capacity; 
+    }
+}
+```
