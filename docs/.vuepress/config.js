@@ -194,7 +194,8 @@ export default defineUserConfig({
                     collapsible: true,
                     children: [
                         {text: '数组', link: '/base/alg/array.md'},
-                        {text: '链表', link: '/base/alg/linkedlist.md'}
+                        {text: '链表', link: '/base/alg/linkedlist.md'},
+                        {text: '栈', link: '/base/alg/stack.md'},
                     ]
                 }
             ],
