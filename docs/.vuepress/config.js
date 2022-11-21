@@ -196,6 +196,9 @@ export default defineUserConfig({
                         {text: '数组', link: '/base/alg/array.md'},
                         {text: '链表', link: '/base/alg/linkedlist.md'},
                         {text: '栈', link: '/base/alg/stack.md'},
+                        {text: '队列', link: '/base/alg/queue.md'},
+                        {text: '递归', link: '/base/alg/recursion.md'},
+                        
                     ]
                 }
             ],
