@@ -61,6 +61,15 @@ export default defineUserConfig({
                 ]
             },
             {
+                text: '基础', link: '/base',
+                children: [
+                    { text: '操作系统',link: '/base/os' },
+                    { text: '计算机网络',link: '/base/network' },
+                    { text: '编译原理',link: '/base/compiler' },
+                    { text: '数据结构和算法',link: '/base/alg' },
+                ]
+            },
+            {
                 text: '百宝箱',
                 link: '/doraemon',
             },
@@ -175,6 +184,16 @@ export default defineUserConfig({
                                 { text: '网关', link: '/cloud_native/microservices/spring_cloud/gateway.md' }
                             ]
                         }
+                    ]
+                }
+            ],
+
+            '/base/alg': [
+                {
+                    text: '数据结构和算法',
+                    collapsible: true,
+                    children: [
+                        {text: '数组', link: '/base/alg/array.md'}
                     ]
                 }
             ],
