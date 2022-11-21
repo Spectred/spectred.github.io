@@ -468,3 +468,24 @@ class LRUCache extends LinkedHashMap{
         return Arrays.stream(dp).max().getAsInt();
     }
 ```
+
+## ✅ 2022-11-21 II ([1190. 反转每对括号间的子串](https://leetcode.cn/problems/reverse-substrings-between-each-pair-of-parentheses/))
+```java
+   public String reverseParentheses(String s) {
+        Deque<String> stack = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                stack.push(sb.toString());
+                sb.setLength(0);
+            } else if (ch == ')') {
+                sb.reverse();
+                sb.insert(0, stack.pop());
+            } else {
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
+```

@@ -198,7 +198,7 @@ export default defineUserConfig({
                         {text: '栈', link: '/base/alg/stack.md'},
                         {text: '队列', link: '/base/alg/queue.md'},
                         {text: '递归', link: '/base/alg/recursion.md'},
-                        
+                        {text: '排序', link: '/base/alg/sort.md'},
                     ]
                 }
             ],
