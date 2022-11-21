@@ -193,7 +193,8 @@ export default defineUserConfig({
                     text: '数据结构和算法',
                     collapsible: true,
                     children: [
-                        {text: '数组', link: '/base/alg/array.md'}
+                        {text: '数组', link: '/base/alg/array.md'},
+                        {text: '链表', link: '/base/alg/linkedlist.md'}
                     ]
                 }
             ],
