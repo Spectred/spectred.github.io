@@ -16,18 +16,10 @@ export default defineUserConfig({
             { text: '算法', link: '/algorithm', },
             {
                 text: '框架', children: [
-                    {
-                        text: 'Spring',
-                        link: '/frame/spring'
-                    },
-                    {
-                        text: 'Netty',
-                        link: '/frame/netty'
-                    },
-                    {
-                        text: 'Dubbo',
-                        link: '/frame/dubbo'
-                    },
+                    {text: 'Spring',link: '/frame/spring'},
+                    {text: 'Netty',link: '/frame/netty'},
+                    {text: 'Dubbo',link: '/frame/dubbo'},
+                    {text: 'gRPC',link: '/frame/gRPC'},
                 ]
             },
             {
@@ -149,6 +141,14 @@ export default defineUserConfig({
                     children: [
                         { text: '使用', link: '/frame/dubbo/started.md' },
                         { text: '使用', link: '/frame/dubbo/started.md' },
+                    ]
+                }
+            ],
+            '/frame/gRPC': [
+                {
+                    text: 'gRPC',
+                    children: [
+                        { text: '使用', link: '/frame/gRPC/started.md' },
                     ]
                 }
             ],
