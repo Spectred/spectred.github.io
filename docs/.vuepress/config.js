@@ -149,7 +149,6 @@ export default defineUserConfig({
                     text: 'gRPC',
                     children: [
                         { text: '使用', link: '/frame/gRPC/started.md' },
-                        { text: '基础教程', link: '/frame/gRPC/basics_tutorial.md' },
                     ]
                 }
             ],

@@ -1,6 +1,7 @@
 # gRPC
 
 [官网](https://grpc.io/)
+[gRPC 官方文档中文版V1.0](http://doc.oschina.net/grpc)
 
 ## [Quick start](https://grpc.io/docs/languages/java/quickstart/)
 
