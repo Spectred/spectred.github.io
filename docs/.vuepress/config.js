@@ -71,6 +71,7 @@ export default defineUserConfig({
                 { text: 'JVM', link: '/interview/jvm.md' },
                 { text: 'Java', link: '/interview/java.md' },
                 { text: 'Spring', link: '/interview/spring.md' },
+                { text: 'MyBatis', link: '/interview/mybatis.md' },
                 { text: 'MySQL', collapsible: true, link: '/interview/mysql.md' },
                 { text: 'Redis', link: '/interview/redis.md' },
                 { text: 'Kafka', link: '/interview/kafka.md' },
