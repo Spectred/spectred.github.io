@@ -126,6 +126,7 @@ export default defineUserConfig({
                     text: 'MyBatis',
                     children: [
                         { text: '快速开始', link: '/frame/mybatis/started.md' },
+                        { text: '配置文件', link: '/frame/mybatis/config.md' },
                         { text: '缓存', link: '/frame/mybatis/started.md' },
                         { text: '插件', link: '/frame/mybatis/started.md' },
                         { text: '架构原理', link: '/frame/mybatis/started.md' },
