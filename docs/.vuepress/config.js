@@ -16,8 +16,11 @@ export default defineUserConfig({
             { text: '算法', link: '/algorithm', },
             {
                 text: '框架', children: [
+                    {text: 'MyBatis',link: '/frame/mybatis'},
                     {text: 'Spring',link: '/frame/spring'},
+                    {text: 'RPC',link: '/frame/rpc'},
                     {text: 'Netty',link: '/frame/netty'},
+                    {text: 'RPC',link: '/frame/netty'},
                     {text: 'Dubbo',link: '/frame/dubbo'},
                     {text: 'gRPC',link: '/frame/gRPC'},
                 ]
@@ -116,6 +119,27 @@ export default defineUserConfig({
                 {
                     text: '二叉树',
                     collapsible: true,
+                }
+            ],
+            '/frame/mybatis': [
+                {
+                    text: 'MyBatis',
+                    children: [
+                        { text: '快速开始', link: '/frame/mybatis/started.md' },
+                        { text: '缓存', link: '/frame/mybatis/started.md' },
+                        { text: '插件', link: '/frame/mybatis/started.md' },
+                        { text: '架构原理', link: '/frame/mybatis/started.md' },
+                        { text: '源码分析', link: '/frame/mybatis/started.md' },
+                    ]
+                }
+            ],
+            '/frame/rpc': [
+                {
+                    text: 'RPC',
+                    children: [
+                        { text: '自定义RPC', link: '/frame/rpc/started.md' },
+                        { text: '使用', link: '/frame/dubbo/started.md' },
+                    ]
                 }
             ],
             '/frame/netty': [
