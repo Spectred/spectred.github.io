@@ -127,7 +127,7 @@ export default defineUserConfig({
                     text: 'MongoDB',
                     children: [
                         { text: '快速开始', link: '/middleware/mongodb/started.md' },
-                        
+                        { text: '命令', link: '/middleware/mongodb/command.md' },
                     ]
                 }
             ],
