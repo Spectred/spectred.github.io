@@ -205,3 +205,41 @@ WriteResult({ "nRemoved" : 1 })
 
 ## 3. 聚合操作
 
+// TODO
+
+**准备示例数据**
+
+```sh
+> db.coll.insert([{"name":"Jack","age":10},{"name":"Mary","age":18},{"name":"Rose","age":8}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.coll.find()
+{ "_id" : ObjectId("638e0cfe1b684188d59dd0c3"), "name" : "Jack", "age" : 10 }
+{ "_id" : ObjectId("638e0cfe1b684188d59dd0c4"), "name" : "Mary", "age" : 18 }
+{ "_id" : ObjectId("638e0cfe1b684188d59dd0c5"), "name" : "Rose", "age" : 8 }
+```
+
+### 3.1 单目的聚合
+
+- 求总数
+
+  ```sh
+  > db.coll.find().count()
+  3
+  ```
+
+### 3.2 聚合管道
+
+`db.coll.aggregate(AGGREGATE_OPERATION)`
+
+### 3.3 MapReduce变成模型
+
+`db.coll.mapReduce()`
