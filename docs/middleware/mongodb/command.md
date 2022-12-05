@@ -179,24 +179,8 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 - `$inc` 对修改的值进行自增
 
 - `upsert` 可选 如果不存在update的记录 是否插入objnew true是插入 默认false
-
 - `multi` 可选 默认false只更新找到的第一条记录,如果是true就把按条件查询出来多条记录全部更新
-
 - `writeConcern` 可选 用来指定mongod对写操作的回执为比如写的行为需要确认
-
-  >writeConcern 包括以下字段:
-  > { w: <value>, j: <boolean>, wtimeout: <number> }
-  >
-  >w:指定写操作传播到的成员数量 比如:
-  >
-  >w=1(默认):则要求得到写操作已经传播到独立的Mongod实例或副本集的primary成员的确认 w=0:则不要求确认写操作，可能会返回socket exceptions和 networking errors w="majority":要求得到写操作已经传播到大多数具有存储数据具有投票的(data-bearing voting )成员(也 就是 members[n].votes 值大于0的成员)的确认
-  >
-  >j:要求得到Mongodb的写操作已经写到硬盘日志的确认 比如:
-  >
-  >j=true:要求得到Mongodb(w指定的实例个数)的写操作已经写到硬盘日志的确认。j=true本身并不保证因为副本集 故障而不会回滚。
-  >
-  >wtimeout:指定write concern的时间限制，只适用于w>1的情况 wtimeout在超过指定时间后写操作会返回error，即使写操作最后执行成功，当这些写操作返回时，MongoDB不会撤 消在wtimeout时间限制之前执行成功的数据修改。
-  > 如果未指定wtimeout选项且未指定write concern级别，则写入操作将无限期阻止。 指定wtimeout值为0等同于 没有wtimeout选项
 
 ### 2.4 数据删除
 
