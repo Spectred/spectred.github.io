@@ -29,6 +29,7 @@ export default defineUserConfig({
                 text: '中间件', children: [
                     { text: 'MySQL', link: '/middleware/mysql' },
                     { text: 'Redis', link: '/middleware/redis' },
+                    { text: 'MongoDB', link: '/middleware/mongodb' },
                     { text: 'ZooKeeper', link: '/middleware/zookeeper' },
                     { text: 'Kafka', link: '/middleware/kafka' },
                     { text: 'Pulsar', link: '/middleware/pulsar' }
@@ -121,13 +122,22 @@ export default defineUserConfig({
                     collapsible: true,
                 }
             ],
+            '/middleware/mongodb': [
+                {
+                    text: 'MongoDB',
+                    children: [
+                        { text: '快速开始', link: '/middleware/mongodb/started.md' },
+                        
+                    ]
+                }
+            ],
             '/frame/mybatis': [
                 {
                     text: 'MyBatis',
                     children: [
                         { text: '快速开始', link: '/frame/mybatis/started.md' },
                         { text: '配置文件', link: '/frame/mybatis/config.md' },
-                        { text: '缓存', link: '/frame/mybatis/started.md' },
+                        { text: '缓存', link: '/frame/mybatis/cache.md' },
                         { text: '插件', link: '/frame/mybatis/started.md' },
                         { text: '架构原理', link: '/frame/mybatis/started.md' },
                         { text: '源码分析', link: '/frame/mybatis/started.md' },
