@@ -163,6 +163,24 @@
   { "_id" : ObjectId("638e01941b684188d59dd0c1"), "age" : 1 }
   ```
 
+- 查询指定字段
+
+  ```sh
+  > db.coll.find({},{name:1})
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c3"), "name" : "Jack" }
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c4"), "name" : "Mary" }
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c5"), "name" : "Rose" }
+  ```
+
+- 查询排除字段
+
+  ```sh
+  > db.coll.find({},{name:0})
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c3"), "age" : 10 }
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c4"), "age" : 18 }
+  { "_id" : ObjectId("638e0cfe1b684188d59dd0c5"), "age" : 8 }
+  ```
+
   
 
 ### 2.3 数据更新
