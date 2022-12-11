@@ -96,7 +96,7 @@ db.coll.createIndex({"birth":1},{expireAfterSeconds: 10})
 
 `db.coll.dropIndexes()`
 
-## 3. explain分析
+## 3. [explain](https://www.mongodb.com/docs/v4.2/reference/command/explain/index.html)
 
 插入100w条示例数据
 
@@ -112,7 +112,347 @@ for(var i=0;i<1000000;i++){
 - `executionStats` 会返回执行计划的一些统计信息(有些版本中和allPlansExecution等同)
 - `allPlansExecution` 用来获取所有执行计划，结果参数基本与上文相同。
 
-### 3.1 `queryPlanner`默认参数
+### 3.1 queryPlanner
 
+```js
+db.coll.find({name:"test-1001"}).explain()
+```
 
+```json
+[
+  {
+    "ok": 1,
+    "queryPlanner": {
+      "plannerVersion": 1,
+      "namespace": "test.coll",
+      "indexFilterSet": false,
+      "parsedQuery": {
+        "name": {
+          "$eq": "test-1001"
+        }
+      },
+      "queryHash": "01AEE5EC",
+      "planCacheKey": "4C5AEA2C",
+      "winningPlan": {
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "name": 1
+          },
+          "indexName": "name_1",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "name": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "name": ["[\"test-1001\", \"test-1001\"]"]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "serverInfo": {
+      "host": "VM-24-3-centos",
+      "port": 27017,
+      "version": "4.2.23",
+      "gitVersion": "f4e6602d3a4c5b22e9d8bcf0722d0afd0ec01ea2"
+    }
+  }
+]
+```
+### 3.2 executionStats
 
+`db.coll.find({name:"test-1001"}).explain("executionStats")`
+
+```json
+[
+  {
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 1,
+      "totalKeysExamined": 1,
+      "totalDocsExamined": 1,
+      "executionStages": {
+        "stage": "FETCH",
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 0,
+        "works": 2,
+        "advanced": 1,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "docsExamined": 1,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 0,
+          "works": 2,
+          "advanced": 1,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "keyPattern": {
+            "name": 1
+          },
+          "indexName": "name_1",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "name": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "name": ["[\"test-1001\", \"test-1001\"]"]
+          },
+          "keysExamined": 1,
+          "seeks": 1,
+          "dupsTested": 0,
+          "dupsDropped": 0
+        }
+      }
+    },
+    "ok": 1,
+    "queryPlanner": {
+      "plannerVersion": 1,
+      "namespace": "test.coll",
+      "indexFilterSet": false,
+      "parsedQuery": {
+        "name": {
+          "$eq": "test-1001"
+        }
+      },
+      "winningPlan": {
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "name": 1
+          },
+          "indexName": "name_1",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "name": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "name": ["[\"test-1001\", \"test-1001\"]"]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "serverInfo": {
+      "host": "VM-24-3-centos",
+      "port": 27017,
+      "version": "4.2.23",
+      "gitVersion": "f4e6602d3a4c5b22e9d8bcf0722d0afd0ec01ea2"
+    }
+  }
+]
+```
+
+### 3.3 allPlansExecution
+
+`db.coll.find({name:"test-1001"}).explain("allPlansExecution")`
+
+```json
+[
+  {
+    "executionStats": {
+      "executionSuccess": true,
+      "nReturned": 1,
+      "executionTimeMillis": 0,
+      "totalKeysExamined": 1,
+      "totalDocsExamined": 1,
+      "executionStages": {
+        "stage": "FETCH",
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 0,
+        "works": 2,
+        "advanced": 1,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "docsExamined": 1,
+        "alreadyHasObj": 0,
+        "inputStage": {
+          "stage": "IXSCAN",
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 0,
+          "works": 2,
+          "advanced": 1,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "keyPattern": {
+            "name": 1
+          },
+          "indexName": "name_1",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "name": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "name": ["[\"test-1001\", \"test-1001\"]"]
+          },
+          "keysExamined": 1,
+          "seeks": 1,
+          "dupsTested": 0,
+          "dupsDropped": 0
+        }
+      },
+      "allPlansExecution": []
+    },
+    "ok": 1,
+    "queryPlanner": {
+      "plannerVersion": 1,
+      "namespace": "test.coll",
+      "indexFilterSet": false,
+      "parsedQuery": {
+        "name": {
+          "$eq": "test-1001"
+        }
+      },
+      "winningPlan": {
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "name": 1
+          },
+          "indexName": "name_1",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "name": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "name": ["[\"test-1001\", \"test-1001\"]"]
+          }
+        }
+      },
+      "rejectedPlans": []
+    },
+    "serverInfo": {
+      "host": "VM-24-3-centos",
+      "port": 27017,
+      "version": "4.2.23",
+      "gitVersion": "f4e6602d3a4c5b22e9d8bcf0722d0afd0ec01ea2"
+    }
+  }
+]
+```
+
+>executionStats返回逐层分析
+>
+>- 第一层，最为直观explain返回值是**executionTimeMillis**值，指的是这条语句的执行时间，这 个值当然是希望越少越好。
+> 其中有3个executionTimeMillis，分别是:
+>
+> - executionStats.executionTimeMillis 该query的整体查询时间
+> - executionStats.executionStages.executionTimeMillisEstimate 该查询检索document获得数据的时间
+> - executionStats.executionStages.inputStage.executionTimeMillisEstimate 该查询扫描文档 index所用时间
+>
+>- 第二层，index与document扫描数与查询返回条目数 这个主要讨论3个返回项 **nReturned**、 **totalKeysExamined**、**totalDocsExamined**，分别代表**该条查询返回的条目**、**索引扫描条目**、**文档扫描条目**。 
+>
+> 这些 都是直观地影响到executionTimeMillis，我们需要扫描的越少速度越快。 对于一个查询，我们最理想的状态是: nReturned=totalKeysExamined=totalDocsExamined
+>
+>- 第三层，stage状态分析 那么又是什么影响到了totalKeysExamined和totalDocsExamined?是stage的类型。 类型列举如下:
+>
+> - COLLSCAN:全表扫描
+> - IXSCAN:索引扫描
+> - FETCH:根据索引去检索指定document 
+> - SHARD_MERGE:将各个分片返回数据进行merge 
+> - SORT:表明在内存中进行了排序
+> - LIMIT:使用limit限制返回数
+> - SKIP:使用skip进行跳过
+> - IDHACK:针对_id进行查询 
+> - SHARDING_FILTER:通过mongos对分片数据进行查询 
+> - COUNT:利用db.coll.explain().count()之类进行count运算 
+> - TEXT:使用全文索引进行查询时候的stage返回 
+> - PROJECTION:限定返回字段时候stage的返回
+>
+> 对于普通查询，**希望**看到stage的组合(查询的时候尽可能用上索引): 
+>
+> - Fetch+IDHACK
+>
+> - Fetch+IXSCAN
+>
+> - Limit+(Fetch+IXSCAN)
+>
+> - PROJECTION+IXSCAN
+>
+> - SHARDING_FITER+IXSCAN
+> 
+> **不希望**希望看到包含如下的stage:
+> 
+> - COLLSCAN(全表扫描) 
+> 
+> - SORT(使用sort但是无index) 
+> 
+> - COUNT 不使用index进行count)
+>
+
+## 4. 慢查询
+
+### 4.1 开启内置的查询分析器，记录读写操作效率
+
+`db.setProfilingLevel(n,m)`
+
+其中n:
+
+- 0 不记录
+- 1 记录慢操作，此时m必须赋值单位为ms,用于定义慢查询时间的阈值
+- 2 记录所有的读写操作
+
+### 4.2 查询监控结果
+
+```js
+// 查询最慢的三条
+db.system.profile.find().sort({mills:-1}).limit(3)
+```
+
+### 4.3 分析慢查询
+
+应用程序设计，数据模型是否正确，硬件配置，缺少索引
+
+### 4.4 解析explain结果，确定是否缺少索引
+
+## 5. 索引原理
+
+MongoDB是文档型数据库，采用BSON格式保存数据，可以将一条数据和对应的数据都存入到一个BSON对象中。
+
+MongoDB的索引使用**B-树**，所有节点都有Data域，只要找到指定索引就可以进行访问，单次查询从结构上看要快于MySQL
+
+> B-树的特点：多叉树、每个节点即保存数据又保存索引、搜索时相当于二分查找
