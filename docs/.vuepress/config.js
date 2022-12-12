@@ -131,6 +131,7 @@ export default defineUserConfig({
                         { text: '索引', link: '/middleware/mongodb/index.md' },
                         { text: '使用', link: '/middleware/mongodb/use.md' },
                         { text: '架构', link: '/middleware/mongodb/arch.md' },
+                        { text: '集群', link: '/middleware/mongodb/cluster.md' },
                     ]
                 }
             ],
