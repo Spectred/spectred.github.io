@@ -4,6 +4,10 @@
 
 ## 1. 索引类型
 
+> ```
+> db.coll.createIndex({name:1},{unique:true}) 来保持唯一性
+> ```
+
 ### 1.1 [单键索引](https://www.mongodb.com/docs/v4.2/core/index-single/)
 
 支持所有数据类型中的单个字段索引，并且可以在文档的任何字段上定义
