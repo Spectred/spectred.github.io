@@ -57,6 +57,16 @@ export default defineUserConfig({
                 ]
             },
             {
+                text: '架构', link: '/architecture',
+
+                // children: [
+                //     {
+                //         text: '',
+                //         link: '/architecture/microservices'
+                //     },
+                // ]
+            },
+            {
                 text: '基础', link: '/base',
                 children: [
                     { text: '操作系统',link: '/base/os' },
@@ -228,7 +238,13 @@ export default defineUserConfig({
                     ]
                 }
             ],
-
+            '/architecture':[
+                {   text: '模块一：为何架构设计能力难以提升', 
+                    children: [
+                        { text: '4R架构', link: '/architecture/module1/class1.md' },
+                        { text: '如何画架构图', link: '/architecture/module1/class2.md' },
+                ]}
+            ],
             '/base/alg': [
                 {
                     text: '数据结构和算法',
