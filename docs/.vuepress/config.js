@@ -256,6 +256,7 @@ export default defineUserConfig({
                         {text: '队列', link: '/base/alg/queue.md'},
                         {text: '递归', link: '/base/alg/recursion.md'},
                         {text: '排序', link: '/base/alg/sort.md'},
+                        {text: '前缀树(TrieTree)', link: '/base/alg/trietree.md'},
                     ]
                 }
             ],
