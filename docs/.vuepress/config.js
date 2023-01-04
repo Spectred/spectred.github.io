@@ -262,6 +262,7 @@ export default defineUserConfig({
             ],
             '/doraemon': [
                 { text: '常用网站', link: '/doraemon/website' },
+                { text: '小记', link: '/doraemon/x' },
                 {
                     text: '平时积累',
                     collapsible: true,
