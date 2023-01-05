@@ -12,7 +12,7 @@
 
 所有ZNode按照层次化组织，形成ZNode Tree。
 
-![zk_ZNodeTree](./imgs/zookeeper/zk_ZNodeTree.png)
+
 
 ##### 1.1.1 ZNode的类型
 
@@ -53,7 +53,7 @@ ZK使用**Watcher机制**实现分布式数据的发布/订阅功能
 
 ZK允许客户端向服务端注册一个Watch监听，当服务端的一些指定事件触发了这个Watcher，那么就会向指定客户端发送一个事件通知来实现分布式的通知功能。
 
-![zk_Watcher](./imgs/zookeeper/zk_Watcher.png)
+
 
 ZK的Watcher机制主要包括: **客户端线程**、**客户端WatcherManager**、**ZooKeerper服务器**
 
@@ -253,7 +253,6 @@ db.username=root
 db.password=mysql
 ```
 
-![zk_配置存储](./imgs/zookeeper/zk_配置存储.png)
 
 #### 1.2 配置获取
 
@@ -267,7 +266,7 @@ db.password=mysql
 
 ZooKeeper提供的命名服务功能能够帮助应用系统通过一个资源引用的方式来实现对资源的定位和使用（顺序节点）
 
-![zk_命名服务](./imgs/zookeeper/zk_命名服务.png)
+
 
 **基本步骤**
 
@@ -299,7 +298,7 @@ ZAB协议的核心是定义了对于会改变ZK服务器状态的事务请求的
 
 所有事务请求还需有一个全局唯一的Leader服务器来协调处理，其他服务器成为Follower服务器。Leader服务器负责讲一个客户端事务请求转化为一个事务提议（Proposal）,并将该提议分发给集群中所有的Follower服务器，之后Leader服务器需要等待所有Follower服务器反馈，一旦超半数的Follower服务器进行了正确反馈，那么Leder就会再次向所有的Follower服务器分发Commi消息，要求其将前一个提议进行提交
 
-![](./imgs/zookeeper/zk_zab_core.png)
+
 
 ### 1. 崩溃恢复模式
 
