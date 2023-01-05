@@ -205,6 +205,15 @@ export default defineUserConfig({
                     ]
                 }
             ],
+            '/middleware/zookeeper': [
+                {
+                    text: 'ZooKeeper',
+                    collapsible: true,
+                    children: [
+                        { text: 'ZooKeeper', link: '/middleware/zookeeper/zookeeper.md' }
+                    ]
+                }
+            ],
             '/middleware/pulsar': [
                 {
                     text: 'Pulsar',
