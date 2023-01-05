@@ -171,18 +171,10 @@ export default defineUserConfig({
                 {
                     text: 'Netty',
                     children: [
-                        {
-                            text: '源码分析',
-                            link: '/frame/netty/sourcecode.md'
-                        },
-                        {
-                            text: 'Socket',
-                            link: '/frame/netty/socket.md'
-                        },
-                        {
-                            text: 'I/O模型',
-                            link: '/frame/netty/io.md'
-                        }
+                        {text: '源码分析',link: '/frame/netty/sourcecode.md'},
+                        {text: 'Socket',link: '/frame/netty/socket.md' },
+                        {text: 'I/O模型',link: '/frame/netty/io.md'},
+                        {text: '第一个Netty应用:Echo',link: '/frame/netty/echo.md'}
                     ]
                 },
             ],
