@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-fd608722","path":"/base/alg/recursion.html","title":"\u9012\u5F52","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1669038863000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"base/alg/recursion.md"}');export{e as data};

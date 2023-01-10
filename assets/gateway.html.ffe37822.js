@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-74361b3f","path":"/cloud_native/microservices/spring_cloud/gateway.html","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1668331157000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"cloud_native/microservices/spring_cloud/gateway.md"}');export{e as data};

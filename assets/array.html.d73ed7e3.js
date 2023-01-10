@@ -1,0 +1,1 @@
+const a=JSON.parse('{"key":"v-64130bd8","path":"/base/alg/array.html","title":"\u6570\u7EC4","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1669020828000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"base/alg/array.md"}');export{a as data};

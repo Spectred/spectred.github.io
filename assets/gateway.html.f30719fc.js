@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a,a as c}from"./app.2fb84565.js";const o={},_=c("p",null,"API\u7F51\u5173",-1),s=[_];function n(r,l){return t(),a("div",null,s)}const f=e(o,[["render",n],["__file","gateway.html.vue"]]);export{f as default};

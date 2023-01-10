@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-d2924368","path":"/frame/dubbo/","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1667745561000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"frame/dubbo/README.md"}');export{e as data};
