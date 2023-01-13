@@ -1,6 +1,10 @@
 > http://easyyapi.com/
 接口文档
 
+mac 中使用realpath (输出指定文件的绝对路径)
+`brew install coreutils`
+`realpath a.txt`
+
 ## 读取csv写入到mongo（属性简单）
 ```
 import csv
