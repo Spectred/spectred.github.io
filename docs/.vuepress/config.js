@@ -29,7 +29,7 @@ export default defineUserConfig({
                 text: '中间件', children: [
                     { text: 'MySQL', link: '/middleware/mysql' },
                     { text: 'Redis', link: '/middleware/redis' },
-                    { text: 'MongoDB', link: '/middleware/mongodb' },
+                    { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
                     { text: 'ZooKeeper', link: '/middleware/zookeeper' },
                     { text: 'Kafka', link: '/middleware/kafka' },
                     { text: 'Pulsar', link: '/middleware/pulsar' }
