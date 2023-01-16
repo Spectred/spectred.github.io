@@ -181,6 +181,66 @@ rs.status()
 |  slaveDelay  |   整数   | slaveDelay=3600  |                       从库的延迟多少秒                       |
 | buildIndexes |  布尔值  |       0或1       |             主库的索引，从库也创建，_id索引无效              |
 
+```
+version: '3.3'
+services:
+  mongo_rs_1:
+    env_file:
+      - .env
+    image: mongo:4.2
+    container_name: mongo_rs_1
+    restart: always
+    ports:
+      - ${MONGO_RS_1_PORT}:27017
+    volumes:
+      - ${PWD}/rs1/db:/data/db
+      - ${PWD}/rs1/log:/var/log/mongodb
+      - ${PWD}/rs1/config:/etc/mongo
+    command: 
+      - --replSet
+      - rs
+  mongo_rs_2:
+    image: mongo:4.2
+    container_name: mongo_rs_2
+    restart: always
+    ports:
+      - ${MONGO_RS_2_PORT}:27017
+    volumes:
+      - ${PWD}/rs2/db:/data/db
+      - ${PWD}/rs2/log:/var/log/mongodb
+      - ${PWD}/rs2/config:/etc/mongo
+    command: 
+      - --replSet
+      - rs
+  mongo_rs_3:
+    image: mongo:4.2
+    container_name: mongo_rs_3
+    restart: always
+    ports:
+      - ${MONGO_RS_3_PORT}:27017
+    volumes:
+      - ${PWD}/rs3/db:/data/db
+      - ${PWD}/rs3/log:/var/log/mongodb
+      - ${PWD}/rs3/config:/etc/mongo
+    command: 
+      - --replSet
+      - rs
+  mongo_rs_init:
+    image: mongo:4.2
+    depends_on: 
+      - mongo_rs_1
+      - mongo_rs_2
+      - mongo_rs_3
+    restart: on-failure:5
+    command: 
+      - mongo
+      - mongodb://mongo_rs_1:27017/admin
+      - --eval
+      - 'rs.initiate({ _id: "rs", members: [{_id:1,host:"mongo_rs_1:27017"},{_id:2,host:"mongo_rs_2:27017"},{_id:3,host:"mongo_rs_3:27017"}]})'
+
+# rs.secondaryOk()
+```
+
 ## 3. 分片集群
 
 > 分片(sharding)是MongoDB用来将大型集合水平分割到不同的服务器(或者复制集)上采用的方法，不需要功能强大的大型计算机就可以存储更多的数据，以处理更大的负载
