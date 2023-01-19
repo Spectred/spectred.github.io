@@ -305,3 +305,136 @@ Hash分片与范围分片互补，能将文档随机的分散到各个chunk，�
 > 无非从两个方面考虑，数据的查询和写入，最好的效果就是数据查询时能命中更少的分片，数据写入时能够随机的写入每个分片，关键在于如何权衡性能和负载。
 
 ### 3.3 搭建分片集群
+结构
+```
+$ tree -L 1 .                                                                                                                            
+.
+├── config-17017
+├── config-17018
+├── config-17019
+├── mongodb-linux-x86_64-rhel70-4.2.23.tgz
+├── route-27017
+├── shard-1-37017
+├── shard-1-37018
+├── shard-1-37019
+├── shard-2-47017
+├── shard-2-47018
+├── shard-2-47019
+├── shard-3-57017
+├── shard-3-57018
+├── shard-3-57019
+├── start-config.sh
+├── start-mongo-all.sh
+├── start-route.sh
+├── start-shard.sh
+└── stop-mongo-all.sh
+```
+
+配置节点
+```
+$ cat config-17017/mongo.conf                                                                                                            
+dbpath=/data/mongo/shard/config/config1
+port=17017
+bind_ip=0.0.0.0
+fork=true
+logpath=/data/mongo/shard/config/config1/logs/config.log
+logappend=true
+# 配置服务器
+configsvr=true
+# 配置服务器副本集名
+replSet=configsvr
+```
+进行配置
+```
+use admin
+var cfg = {"_id":"configsvr",
+"members":[
+    {"_id":1,"host":"10.0.24.3:17017"},
+    {"_id":2,"host":"10.0.24.3:17018"},
+    {"_id":3,"host":"10.0.24.3:17019"},
+]}
+rs.initiate(cfg)
+
+```
+
+分片集群节点
+```
+$ cat shard-1-37017/mongo.conf                                                                                                           
+dbpath=/data/mongo/shard/1/37017
+port=37017
+bind_ip=0.0.0.0
+fork=true
+logpath=/data/mongo/shard/1/37017/logs/mongo.log
+replSet=shard1
+shardsvr=true
+```
+每个集群都进行配置
+```
+var cfg = {
+    "_id":"shard1",
+    "protocolVersion":1,
+    "members":[
+        {"_id":1,"host":"10.0.24.3:37017"},
+        {"_id":2,"host":"10.0.24.3:37018"},
+        {"_id":3,"host":"10.0.24.3:37019"},
+    ]
+};
+rs.initiate(cfg)
+rs.status()
+```
+
+路由节点
+```
+$ cat route-27017/mongo.conf                                                                                                             
+port=27017
+bind_ip=0.0.0.0
+fork=true
+logpath=/data/mongo/shard/route/27017/logs/mongo.log
+configdb=configsvr/10.0.24.3:17017,10.0.24.3:17018,10.0.24.3:17019
+```
+依次启动配置、分片集群、路由节点(配置需要在启动后操作)
+```
+$ cat start-config.sh                                                                                                                    
+#!/bin/bash
+
+echo "mongo shard config"
+for port in {17017..17019}
+do
+    config-${port}/bin/mongod -f config-${port}/mongo.conf
+    echo "${port} started."
+done
+
+---
+$ cat start-route.sh                                                                                                                     
+#!/bin/bash
+
+echo "mongo shard route"
+for port in {27017..27017}
+do
+    route-${port}/bin/mongos -f route-${port}/mongo.conf
+    echo "${port} started."
+done
+---
+$ cat start-route.sh                                                                                                                     
+#!/bin/bash
+
+echo "mongo shard route"
+for port in {27017..27017}
+do
+    route-${port}/bin/mongos -f route-${port}/mongo.conf
+    echo "${port} started."
+done
+```
+进入到路由节点，添加集群
+```
+sh.addShard("shard1/10.0.24.3:37017,10.0.24.3:37018,10.0.24.3:37019")
+sh.addShard("shard2/10.0.24.3:47017,10.0.24.3:47018,10.0.24.3:47019")
+sh.addShard("shard3/10.0.24.3:57017,10.0.24.3:57018,10.0.24.3:57019")
+sh.status()
+```
+开启数据库和集合分片
+```
+sh.enableSharding("数据库名称")
+
+sh.shardCollection("数据库名称.集合名称",{"片键名称如name":索引说明})
+```
