@@ -144,6 +144,7 @@ export default defineUserConfig({
                         { text: '集群', link: '/middleware/mongodb/cluster.md' },
                         { text: '安全认证', link: '/middleware/mongodb/secure.md' },
                         { text: '监控', link: '/middleware/mongodb/monitor.md' },
+                        { text: '备份和恢复', link: '/middleware/mongodb/backups.md' },
                     ]
                 }
             ],
