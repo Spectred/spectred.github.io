@@ -143,6 +143,7 @@ export default defineUserConfig({
                         { text: '架构', link: '/middleware/mongodb/arch.md' },
                         { text: '集群', link: '/middleware/mongodb/cluster.md' },
                         { text: '安全认证', link: '/middleware/mongodb/secure.md' },
+                        { text: '监控', link: '/middleware/mongodb/monitor.md' },
                     ]
                 }
             ],
