@@ -231,9 +231,8 @@ export default defineUserConfig({
             '/middleware/flink': [
                 {
                     text: 'Flink',
-                    collapsible: true,
                     children: [
-                        { text: '', link: '' }
+                        { text: '1. 快速应用', link: '/middleware/flink/app.md' }
                     ]
                 }
             ],
