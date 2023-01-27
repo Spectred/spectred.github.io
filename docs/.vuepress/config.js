@@ -32,7 +32,8 @@ export default defineUserConfig({
                     { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
                     { text: 'ZooKeeper', link: '/middleware/zookeeper' },
                     { text: 'Kafka', link: '/middleware/kafka' },
-                    { text: 'Pulsar', link: '/middleware/pulsar' }
+                    { text: 'Pulsar', link: '/middleware/pulsar' },
+                    { text: 'Flink', link: '/middleware/flink' }
                 ]
             },
             {
@@ -224,6 +225,15 @@ export default defineUserConfig({
                     collapsible: true,
                     children: [
                         { text: '1. 安装', link: '/middleware/pulsar/started.md' }
+                    ]
+                }
+            ],
+            '/middleware/flink': [
+                {
+                    text: 'Flink',
+                    collapsible: true,
+                    children: [
+                        { text: '', link: '' }
                     ]
                 }
             ],
