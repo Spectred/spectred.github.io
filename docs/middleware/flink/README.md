@@ -1,5 +1,7 @@
 # Flink
 
+![](https://flink.apache.org/img/flink-header-logo.svg)
+
 [Apache Flink](https://flink.apache.org/zh/)
 
 ​	Apache Flink是一个框架和分布式处理引擎，用于对无界和有界数据流进行有状态计算。Flink被设计在所有常见的集群环境中运行，以内存执行速度和任意规模来执行计算
