@@ -1,10 +1,11 @@
 import { defineUserConfig, defaultTheme } from 'vuepress'
 import { prismjsPlugin } from '@vuepress/plugin-prismjs'
+import { nprogressPlugin } from '@vuepress/plugin-nprogress'
 
 export default defineUserConfig({
     lang: 'zh-CN',
     title: '学习笔记',
-    description: 'xxxx',
+    description: '开始学习🚀',
     head: [['link', { rel: 'icon', href: 'logo.jpeg' }]],
     theme: defaultTheme({
         navbar: [
@@ -288,6 +289,7 @@ export default defineUserConfig({
         }
     }),
     plugins: [
+        nprogressPlugin(),
         prismjsPlugin({
             // 配置项
         }),
