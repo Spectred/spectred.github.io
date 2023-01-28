@@ -5,7 +5,7 @@ import { nprogressPlugin } from '@vuepress/plugin-nprogress'
 export default defineUserConfig({
     lang: 'zh-CN',
     title: '学习笔记',
-    description: '✍🏻好记性不如烂笔头，站在岸上学不会游泳 \n泉水挑不干，知识学不完',
+    description: '✍🏻好记性不如烂笔头，站在岸上学不会游泳<br/>泉水挑不干，知识学不完',
     head: [['link', { rel: 'icon', href: 'logo.jpeg' }]],
     theme: defaultTheme({
         navbar: [
