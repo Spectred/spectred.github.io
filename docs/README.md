@@ -1,18 +1,18 @@
 ---
 home: true
-heroImage: https://em-content.zobj.net/thumbs/120/facebook/65/open-book_1f4d6.png
+heroImage: https://em-content.zobj.net/thumbs/240/samsung/349/open-book_1f4d6.png
 actions:
   - text: 开始探索之旅 →
     link: middleware/flink
     type: primary
 
 features:
-- title: AAAA
-  details: aaa
-- title: BBB
-  details: bbb。
-- title: CCC
-  details: cc
+- title: 数据结构与算法
+  details: 学习《数据结构与算法之美》，从复杂度开始，到各种数据结构，到经典算法分析，再到力扣刷题~
+- title: Flink
+  details: 分布式计算处理引擎
+- title: Java并发编程
+  details: 学习《Java并发编程实战》有感~
 footer: MIT Licensed | Copyright © 2022-present
 ---
 
