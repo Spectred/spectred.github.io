@@ -1,7 +1,6 @@
 import { defineUserConfig, defaultTheme } from 'vuepress'
 import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 import { nprogressPlugin } from '@vuepress/plugin-nprogress'
-import { searchPlugin } from '@vuepress/plugin-search'
 
 export default defineUserConfig({
     lang: 'zh-CN',
