@@ -3,12 +3,14 @@ home: true
 heroImage: https://em-content.zobj.net/thumbs/240/samsung/349/open-book_1f4d6.png
 heroText: 学习笔记
 tagline: 好记性不如烂笔头，站在岸上学不会游泳
-              泉水挑不干，知识学不完
 actions:
   - text: 面试题集 ↗
     link: /interview
     type: primary
-  - text: 开始学习-Flink →
+  - text: 开始学习 →
+    link: /middleware/flink
+    type: secondary
+  - text: 筹备中 ..
     link: /middleware/flink
     type: secondary
 
