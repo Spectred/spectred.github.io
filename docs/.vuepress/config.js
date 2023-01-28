@@ -244,7 +244,8 @@ export default defineUserConfig({
                 {
                     text: 'Flink',
                     children: [
-                        { text: '1. 快速应用', link: '/middleware/flink/app.md' }
+                        { text: '1. 快速应用', link: '/middleware/flink/app.md' },
+                        { text: '2. 安装部署', link: '/middleware/flink/install.md' },
                     ]
                 }
             ],
