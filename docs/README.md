@@ -10,9 +10,6 @@ actions:
   - text: 开始学习 →
     link: /middleware/flink
     type: secondary
-  - text: 筹备中 ..
-    link: /middleware/flink
-    type: secondary
 
 features:
 - title: 数据结构与算法
@@ -35,7 +32,7 @@ footer: MIT Licensed | Copyright © 2022-present
 |  4   |    [架构](https://spectred.github.io/architecture)    | 2023年01月05日 |          |
 |  5   | [Flink](https://spectred.github.io/middleware/flink)  | 2023年01月27日 |          |
 |  6   | [Java并发编程](https://spectred.github.io/404)  | 2023年02月01日 |          |
----
+
 
 ### 完成的内容:slightly_smiling_face:
 
