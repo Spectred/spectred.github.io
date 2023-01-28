@@ -5,7 +5,7 @@ import { nprogressPlugin } from '@vuepress/plugin-nprogress'
 export default defineUserConfig({
     lang: 'zh-CN',
     title: '学习笔记',
-    description: '✍🏻好记性不如烂笔头，站在岸上学不会游泳。 泉水挑不干，知识学不完',
+    description: '✍🏻好记性不如烂笔头，站在岸上学不会游泳 \n泉水挑不干，知识学不完',
     head: [['link', { rel: 'icon', href: 'logo.jpeg' }]],
     theme: defaultTheme({
         navbar: [
@@ -17,24 +17,23 @@ export default defineUserConfig({
             { text: '算法', link: '/algorithm', },
             {
                 text: '框架', children: [
-                    {text: 'MyBatis',link: '/frame/mybatis'},
-                    {text: 'Spring',link: '/frame/spring'},
-                    {text: 'RPC',link: '/frame/rpc'},
-                    {text: 'Netty',link: '/frame/netty'},
-                    {text: 'RPC',link: '/frame/netty'},
-                    {text: 'Dubbo',link: '/frame/dubbo'},
                     {text: 'gRPC',link: '/frame/gRPC'},
+                    {text: 'Dubbo',link: '/frame/dubbo'},
+                    {text: 'MyBatis',link: '/frame/mybatis'},
+                    {text: 'Netty',link: '/frame/netty'},               
+                    {text: 'RPC',link: '/frame/rpc'},  
+                    {text: 'Spring',link: '/frame/spring'},
                 ]
             },
             {
                 text: '中间件', children: [
-                    { text: 'MySQL', link: '/middleware/mysql' },
-                    { text: 'Redis', link: '/middleware/redis' },
-                    { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
-                    { text: 'ZooKeeper', link: '/middleware/zookeeper' },
+                    { text: 'Flink', link: '/middleware/flink' },
                     { text: 'Kafka', link: '/middleware/kafka' },
+                    { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
+                    { text: 'MySQL', link: '/middleware/mysql' },
                     { text: 'Pulsar', link: '/middleware/pulsar' },
-                    { text: 'Flink', link: '/middleware/flink' }
+                    { text: 'Redis', link: '/middleware/redis' },
+                    { text: 'ZooKeeper', link: '/middleware/zookeeper' },  
                 ]
             },
             {

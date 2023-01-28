@@ -2,7 +2,7 @@
 home: true
 heroImage: https://em-content.zobj.net/thumbs/240/samsung/349/open-book_1f4d6.png
 actions:
-  - text: 开始探索之旅 →
+  - text: 开始学习 🚀
     link: middleware/flink
     type: primary
 
