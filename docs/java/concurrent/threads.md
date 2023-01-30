@@ -2,6 +2,8 @@
 
 # 线程与线程池
 
+![](https://s2.loli.net/2023/01/30/mQez6FX1lUDfBbc.png)
+
 ## 一. 线程
 
 ### 1. 线程的创建和启动
@@ -140,3 +142,4 @@ public class CreateThread {
     }
 ```
 
+### 4. 线程间的通信
