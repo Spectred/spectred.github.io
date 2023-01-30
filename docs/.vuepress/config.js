@@ -17,7 +17,6 @@ export default defineUserConfig({
                     {text: '🦋并发',link: '/java/concurrent'},
                 ]
             },
-            { text: '算法', link: '/algorithm', },
             {
                 text: '框架', children: [
                     {text: 'gRPC',link: '/frame/gRPC'},
@@ -116,37 +115,7 @@ export default defineUserConfig({
                     ]
                 }
             ],
-            '/algorithm': [
-                {
-                    text: '打卡',
-                    collapsible: true,
-                    link: '/algorithm/clockin.md'
 
-                },
-                {
-                    text: '数学',
-                    collapsible: true,
-                    children: [
-                        {
-                            text: 'README',
-                            link: '/algorithm/README.md'
-                        },
-                        {
-                            text: 'a',
-                            link: '/algorithm/a.md'
-                        }
-                    ]
-                },
-                {
-                    text: '链表',
-                    collapsible: true,
-
-                },
-                {
-                    text: '二叉树',
-                    collapsible: true,
-                }
-            ],
             '/middleware/mongodb': [
                 {
                     text: 'MongoDB',
