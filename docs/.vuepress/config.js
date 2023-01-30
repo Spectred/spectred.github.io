@@ -108,7 +108,7 @@ export default defineUserConfig({
                 {
                     text: '🦋并发', collapsible: true, children: [
                         { text: '1. Java内存模型', link: '/java/concurrent/jmm.md' },
-                        { text: '2. 线程和线程池', link: '/java/concurrent/threads.md' },
+                        { text: '2. 线程与线程池', link: '/java/concurrent/threads.md' },
                         { text: '3. 锁', link: '/java/concurrent/locks.md' },
                         { text: '4. 并发容器', link: '/java/concurrent/collector.md' },
                         { text: '5. 原子类', link: '/java/concurrent/atomic.md' },
