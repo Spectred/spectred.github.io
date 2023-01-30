@@ -1,7 +1,4 @@
----
-sidebar: 'auto'
-sidebarDepth: 1
----
+[[toc]]
 
 # 线程与线程池
 
