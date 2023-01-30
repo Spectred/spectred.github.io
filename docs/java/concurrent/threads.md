@@ -1,3 +1,8 @@
+---
+sidebar: 'auto'
+sidebarDepth: 1
+---
+
 # 线程与线程池
 
 ## 一. 线程
