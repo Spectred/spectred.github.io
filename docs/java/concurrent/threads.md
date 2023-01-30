@@ -91,3 +91,52 @@ public class CreateThread {
 - `TERMINATED`
 
   **终止**，线程已完成执行
+
+![](https://s2.loli.net/2023/01/30/Zzh9kE2lxcLSBKw.png)
+
+### 3. 线程的中断
+
+线程不能被直接终止，可以通过设置一个中断标志位，通知被中断的线程自行处理(如抛出异常，逻辑结束等)
+
+- `Thread.interrupt()` 设置中断标志位为true，并不会真正中断线程
+
+- `Thread.interrupted()` 判断线程是否被中断，注意调用两次时，第二次会返回false（会清除标志位）
+
+  ```java
+    public static boolean interrupted() {
+          return currentThread().isInterrupted(true);
+    }
+  ```
+
+- `Thread.isInterrupted()` 判断线程是否被中断
+
+  ```java
+    public boolean isInterrupted() {
+          return isInterrupted(false);
+      }
+  ```
+
+正确中断线程示例(逻辑结束)
+
+```java
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                System.out.println("start");
+                while (!isInterrupted()) {
+                    System.out.println("线程没有被中断");
+                }
+                System.out.println("线程被中断了...");
+            }
+        };
+        thread.start();
+
+        Thread.sleep(1_000);
+        
+        thread.interrupt();
+
+        System.out.println(thread.getName() + ":" + thread.isInterrupted() + ":" + thread.getState());
+    }
+```
+
