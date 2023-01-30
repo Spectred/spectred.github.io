@@ -12,7 +12,10 @@ export default defineUserConfig({
             { text: '首页', link: '/', },
             { text: '😈面试', link: '/interview', },
             {
-                text: 'Java', link: '/java'
+                text: 'Java', children:[
+                    {text: '🪄魔法',link: '/java/magic'},
+                    {text: '🦋并发',link: '/java/concurrent'},
+                ]
             },
             { text: '算法', link: '/algorithm', },
             {
@@ -98,7 +101,7 @@ export default defineUserConfig({
             ],
             '/java': [
                 {
-                    text: '😈魔法', collapsible: true, children: [
+                    text: '🪄魔法', collapsible: true, children: [
                         { text: '1. Unsafe', link: '/java/magic/unsafe.md' }
                     ]
                 },
