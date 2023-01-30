@@ -8,7 +8,7 @@ actions:
     link: /interview
     type: primary
   - text: 开始学习 →
-    link: /middleware/flink
+    link: /java/concurrent
     type: secondary
 
 features:
@@ -27,10 +27,10 @@ footer: MIT Licensed | Copyright © 2022-present
 
 | 序号 |                         内容                          |    开始时间    | 完成时间 |
 | :--: | :---------------------------------------------------: | :------------: | :------: |
-|  1   |    [Netty](https://spectred.github.io/frame/netty)    | 2023年01月05日 |          |
+|  1   |    [Netty](https://spectred.github.io/frame/netty)    | 2023年01月05日 |    暂停      |
 |  3   | [数据结构和算法](https://spectred.github.io/base/alg) | 2023年01月05日 |          |
-|  4   |    [架构](https://spectred.github.io/architecture)    | 2023年01月05日 |          |
-|  5   | [Flink](https://spectred.github.io/middleware/flink)  | 2023年01月27日 |          |
+|  4   |    [架构](https://spectred.github.io/architecture)    | 2023年01月05日 |      暂停    |
+|  5   | [Flink](https://spectred.github.io/middleware/flink)  | 2023年01月27日 |     暂停     |
 |  6   | [Java并发编程](https://spectred.github.io/404)  | 2023年02月01日 |          |
 
 

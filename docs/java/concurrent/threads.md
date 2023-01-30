@@ -245,3 +245,32 @@ volatile保证了可见性和有序性，线程修改一个变量时，其他线
 #### 4.5 锁  、通信工具类
 
 锁如Lock，通信工具类如CountDownLatch
+
+### 5. 线程的常见方法
+
+- `currentThread`
+  返回当前线程
+
+- `yield`
+  放弃当前的CPU资源，将它让给其他的任务去占用CPU执行时间。但放弃的时间不确定，有可能刚刚放弃，马上又获得CPU时间片
+
+- `sleep`
+  在指定时间内让当前正在执行的线程休眠
+
+  > Thread.sleep 和 Object.wait的区别
+  >
+  > - sleep释放CPU资源但是不释放锁，wait都释放
+  > - sleep必须指定时间，wait可不指定
+  > - sleep可以在任意位置，wait只能方法同步块或同步方法中
+
+- `interrupt`
+
+  线程中断标志位
+
+- `join`
+
+  使当前线程进入"等待"状态，等join的线程完成后，再继续执行当前线程
+
+- `setDaemon`
+
+  设置为后台线程
