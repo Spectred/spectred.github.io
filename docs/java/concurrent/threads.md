@@ -1,8 +1,11 @@
-[[toc]]
-
 # 线程与线程池
 
 ![](https://s2.loli.net/2023/01/30/mQez6FX1lUDfBbc.png)
+
+---
+[[toc]]
+
+---
 
 ## 一. 线程
 
