@@ -310,7 +310,86 @@ volatile保证了可见性和有序性，线程修改一个变量时，其他线
 - 可以**控制并发的数量**
 - 可以对线程做**统一管理**（分配、调优、监控等）
 
-### 2. 如何创建线程池
+### 2. 线程池的使用
+
+![](https://s2.loli.net/2023/01/31/IbvM3KwAJGUqBmt.png)
+
+#### 2.1 创建线程池
+
+可以通过[ThreadPoolExecutor](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html)来创建线程池（或者通过其他方式，如Spring中的`ThreadPoolTaskExecutor`），例如
+
+```java
+ThreadPoolExecutor threadPool = = new ThreadPoolExecutor(10,20,60, TimeUnit.SECONDS,new ArrayBlockingQueue<>(10));
+```
+
+#### 2.2 向线程池提交任务
+
+- 提交不需要返回值的任务
+
+  ```java
+  threadPool.execute(() -> System.out.println(Thread.currentThread().getName()));
+  // print: pool-1-thread-1
+  ```
+
+- 提交需要返回值的任务
+
+  ```java
+  Future<String> future = threadPool.submit(() -> Thread.currentThread().getName());
+  System.out.println(future.get());
+  // print: pool-1-thread-1
+  ```
+
+#### 2.3 关闭线程池
+
+- `threadPool.shutdown()`
+
+  将线程池的状态设置为`SHUTDOWN`,然后中断所有没有正在执行任务的线程
+
+  ```java
+      public void shutdown() {
+          final ReentrantLock mainLock = this.mainLock;
+          mainLock.lock();
+          try {
+              checkShutdownAccess();
+              advanceRunState(SHUTDOWN);
+              interruptIdleWorkers();
+              onShutdown(); // hook for ScheduledThreadPoolExecutor
+          } finally {
+              mainLock.unlock();
+          }
+          tryTerminate();
+      }
+  ```
+
+- `threadPool.shutdownNow()`
+
+  将线程池的状态设置为`STOP`，然后尝试停止所有的正在执行或者暂停任务的线程，并返回等待执行任务的列表
+
+  ```java
+      public List<Runnable> shutdownNow() {
+          List<Runnable> tasks;
+          final ReentrantLock mainLock = this.mainLock;
+          mainLock.lock();
+          try {
+              checkShutdownAccess();
+              advanceRunState(STOP);
+              interruptWorkers();
+              tasks = drainQueue();
+          } finally {
+              mainLock.unlock();
+          }
+          tryTerminate();
+          return tasks;
+      }
+  ```
+
+`shutdown`和`shutdownNow`的异同:
+- 都是通过遍历线程池中的线程，然后调用`t.interrupt()`来中断线程；
+- 两个方法都会使`isShutdown`返回true；
+- 当所有的任务都已关闭后，才表示线程池关闭成功，这时`isTerminated`方法会返回true；
+- 通常用`shutdown`来关闭线程池，如果任务不一定要执行完可以调用`shutdownNow`
+
+
 
 ### 3. 线程池的工作原理
 
