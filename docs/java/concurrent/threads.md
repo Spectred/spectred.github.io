@@ -1,10 +1,10 @@
 ---
 prev:
   text: Java内存模型
-  link: ../jmm.md
+  link: jmm.md
 next: 
   text: 锁
-  link: ../locks.md
+  link: locks.md
 ---
 
 # 线程与线程池
