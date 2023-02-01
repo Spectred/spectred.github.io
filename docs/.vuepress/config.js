@@ -12,7 +12,7 @@ export default defineUserConfig({
             { text: '首页', link: '/', },
             { text: '😈面试', link: '/interview', },
             {
-                text: 'Java', children:[
+                text: '☕️Java', children:[
                     {text: '🪄魔法',link: '/java/magic'},
                     {text: '🦋并发',link: '/java/concurrent'},
                 ]
