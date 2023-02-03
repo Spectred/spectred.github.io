@@ -13,7 +13,7 @@ export default defineUserConfig({
     }),
     plugins: [
         copyCodePlugin({
-            // pure: true,
+            pure: true,
         }),
      
     ],
