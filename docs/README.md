@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://em-content.zobj.net/thumbs/240/samsung/349/open-book_1f4d6.png
+heroImage: /open-book.png
 heroText: 学习笔记
 tagline: 好记性不如烂笔头，站在岸上学不会游泳
 actions:
