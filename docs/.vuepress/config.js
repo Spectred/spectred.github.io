@@ -1,6 +1,7 @@
 import { defineUserConfig, defaultTheme } from 'vuepress'
 import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 import { nprogressPlugin } from '@vuepress/plugin-nprogress'
+import { copyCodePlugin } from "vuepress-plugin-copy-code2";
 import { navbar0 , sidebar0 } from './configs'
 
 export default defineUserConfig({
@@ -17,6 +18,15 @@ export default defineUserConfig({
         prismjsPlugin({
             // 配置项
         }),
+        copyCodePlugin({
+            showInMobile: false,
+            pure: true,
+            locales: {
+              "/": {
+                hint: "Copy",
+              },
+            },
+          }),
     ],
 })
 
