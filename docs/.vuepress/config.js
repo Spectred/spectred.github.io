@@ -1,7 +1,7 @@
 import { defineUserConfig, defaultTheme } from 'vuepress'
 import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 import { nprogressPlugin } from '@vuepress/plugin-nprogress'
-import { navbar0 , sidebar0 } from "./configs";
+import { navbar0 , sidebar0 } from './configs'
 
 export default defineUserConfig({
     lang: 'zh-CN',
