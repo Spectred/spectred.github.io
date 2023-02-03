@@ -73,4 +73,4 @@ export const navbar0 = [
         link: '/doraemon',
     },
     { text: 'GitHub', link: 'https://github.com/Spectred/spectred.github.io', },
-],
+]
