@@ -21,11 +21,6 @@ export default defineUserConfig({
         copyCodePlugin({
             showInMobile: false,
             pure: true,
-            locales: {
-              "/": {
-                hint: "Copy",
-              },
-            },
           }),
     ],
 })

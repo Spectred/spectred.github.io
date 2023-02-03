@@ -6,12 +6,13 @@
   "author": "spectred <1505073336@qq.com>",
   "license": "MIT",
   "devDependencies": {
-    "vuepress": "^2.0.0-beta.51",
-    "vuepress-plugin-copy-code2": "^2.0.0-beta.166"
+    "vuepress": "^2.0.0-beta.51"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vuepress-plugin-copy-code2": "2.0.0-beta.97"
+  }
 }
