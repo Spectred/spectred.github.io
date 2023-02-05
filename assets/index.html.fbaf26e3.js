@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-63e82ae3","path":"/architecture/","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1670917728000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"architecture/README.md"}');export{e as data};

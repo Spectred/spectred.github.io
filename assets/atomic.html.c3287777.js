@@ -1,1 +1,0 @@
-const t=JSON.parse('{"key":"v-3031bdac","path":"/java/concurrent/atomic.html","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1674895644000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"java/concurrent/atomic.md"}');export{t as data};

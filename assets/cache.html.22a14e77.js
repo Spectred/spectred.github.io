@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-9a0177a4","path":"/frame/mybatis/cache.html","title":"MyBatis - \u7F13\u5B58","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1670249854000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"frame/mybatis/cache.md"}');export{e as data};

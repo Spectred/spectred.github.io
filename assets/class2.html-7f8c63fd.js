@@ -1,0 +1,1 @@
+import{ab as a,G as s,H as t,E as e,S as c}from"./framework-11534bf9.js";const r={},o=e("h2",{id:"如何画出优秀的架构图",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#如何画出优秀的架构图","aria-hidden":"true"},"#"),c(" 如何画出优秀的架构图")],-1),n=[o];function _(d,l){return s(),t("div",null,n)}const h=a(r,[["render",_],["__file","class2.html.vue"]]);export{h as default};

@@ -1,0 +1,1 @@
+import{ab as a,G as t,H as c,E as e,S as s}from"./framework-11534bf9.js";const r={},o=e("h1",{id:"mybatis-缓存",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#mybatis-缓存","aria-hidden":"true"},"#"),s(" MyBatis - 缓存")],-1),n=[o];function _(i,d){return t(),c("div",null,n)}const l=a(r,[["render",_],["__file","cache.html.vue"]]);export{l as default};
