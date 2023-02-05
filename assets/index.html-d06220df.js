@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-6a2bc058","path":"/doraemon/qianli/","title":"Qianli","lang":"en-US","frontmatter":{"title":"Qianli","article":false},"headers":[],"git":{},"readingTime":{"minutes":0,"words":1},"filePathRelative":null}');export{e as data};
