@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-279eff94","path":"/frame/gRPC/","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1669117896000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"frame/gRPC/README.md"}');export{e as data};

@@ -1,0 +1,1 @@
+import{_ as a,o as t,c,a as e,b as s}from"./app.94cd83f3.js";const o={},r=e("h1",{id:"mybatis-\u7F13\u5B58",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#mybatis-\u7F13\u5B58","aria-hidden":"true"},"#"),s(" MyBatis - \u7F13\u5B58")],-1),n=[r];function _(i,d){return t(),c("div",null,n)}const l=a(o,[["render",_],["__file","cache.html.vue"]]);export{l as default};

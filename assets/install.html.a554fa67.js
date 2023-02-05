@@ -1,0 +1,4 @@
+import{_ as e,o as n,c as a,e as t}from"./app.94cd83f3.js";const s={},i=t(`<h1 id="\u5B89\u88C5\u548C\u90E8\u7F72" tabindex="-1"><a class="header-anchor" href="#\u5B89\u88C5\u548C\u90E8\u7F72" aria-hidden="true">#</a> \u5B89\u88C5\u548C\u90E8\u7F72</h1><p><strong>\u7CFB\u7EDF\u73AF\u5883</strong>\uFF1ACentOS 7 , java 1.8.0_361 , \u8282\u70B9\u514D\u5BC6\u767B\u5F55</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>192.168.249.101  node1
+192.168.249.102  node2
+192.168.249.103  node3
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,3),d=[i];function r(c,l){return n(),a("div",null,d)}const _=e(s,[["render",r],["__file","install.html.vue"]]);export{_ as default};

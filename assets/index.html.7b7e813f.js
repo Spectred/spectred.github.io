@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-4c7ce5bc","path":"/cloud_native/microservices/","title":"","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1668331157000,"contributors":[{"name":"spectred","email":"1505073336@qq.com","commits":1}]},"filePathRelative":"cloud_native/microservices/README.md"}');export{e as data};

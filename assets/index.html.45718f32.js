@@ -1,0 +1,1 @@
+import{_ as o,r,o as t,c as a,a as e,b as c,d as l}from"./app.94cd83f3.js";const s={},_={href:"https://pulsar.apache.org/",target:"_blank",rel:"noopener noreferrer"};function d(p,i){const n=r("ExternalLinkIcon");return t(),a("div",null,[e("blockquote",null,[e("p",null,[e("a",_,[c("Pulsar"),l(n)])])])])}const f=o(s,[["render",d],["__file","index.html.vue"]]);export{f as default};
