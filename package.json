@@ -12,7 +12,5 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "dependencies": {
-    "vuepress-plugin-copy-code2": "2.0.0-beta.97"
-  }
+  "dependencies": {}
 }

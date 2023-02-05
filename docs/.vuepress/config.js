@@ -1,5 +1,5 @@
 import { defineUserConfig, defaultTheme } from 'vuepress'
-import { copyCodePlugin } from "vuepress-plugin-copy-code2";
+// import { copyCodePlugin } from "vuepress-plugin-copy-code2";
 import { navbar0 , sidebar0 } from './configs'
 
 export default defineUserConfig({
@@ -11,11 +11,11 @@ export default defineUserConfig({
         navbar: navbar0,
         sidebar: sidebar0
     }),
-    plugins: [
-        copyCodePlugin({
-            pure: true,
-        }),
+    // plugins: [
+    //     copyCodePlugin({
+    //         pure: true,
+    //     }),
      
-    ],
+    // ],
 })
 
