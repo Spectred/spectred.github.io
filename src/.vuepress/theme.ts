@@ -3,18 +3,18 @@ import {  zhNavbar } from "./navbar/index.js";
 import {  zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
+  // hostname: "//vuepress-theme-hope-docs-demo.netlify.app",
 
   author: {
-    name: "Mr.Hope",
-    url: "https://mrhope.site",
+    name: "Spectred",
+    url: "https://github.com/Spectred",
   },
 
   iconAssets: "iconfont",
 
   logo: "/logo.jpeg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "Spectred/spectred.github.io",
 
   docsDir: "demo/theme-docs/src",
 
