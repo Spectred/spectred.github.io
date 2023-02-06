@@ -6,7 +6,7 @@ export default hopeTheme({
   hostname: "https://spectred.github.io",
   // favicon: "/favicon.ico",
   head: [['link', { rel: 'icon', href: 'log.jpeg' }]],
-  
+
   // 作者信息
   // author: {
   //   name: "Spectred",
@@ -19,7 +19,7 @@ export default hopeTheme({
 
   repo: "Spectred/spectred.github.io",
 
-  docsDir: "demo/theme-docs/src",
+  docsDir: "/src",
 
   themeColor: {
     blue: "#2196f3",
@@ -36,17 +36,15 @@ export default hopeTheme({
     "/": {
       // navbar
       navbar: zhNavbar,
-
       // sidebar
       sidebar: zhSidebar,
-
       // https://www.jinrishici.com/#
       footer: "<img src=\"https://v2.jinrishici.com/one.svg?font-size=14&spacing=2&color=SkyBlue\" alt=\"今日诗词API\">",
 
       displayFooter: true,
 
       metaLocales: {
-        editLink: "Edit this page on GitHub",
+        editLink: "编辑此页",
       },
     },
   },
