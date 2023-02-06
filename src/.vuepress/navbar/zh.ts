@@ -2,15 +2,15 @@ import { navbar } from "vuepress-theme-hope";
 
 export const zhNavbar = navbar([
   { text: '首页', link: '/', },
-  { text: '😈面试', link: '/interview', },
+  { text: '面试', link: '/interview', icon: "emoji" },
   {
-      text: '☕️Java', children:[
+      text: 'Java',icon: "java", children:[
           {text: '🪄魔法',link: '/java/magic'},
           {text: '🦋并发',link: '/java/concurrent'},
       ]
   },
   {
-      text: '框架', children: [
+      text: '框架', icon: "frame",children: [
           {text: 'gRPC',link: '/frame/gRPC'},
           {text: 'Dubbo',link: '/frame/dubbo'},
           {text: 'MyBatis',link: '/frame/mybatis'},
@@ -20,7 +20,7 @@ export const zhNavbar = navbar([
       ]
   },
   {
-      text: '中间件', children: [
+      text: '中间件',icon: "any", children: [
           { text: 'Flink', link: '/middleware/flink' },
           { text: 'Kafka', link: '/middleware/kafka' },
           { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
@@ -31,7 +31,7 @@ export const zhNavbar = navbar([
       ]
   },
   {
-      text: '云原生', link: '/cloud_native',
+      text: '云原生', icon: "mesh",
       children: [
           {
               text: '微服务',
@@ -52,17 +52,7 @@ export const zhNavbar = navbar([
       ]
   },
   {
-      text: '架构', link: '/architecture',
-
-      // children: [
-      //     {
-      //         text: '',
-      //         link: '/architecture/microservices'
-      //     },
-      // ]
-  },
-  {
-      text: '基础', link: '/base',
+      text: '基础', icon: "stack",
       children: [
           { text: '操作系统',link: '/base/os' },
           { text: '计算机网络',link: '/base/network' },
@@ -71,9 +61,9 @@ export const zhNavbar = navbar([
       ]
   },
   {
-      text: '百宝箱',
+      text: '百宝箱', icon: "tool",
       link: '/doraemon',
   },
-  { text: 'GitHub', link: 'https://github.com/Spectred/spectred.github.io', },
+
 
 ]);

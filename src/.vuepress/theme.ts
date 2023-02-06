@@ -5,10 +5,11 @@ import {  zhSidebar } from "./sidebar/index.js";
 export default hopeTheme({
   // hostname: "//vuepress-theme-hope-docs-demo.netlify.app",
 
-  author: {
-    name: "Spectred",
-    url: "https://github.com/Spectred",
-  },
+  // 作者信息
+  // author: {
+  //   name: "Spectred",
+  //   url: "https://github.com/Spectred",
+  // },
 
   iconAssets: "iconfont",
 
@@ -17,6 +18,10 @@ export default hopeTheme({
   repo: "Spectred/spectred.github.io",
 
   docsDir: "demo/theme-docs/src",
+  // 打印按钮
+  print: false,
+  // 全屏按钮
+  fullscreen: true,
 
   locales: {
     "/": {
@@ -38,8 +43,8 @@ export default hopeTheme({
 
   encrypt: {
     config: {
-      "/demo/encrypt.html": ["1234"],
-      "/zh/demo/encrypt.html": ["1234"],
+      "/java/concurrent/threads.html": ["1234"],
+
     },
   },
 
@@ -47,28 +52,28 @@ export default hopeTheme({
     // If you don’t need comment feature, you can remove following option
     // The following config is for demo ONLY, if you need comment feature, please generate and use your own config, see comment plugin documentation for details.
     // To avoid disturbing the theme developer and consuming his resources, please DO NOT use the following config directly in your production environment!!!!!
-    comment: {
-      /**
-       * Using Giscus
-       */
-      // provider: "Giscus",
-      // repo: "vuepress-theme-hope/giscus-discussions",
-      // repoId: "R_kgDOG_Pt2A",
-      // category: "Announcements",
-      // categoryId: "DIC_kwDOG_Pt2M4COD69",
+    // comment: {
+    //   /**
+    //    * Using Giscus
+    //    */
+    //   // provider: "Giscus",
+    //   // repo: "vuepress-theme-hope/giscus-discussions",
+    //   // repoId: "R_kgDOG_Pt2A",
+    //   // category: "Announcements",
+    //   // categoryId: "DIC_kwDOG_Pt2M4COD69",
 
-      /**
-       * Using Twikoo
-       */
-      // provider: "Twikoo",
-      // envId: "https://twikoo.ccknbc.vercel.app",
+    //   /**
+    //    * Using Twikoo
+    //    */
+    //   // provider: "Twikoo",
+    //   // envId: "https://twikoo.ccknbc.vercel.app",
 
-      /**
-       * Using Waline
-       */
-      provider: "Waline",
-      serverURL: "https://vuepress-theme-hope-comment.vercel.app",
-    },
+    //   /**
+    //    * Using Waline
+    //    */
+    //   provider: "Waline",
+    //   serverURL: "https://vuepress-theme-hope-comment.vercel.app",
+    // },
 
     // Disable features you don’t want here
     mdEnhance: {
