@@ -387,7 +387,284 @@ ThreadPoolExecutor threadPool = = new ThreadPoolExecutor(10,20,60, TimeUnit.SECO
 
 ### 3. 线程池的工作原理
 
-#### 3.1 线程池的核心参数
+#### 3.1 线程池的构造参数
+
+ThreadPoolExecutor的构造方法最长的参数有7个
+
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue<Runnable> workQueue,
+                          ThreadFactory threadFactory,
+                          RejectedExecutionHandler handler) {...}
+```
+
+##### 3.1.1 `int corePoolSize` 核心线程数
+
+线程池中分为核心线程和非核心线程，通过`addWorker(Runnable firstTask, boolean core)`的第二个参数区分。
+
+核心线程默认情况会一直存在于线程池中（即使什么都不干），非核心线程如果长时间闲置，就会被销毁。
+
+但是当`allowCoreThreadTimeOut`为true时，核心线程也会长时间闲置被销毁
+
+::: info corePoolSize
+Core pool size is the minimum number of workers to keep alive (and not allow to time out etc) unless allowCoreThreadTimeOut is set, in which case the minimum is zero. 
+
+Since the worker count is actually stored in COUNT_BITS bits, the effective limit is corePoolSize & COUNT_MASK.
+::: 
+
+#### 3.1.2 `int maximumPoolSize` 最大线程数
+
+最先线程数 = 核心线程数 + 非核心线程数
+
+::: info maximumPoolSize
+Maximum pool size. 
+
+Since the worker count is actually stored in COUNT_BITS bits, the effective limit is maximumPoolSize & COUNT_MASK.
+:::
+
+#### 3.1.3 `long keepAliveTime` 非核心线程闲置超时时长
+
+存活时间，非核心线程如果处于闲置状态超过该值就会被销毁。
+
+如果设置`allowCoreThreadTimeOut(true)`，则也会作用于核心线程
+
+```java
+  Runnable r = timed 
+  	? workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) 
+  	: workQueue.take();
+```
+
+::: info keepAliveTime
+
+Timeout in nanoseconds for idle threads waiting for work. 
+
+Threads use this timeout when there are more than corePoolSize present or if allowCoreThreadTimeOut. Otherwise they wait forever for new work.
+
+:::
+
+#### 3.1.4 `TimeUnit unit` 时间单位
+
+`keepAliveTime`的单位
+
+`this.keepAliveTime = unit.toNanos(keepAliveTime);`
+
+#### 3.1.5 `BlockingQueue<Runnable> workQueue` 工作队列
+
+工作队列（阻塞队列），保存等待执行任务的队列
+
+常用的阻塞队列有 无界队列、有界队列和同步移交
+
+- `LinkedBlockingQueue` 链表为基础的阻塞队列，默认大小是Integer.MAX_VALUE，也可以指定大小
+- `ArrayBlockingQueue` 数组为基础的阻塞队列，需要指定队列的大小
+- `SynchronousQueue` 同步队列，内部容量为0，每个put操作必须等待一个take操作，反之亦然
+- `DelayQueue` 延迟队列，队列中的元素只有当其指定的延迟时间到了才能从队列中获取该元素
+
+::: info workQueue
+
+The queue used for holding tasks and handing off to worker threads.
+
+ We do not require that workQueue.poll() returning null necessarily means that workQueue.isEmpty(), so rely solely on isEmpty to see if the queue is empty (which we must do for example when deciding whether to transition from SHUTDOWN to TIDYING). 
+
+This accommodates special-purpose queues such as DelayQueues for which poll() is allowed to return null even if it may later return non-null when delays expire.
+
+:::
+
+#### 3.1.6 `ThreadFactory threadFactory` 线程工厂
+
+创建线程的工厂，统一在创建线程时设置参数，如守护线程、优先级等，不指定时新建一个默认的线程工厂
+
+```java
+        Worker(Runnable firstTask) {
+            setState(-1); // inhibit interrupts until runWorker
+            this.firstTask = firstTask;
+            this.thread = getThreadFactory().newThread(this);
+        }
+```
+
+::: details 默认线程工厂
+
+```java
+    /**
+     * The default thread factory.
+     */
+    private static class DefaultThreadFactory implements ThreadFactory {
+        private static final AtomicInteger poolNumber = new AtomicInteger(1);
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        DefaultThreadFactory() {
+            SecurityManager s = System.getSecurityManager();
+            group = (s != null) ? s.getThreadGroup() :
+                                  Thread.currentThread().getThreadGroup();
+            namePrefix = "pool-" +
+                          poolNumber.getAndIncrement() +
+                         "-thread-";
+        }
+
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                                  namePrefix + threadNumber.getAndIncrement(),
+                                  0);
+            if (t.isDaemon())
+                t.setDaemon(false);
+            if (t.getPriority() != Thread.NORM_PRIORITY)
+                t.setPriority(Thread.NORM_PRIORITY);
+            return t;
+        }
+    }
+```
+
+:::
+
+::: info threadFactory
+
+Factory for new threads. 
+
+All threads are created using this factory (via method addWorker). All callers must be prepared for addWorker to fail, which may reflect a system or user's policy limiting the number of threads. Even though it is not treated as an error, failure to create threads may result in new tasks being rejected or existing ones remaining stuck in the queue. We go further and preserve pool invariants even in the face of errors such as OutOfMemoryError, that might be thrown while trying to create threads. Such errors are rather common due to the need to allocate a native stack in Thread.start, and users will want to perform clean pool shutdown to clean up. There will likely be enough memory available for the cleanup code to complete without encountering yet another OutOfMemoryError.
+
+:::
+
+#### 3.1.7 `RejectedExecutionHandler handler` 拒绝策略
+
+拒绝处理策略，线程数量大于最大线程就会采用拒绝策略，在线程池shutdown时再新来任务也会执行，预定义四种拒绝策略，
+
+也可以通过实现`RejectedExecutionHandler`来实现自定义拒绝策略，如拒绝的任务可以存入日志等
+
+- ::: details AbortPolicy 默认，丢弃任务并抛出RejectedExecutionException异常
+
+  ```java
+      /**
+       * A handler for rejected tasks that throws a
+       * {@link RejectedExecutionException}.
+       *
+       * This is the default handler for {@link ThreadPoolExecutor} and
+       * {@link ScheduledThreadPoolExecutor}.
+       */
+      public static class AbortPolicy implements RejectedExecutionHandler {
+          /**
+           * Creates an {@code AbortPolicy}.
+           */
+          public AbortPolicy() { }
+  
+          /**
+           * Always throws RejectedExecutionException.
+           *
+           * @param r the runnable task requested to be executed
+           * @param e the executor attempting to execute this task
+           * @throws RejectedExecutionException always
+           */
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+              throw new RejectedExecutionException("Task " + r.toString() +
+                                                   " rejected from " +
+                                                   e.toString());
+          }
+      }
+  ```
+
+  :::
+
+- ::: details DiscardPolicy丢弃新来的任务，但是不抛出异常
+
+  ```java
+      /**
+       * A handler for rejected tasks that silently discards the
+       * rejected task.
+       */
+      public static class DiscardPolicy implements RejectedExecutionHandler {
+          /**
+           * Creates a {@code DiscardPolicy}.
+           */
+          public DiscardPolicy() { }
+  
+          /**
+           * Does nothing, which has the effect of discarding task r.
+           *
+           * @param r the runnable task requested to be executed
+           * @param e the executor attempting to execute this task
+           */
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+          }
+      }
+  ```
+
+  :::
+
+- ::: details DiscardOldestPolicy  丢弃队列头部(最旧的)任务，然后重新尝试执行程序，如果再次失败则重复此过程
+
+  ```java
+      /**
+       * A handler for rejected tasks that discards the oldest unhandled
+       * request and then retries {@code execute}, unless the executor
+       * is shut down, in which case the task is discarded.
+       */
+      public static class DiscardOldestPolicy implements RejectedExecutionHandler {
+          /**
+           * Creates a {@code DiscardOldestPolicy} for the given executor.
+           */
+          public DiscardOldestPolicy() { }
+  
+          /**
+           * Obtains and ignores the next task that the executor
+           * would otherwise execute, if one is immediately available,
+           * and then retries execution of task r, unless the executor
+           * is shut down, in which case task r is instead discarded.
+           *
+           * @param r the runnable task requested to be executed
+           * @param e the executor attempting to execute this task
+           */
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+              if (!e.isShutdown()) {
+                  e.getQueue().poll();
+                  e.execute(r);
+              }
+          }
+      } 
+  ```
+
+  :::
+
+- ::: details CallerRunsPolicy 由调用线程处理该任务
+
+  ```java
+      /**
+       * A handler for rejected tasks that runs the rejected task
+       * directly in the calling thread of the {@code execute} method,
+       * unless the executor has been shut down, in which case the task
+       * is discarded.
+       */
+      public static class CallerRunsPolicy implements RejectedExecutionHandler {
+          /**
+           * Creates a {@code CallerRunsPolicy}.
+           */
+          public CallerRunsPolicy() { }
+  
+          /**
+           * Executes task r in the caller's thread, unless the executor
+           * has been shut down, in which case the task is discarded.
+           *
+           * @param r the runnable task requested to be executed
+           * @param e the executor attempting to execute this task
+           */
+          public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+              if (!e.isShutdown()) {
+                  r.run();
+              }
+          }
+      }
+  
+  ```
+
+  :::
+
+::: info handler
+
+Handler called when saturated or shutdown in execute.
+
+:::
 
 #### 3.2 线程池的工作流程
 
