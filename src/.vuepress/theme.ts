@@ -4,8 +4,8 @@ import {  zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
   hostname: "https://spectred.github.io",
-  // favicon: "/favicon.ico",
-  head: [['link', { rel: 'icon', href: 'log.jpeg' }]],
+  favicon: "logo.jpeg",
+  // head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
 
   // 作者信息
   // author: {
@@ -51,12 +51,13 @@ export default hopeTheme({
     },
   },
 
-  encrypt: {
-    config: {
-      "/java/concurrent/threads.html": ["1234"],
+  // encrypt: {
+  //   // 加密配置
+  //   config: {
+  //     "/java/concurrent/threads.html": ["1234"],
 
-    },
-  },
+  //   },
+  // },
 
   plugins: {
     // 禁用评论插件
