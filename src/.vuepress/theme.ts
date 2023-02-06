@@ -13,9 +13,10 @@ export default hopeTheme({
   //   url: "https://github.com/Spectred",
   // },
 
+  // 图标库
   iconAssets: "iconfont",
-
-  // logo: "/logo.jpeg",
+  // logo
+  logo: "/logo.jpeg",
 
   repo: "Spectred/spectred.github.io",
 
@@ -26,6 +27,7 @@ export default hopeTheme({
     red: "#f26d6d",
     green: "#3eaf7c",
     orange: "#fb9b5f",
+    skyblue: "#87ceeb",
   },
   // 打印按钮
   print: false,
