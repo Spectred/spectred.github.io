@@ -1,0 +1,1 @@
+import{_ as e,V as t,W as n,Z as o}from"./framework-65e9cb48.js";const _={},c=o("p",null,"Spring Cloud",-1),s=[c];function r(l,a){return t(),n("div",null,s)}const i=e(_,[["render",r],["__file","index.html.vue"]]);export{i as default};

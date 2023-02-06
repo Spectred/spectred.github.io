@@ -1,1 +1,0 @@
-import{ab as e,G as t,H as a,E as c}from"./framework-11534bf9.js";const o={},s=c("p",null,"API网关",-1),_=[s];function n(r,l){return t(),a("div",null,_)}const f=e(o,[["render",n],["__file","gateway.html.vue"]]);export{f as default};
