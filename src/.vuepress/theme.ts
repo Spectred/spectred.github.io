@@ -38,7 +38,8 @@ export default hopeTheme({
       // sidebar
       sidebar: zhSidebar,
 
-      footer: "ssssss",
+      // https://www.jinrishici.com/#
+      footer: "<img src=\"https://v2.jinrishici.com/one.svg?font-size=14&spacing=2&color=SkyBlue\" alt=\"今日诗词API\">",
 
       displayFooter: true,
 
