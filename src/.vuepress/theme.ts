@@ -3,7 +3,8 @@ import {  zhNavbar } from "./navbar/index.js";
 import {  zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  // hostname: "//vuepress-theme-hope-docs-demo.netlify.app",
+  hostname: "https://spectred.github.io",
+  favicon: "favicon.ico",
 
   // 作者信息
   // author: {
