@@ -11,7 +11,7 @@ export const zhNavbar = navbar([
   },
   {
       text: '框架', icon: "frame",children: [
-          {text: 'gRPC',link: '/frame/gRPC'},
+          {text: 'gRPC',link: '/frame/gRPC',icon: "/assets/icons/grpc.ico"},
           {text: 'Dubbo',link: '/frame/dubbo'},
           {text: 'MyBatis',link: '/frame/mybatis'},
           {text: 'Netty',link: '/frame/netty'},               
