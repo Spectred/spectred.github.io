@@ -5,7 +5,8 @@ import {  zhSidebar } from "./sidebar/index.js";
 export default hopeTheme({
   hostname: "https://spectred.github.io",
   // favicon: "/favicon.ico",
-  head: [['link', { rel: 'icon', href: 'favicon.ico' }]],
+  head: [['link', { rel: 'icon', href: 'log.jpeg' }]],
+  
   // 作者信息
   // author: {
   //   name: "Spectred",
