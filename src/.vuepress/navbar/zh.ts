@@ -21,13 +21,13 @@ export const zhNavbar = navbar([
   },
   {
       text: '中间件',icon: "any", children: [
-          { text: 'Flink', link: '/middleware/flink' },
-          { text: 'Kafka', link: '/middleware/kafka' },
-          { text: 'MongoDB', link: '/middleware/mongodb/README.md' },
-          { text: 'MySQL', link: '/middleware/mysql' },
-          { text: 'Pulsar', link: '/middleware/pulsar' },
-          { text: 'Redis', link: '/middleware/redis' },
-          { text: 'ZooKeeper', link: '/middleware/zookeeper' },  
+          { text: 'Flink', link: '/middleware/flink' ,icon: "/assets/icons/flink.ico"},
+          { text: 'Kafka', link: '/middleware/kafka',icon: "/assets/icons/kafka.ico"},
+          { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "/assets/icons/mongo.ico" },
+          { text: 'MySQL', link: '/middleware/mysql',icon: "/assets/icons/mysql.ico" },
+          { text: 'Pulsar', link: '/middleware/pulsar',icon: "/assets/icons/pulsar.ico" },
+          { text: 'Redis', link: '/middleware/redis',icon: "/assets/icons/redis.ico" },
+          { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "/assets/icons/zookeeper.ico" },  
       ]
   },
   {
