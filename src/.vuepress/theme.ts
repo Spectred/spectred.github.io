@@ -4,7 +4,7 @@ import {  zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
   hostname: "https://spectred.github.io",
-  favicon: "favicon.ico",
+  favicon: "/favicon.ico",
 
   // 作者信息
   // author: {
