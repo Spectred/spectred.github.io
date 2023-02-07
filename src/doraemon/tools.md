@@ -1,3 +1,8 @@
+---
+imgArray2: [
+    {href: 'https://forest.dtflyx.com/', src: 'https://forest.dtflyx.com/img/logo.png'}
+]
+---
 # 工具箱
 
 
@@ -33,8 +38,21 @@
     <p class="tool-desc">Java 应用诊断利器</p>
 </div>  
 
+
 <ul class="project-list">
-   <li class="project-list-item-wrap">
+    <li v-for="item in $frontmatter.imgArray2" class="project-list-item-wrap">
+        <a class="clearfix project-list-item" href="$item.href" >
+            <div class="fl cover">
+                <img src="https://forest.dtflyx.com/img/logo.png"  width="64" height="64">
+            </div>
+            <div class="info">
+                <h4 class="single-ellipsis info-title">Forest</h4>
+                <p class="double-ellipsis info-des">声明式HTTP客户端框架</p>
+            </div>
+        </a>
+    </li>
+    <li v-for="item in $frontmatter.imgArray2">{{item.href}}</li>
+   <!-- <li class="project-list-item-wrap">
         <a class="clearfix project-list-item" href="https://forest.dtflyx.com/" >
             <div class="fl cover">
                 <img src="https://forest.dtflyx.com/img/logo.png"  width="64" height="64">
@@ -55,5 +73,5 @@
                 <p class="double-ellipsis info-des">Java 应用诊断利器，声明式HTTP客户端框架</p>
             </div>
         </a>
-    </li>
+    </li> -->
 </ul>
