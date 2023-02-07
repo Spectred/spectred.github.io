@@ -41,7 +41,7 @@ imgArray2: [
 
 <ul class="project-list">
     <li v-for="item in $frontmatter.imgArray2" class="project-list-item-wrap">
-        <a class="clearfix project-list-item" href="$item.href" >
+        <a class="clearfix project-list-item" :href="item.href" >
             <div class="fl cover">
                 <img src="https://forest.dtflyx.com/img/logo.png"  width="64" height="64">
             </div>
