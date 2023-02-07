@@ -63,6 +63,11 @@ export const zhNavbar = navbar([
   {
       text: '百宝箱', icon: "tool",
       link: '/doraemon',
+      children: [
+        { text: '工具箱', link: '/doraemon/tools.md' },
+        { text: '小记', link: '/doraemon/x' },
+        { text: '脚本',link: '/doraemon/qianli/linux'},
+      ]
   },
 
 

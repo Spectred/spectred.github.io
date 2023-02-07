@@ -175,15 +175,9 @@ export const zhSidebar = sidebar({
         ]
     }
 ],
-'/doraemon': [
-    
-    { text: '小记', link: '/doraemon/x' },
-    {
-        text: '脚本',
-        collapsible: true,
-        children: [
-            { text: 'Linux', link: '/doraemon/qianli/linux' }
-        ]
-    }
-]
+    '/doraemon': [
+        { text: '工具箱', link: '/doraemon/tools.md' },
+        { text: '小记', link: '/doraemon/x' },
+        { text: '脚本',link: '/doraemon/qianli/linux'},
+    ]
 });
