@@ -1,0 +1,34 @@
+import{_ as n,V as a,W as s,a1 as e}from"./framework-36369a6e.js";const t={},i=e(`<h2 id="安全认证" tabindex="-1"><a class="header-anchor" href="#安全认证" aria-hidden="true">#</a> 安全认证</h2><h3 id="_1-用户相关操作" tabindex="-1"><a class="header-anchor" href="#_1-用户相关操作" aria-hidden="true">#</a> 1. 用户相关操作</h3><h4 id="_1-1-创建用户" tabindex="-1"><a class="header-anchor" href="#_1-1-创建用户" aria-hidden="true">#</a> 1.1 创建用户</h4><div class="language-javascript line-numbers-mode" data-ext="js"><pre class="language-javascript"><code><span class="token operator">&gt;</span> use admin
+<span class="token operator">&gt;</span> db<span class="token punctuation">.</span><span class="token function">createUser</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string-property property">&quot;user&quot;</span><span class="token operator">:</span> <span class="token string">&quot;demo&quot;</span><span class="token punctuation">,</span>
+    <span class="token string-property property">&quot;pwd&quot;</span><span class="token operator">:</span> <span class="token string">&quot;demo&quot;</span><span class="token punctuation">,</span>
+    <span class="token string-property property">&quot;roles&quot;</span><span class="token operator">:</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span><span class="token string-property property">&quot;role&quot;</span><span class="token operator">:</span> <span class="token string">&quot;root&quot;</span><span class="token punctuation">,</span><span class="token string-property property">&quot;db&quot;</span><span class="token operator">:</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="_1-2-修改密码" tabindex="-1"><a class="header-anchor" href="#_1-2-修改密码" aria-hidden="true">#</a> 1.2 修改密码</h4><div class="language-javascript line-numbers-mode" data-ext="js"><pre class="language-javascript"><code>db<span class="token punctuation">.</span><span class="token function">changeUserPassword</span><span class="token punctuation">(</span><span class="token string">&#39;demo&#39;</span><span class="token punctuation">,</span><span class="token string">&#39;demo&#39;</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_1-3-用户添加角色" tabindex="-1"><a class="header-anchor" href="#_1-3-用户添加角色" aria-hidden="true">#</a> 1.3 用户添加角色</h4><div class="language-javascript line-numbers-mode" data-ext="js"><pre class="language-javascript"><code> db<span class="token punctuation">.</span><span class="token function">grantRolesToUser</span><span class="token punctuation">(</span><span class="token string">&#39;demo&#39;</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token literal-property property">role</span><span class="token operator">:</span><span class="token string">&#39;角色名&#39;</span><span class="token punctuation">,</span><span class="token literal-property property">db</span><span class="token operator">:</span><span class="token string">&#39;数据库名&#39;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_1-4-以auth方式启动mongod" tabindex="-1"><a class="header-anchor" href="#_1-4-以auth方式启动mongod" aria-hidden="true">#</a> 1.4 以auth方式启动mongod</h4><p><code>mongod -f mongo.conf --auth</code></p><p>或在mongo.conf中添加<code>auth=true</code></p><h4 id="_1-5-验证用户" tabindex="-1"><a class="header-anchor" href="#_1-5-验证用户" aria-hidden="true">#</a> 1.5 验证用户</h4><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>db.auth(&#39;demo&#39;,&#39;demo&#39;)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h4 id="_1-6-删除用户" tabindex="-1"><a class="header-anchor" href="#_1-6-删除用户" aria-hidden="true">#</a> 1.6 删除用户</h4><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> db.dropUser(&#39;demo&#39;)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="_2-角色" tabindex="-1"><a class="header-anchor" href="#_2-角色" aria-hidden="true">#</a> 2. 角色</h3><p>数据库内置的角色</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>read：允许用户读取指定数据库
+readWrite：允许用户读写指定数据库
+dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问
+system.profile
+userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户
+clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限
+readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限
+readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限
+userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限
+dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限
+root：只在admin数据库中可用。超级账号，超级权限
+dbOwner：库拥有者权限，即readWrite、dbAdmin、userAdmin角色的合体
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>各个类型用户对应的角色</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>数据库用户角色：read、readWrite
+数据库管理角色：dbAdmin、dbOwner、userAdmin
+集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager
+备份恢复角色：backup、restore；
+所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、
+dbAdminAnyDatabase
+超级用户角色：root
+这里还有几个角色间接或直接提供了系统超级用户的访问（dbOwner 、userAdmin、
+userAdminAnyDatabase
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote><p>数据库连接</p><p>mongod://账号:密码@IP:PORT/数据库名</p></blockquote>`,21),d=[i];function r(o,p){return a(),s("div",null,d)}const l=n(t,[["render",r],["__file","secure.html.vue"]]);export{l as default};
