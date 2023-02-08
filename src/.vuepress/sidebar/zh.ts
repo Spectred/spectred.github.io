@@ -176,7 +176,7 @@ export const zhSidebar = sidebar({
     }
 ],
     '/doraemon': [
-        { text: '工具箱', link: '/doraemon/tools.md' },
+        { text: '任意门', link: '/doraemon/tools.md' },
         { text: '小记', link: '/doraemon/x' },
         { text: '脚本',link: '/doraemon/qianli/linux'},
     ]
