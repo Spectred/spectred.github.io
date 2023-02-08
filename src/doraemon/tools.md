@@ -31,7 +31,7 @@ dev_tools: [
 # 实用工具
 utilities: [
     {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
-    {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'}
+    {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'},
 ]
 
 
