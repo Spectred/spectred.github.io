@@ -1,5 +1,6 @@
 ---
 imgArray2: [
+    {href: 'https://forest.dtflyx.com/', src: 'https://forest.dtflyx.com/img/logo.png'},
     {href: 'https://forest.dtflyx.com/', src: 'https://forest.dtflyx.com/img/logo.png'}
 ]
 ---
@@ -43,7 +44,7 @@ imgArray2: [
     <li v-for="item in $frontmatter.imgArray2" class="project-list-item-wrap">
         <a class="clearfix project-list-item" :href="item.href" >
             <div class="fl cover">
-                <img src="https://forest.dtflyx.com/img/logo.png"  width="64" height="64">
+                <img :src="item.src"  width="64" height="64">
             </div>
             <div class="info">
                 <h4 class="single-ellipsis info-title">Forest</h4>
