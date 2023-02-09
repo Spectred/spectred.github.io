@@ -8,12 +8,13 @@ online_tools: [
     {title: '菜鸟工具', desc: '菜鸟工具',href: 'https://c.runoob.com/', img: 'https://static.runoob.com/images/c-runoob-logo.ico'},
     {title: '开源中国',desc: '开源中国在线工具',href: 'https://tool.oschina.net/', img: 'https://tool.oschina.net/img/favicon.ico'},
     {title: '脚本之家',desc: '脚本之家在线工具',href: 'http://tools.jb51.net/', img: 'http://tools.jb51.net/favicon.ico'},
-    {title: '编程狮',desc: '整理一些开发者常用的在线工具',href: 'https://123.w3cschool.cn/webtools', img: 'https://awps-assets.meituan.net/mit/blog/v20190629/asset/icon/favicon.ico'},
+    {title: '编程狮',desc: '整理一些开发者常用的在线工具',href: 'https://123.w3cschool.cn/webtools', img: 'https://7n.w3cschool.cn/statics/images/favicon.ico''},
 ]
 
 # 知识网站
 knowledge: [
-    {title: '美团技术团队',desc: '美团技术团队',href: 'https://tech.meituan.com/', img: 'https://7n.w3cschool.cn/statics/images/favicon.ico'},
+    {title: '美团技术团队',desc: '美团技术团队',href: 'https://tech.meituan.com/', img: 'https://awps-assets.meituan.net/mit/blog/v20190629/asset/icon/favicon.ico'},
+
 ]
 
 # 框架
