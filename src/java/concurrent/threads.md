@@ -666,11 +666,134 @@ Handler called when saturated or shutdown in execute.
 
 :::
 
+#### 3.2 线程池的状态
+
+```java
+    // runState is stored in the high-order bits
+    private static final int RUNNING    = -1 << COUNT_BITS;
+    private static final int SHUTDOWN   =  0 << COUNT_BITS;
+    private static final int STOP       =  1 << COUNT_BITS;
+    private static final int TIDYING    =  2 << COUNT_BITS;
+    private static final int TERMINATED =  3 << COUNT_BITS;
+```
+
+1. RUNNING：线程池当前正在运行，线程池创建后出入RUNNING状态
+2. SHUTDOWN：调用shutdown()后，线程池即将关闭，不再接收新任务，但会继续处理队列中的任务。
+3. STOP：调用shutdownNow()后，线程池已经关闭，不再接收新任务，不再处理队列中的任务，并试图中断正在执行的任务。此时poolsize=0,阻塞队列的size=0。
+4. TIDYING：线程池当前正在关闭，并且已经完成所有的任务，正在进入收尾阶段。
+5. TERMINATED：执行完terminated()后，线程池已经关闭，所有任务已经终止，并且已经进入收尾阶段
+
 #### 3.2 线程池的工作流程
 
-#### 3.3 `execute`源码分析
+应用程序将任务通过execute()或submit()方法提交的线程池，如下是execute()方法的流程分析
 
-联想记忆
+```mermaid
+flowchart LR
+		提交任务 --> 	是否小于核心线程数\ncorePoolSize
+		是否小于核心线程数\ncorePoolSize -->|是| 创建核心线程执行任务\naddWorker:true
+		是否小于核心线程数\ncorePoolSize -->|否| 任务队列是否有空闲\nworkQueue未满
+		任务队列是否有空闲\nworkQueue未满 -->|是| 将任务放在任务队列里,等待空闲的核心线程执行\nworkQueue.offer:command
+		任务队列是否有空闲\nworkQueue未满 -->|否| 是否小于最大线程数\n=核心线程数+非核心线程数\nmaximumPoolSize
+		是否小于最大线程数\n=核心线程数+非核心线程数\nmaximumPoolSize -->|是| 创建非核心线程执行任务\naddWorker:false
+		是否小于最大线程数\n=核心线程数+非核心线程数\nmaximumPoolSize -->|否| 执行拒绝策略\n处理无法执行的任务\nRejectedExecutionHandler
+```
+
+::: details 源码注释 ThreadPoolExecutor#execute
+
+```
+/*
+ * Proceed in 3 steps:
+ *
+ * 1. If fewer than corePoolSize threads are running, try to
+ * start a new thread with the given command as its first
+ * task.  The call to addWorker atomically checks runState and
+ * workerCount, and so prevents false alarms that would add
+ * threads when it shouldn't, by returning false.
+ *
+ * 2. If a task can be successfully queued, then we still need
+ * to double-check whether we should have added a thread
+ * (because existing ones died since last checking) or that
+ * the pool shut down since entry into this method. So we
+ * recheck state and if necessary roll back the enqueuing if
+ * stopped, or start a new thread if there are none.
+ *
+ * 3. If we cannot queue task, then we try to add a new
+ * thread.  If it fails, we know we are shut down or saturated
+ * and so reject the task.
+ */
+```
+
+:::
+
+::: details private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
+
+```
+The main pool control state, ctl, is an atomic integer packing two conceptual fields workerCount, indicating the effective number of threads runState, indicating whether running, shutting down etc
+In order to pack them into one int, we limit workerCount to (2^29)-1 (about 500 million) threads rather than (2^31)-1 (2 billion) otherwise representable. If this is ever an issue in the future, the variable can be changed to be an AtomicLong, and the shift/mask constants below adjusted. But until the need arises, this code is a bit faster and simpler using an int.
+The workerCount is the number of workers that have been permitted to start and not permitted to stop. The value may be transiently different from the actual number of live threads, for example when a ThreadFactory fails to create a thread when asked, and when exiting threads are still performing bookkeeping before terminating. The user-visible pool size is reported as the current size of the workers set.
+The runState provides the main lifecycle control, taking on values:
+RUNNING: Accept new tasks and process queued tasks SHUTDOWN: Don't accept new tasks, but process queued tasks STOP: Don't accept new tasks, don't process queued tasks, and interrupt in-progress tasks TIDYING: All tasks have terminated, workerCount is zero, the thread transitioning to state TIDYING will run the terminated() hook method TERMINATED: terminated() has completed
+The numerical order among these values matters, to allow ordered comparisons. The runState monotonically increases over time, but need not hit each state. The transitions are:
+RUNNING -> SHUTDOWN On invocation of shutdown() (RUNNING or SHUTDOWN) -> STOP On invocation of shutdownNow() SHUTDOWN -> TIDYING When both queue and pool are empty STOP -> TIDYING When pool is empty TIDYING -> TERMINATED When the terminated() hook method has completed
+Threads waiting in awaitTermination() will return when the state reaches TERMINATED.
+Detecting the transition from SHUTDOWN to TIDYING is less straightforward than you'd like because the queue may become empty after non-empty and vice versa during SHUTDOWN state, but we can only terminate if, after seeing that it is empty, we see that workerCount is 0 (which sometimes entails a recheck -- see below).
+
+// 翻译一下~
+主池控制状态ctl是一个原子整数，打包了两个概念字段workerCount和runState。workerCount表示已经允许启动但不允许停止的线程数，runState表示运行状态，是否处于运行、关闭等状态。
+为了将它们打包在一个int中，我们将workerCount限制为(2^29)-1（约5亿）线程，而不是(2^31)-1（20亿）可以表示的数。如果将来出现问题，可以将该变量更改为AtomicLong，并调整下面的shift/mask常量。但是在需要之前，使用int代码更快且更简单。
+workerCount可能与实际存活线程数不同，例如当ThreadFactory在请求时无法创建线程，以及当退出线程在终止前仍在执行记录簿时。用户可见的池大小报告为工作者集的当前大小。
+runState提供主要的生命周期控制，取以下值：
+RUNNING：接受新任务并处理队列中的任务
+SHUTDOWN：不接受新任务，但处理队列中的任务
+STOP：不接受新任务，不处理队列中的任务，并中断正在进行的任务
+TIDYING：所有任务已经终止，workerCount为零，正在转换为TIDYING状态的线程将运行terminated()钩子方法
+TERMINATED：terminated() 函数已完成
+这些值之间的数值顺序很重要，以允许有序比较。runState 随时间递增，但不一定要达到每个状态。转换如下：
+RUNNING -> SHUTDOWN 在调用 shutdown() 时 (RUNNING 或 SHUTDOWN) -> STOP 在调用 shutdownNow() 时 SHUTDOWN -> TIDYING 当队列和池都为空时 STOP -> TIDYING 当池为空时 TIDYING -> TERMINATED 当 terminated() 钩子方法已完成
+在 awaitTermination() 中等待的线程将在状态达到 TERMINATED 时返回。
+从 SHUTDOWN 到 TIDYING 的转换不是很直接，因为在 SHUTDOWN 状态下队列可能在非空后变为空，反之亦然，但是我们只能在看到它为空后，看到 workerCount 为 0 时终止（有时需要重新检查 - 请参见下面）
+```
+
+:::
+
+#### 3.3 `execute()`源码分析
+
+```java
+    public void execute(Runnable command) {
+        if (command == null)
+            throw new NullPointerException();
+
+        int c = ctl.get(); // 获取线程池状态
+
+        if (workerCountOf(c) < corePoolSize) { // 1. 当前线程数 < corePoolSize
+            if (addWorker(command, true)) // 调用addWorker创建核心线程
+                return;
+            c = ctl.get();
+        }
+
+        // 2.如果不小于corePoolSize，则将任务添加到workQueue队列
+        if (isRunning(c) && workQueue.offer(command)) { // 2. 当前线程数 ≥ corePoolSize 且 RUNNING 且成功入队workQueue
+            int recheck = ctl.get();
+
+            if (!isRunning(recheck) && remove(command)) { // 线程池不是RUNNING，remove任务后执行拒绝策略
+                reject(command);
+            } else if (workerCountOf(recheck) == 0) { //  线程池处于running状态，但是没有线程，则创建线程
+                addWorker(null, false);
+            }
+        } else if (!addWorker(command, false)) { // 3. 如果放入workQueue失败，则创建非核心线程执行任务，
+            reject(command); // 如果这时创建非核心线程失败(当前线程总数不小于maximumPoolSize时)，就会执行拒绝策略。
+        }
+    }
+
+		// isRunning
+    private static boolean isRunning(int c) {
+        return c < SHUTDOWN;
+    }
+```
+
+
+
+
 
 ### 4. Executor框架
 
