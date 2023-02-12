@@ -14,7 +14,9 @@ online_tools: [
 # 知识网站
 
 knowledge: [
+    {title: 'chatGPT',desc: 'OpenAI chatGPT',href: 'https://chat.openai.com/', img: 'https://chat.openai.com/favicon-32x32.png'},
     {title: '美团技术团队',desc: '美团技术团队',href: 'https://tech.meituan.com/', img: 'https://awps-assets.meituan.net/mit/blog/v20190629/asset/icon/favicon.ico'},
+    {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
 ]
 
 # 框架
