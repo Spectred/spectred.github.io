@@ -1022,9 +1022,120 @@ Worker类实现了Runnable接口，继承了AQS，构造方法中创建了一个
     }
 ```
 
+### 4. Executors框架
 
+类`Executors`提供了静态方法创建线程池，有的是预定参数的ThreadPoolExecutor，有的是对ThreadPoolExecutor的包装，有的是ForkJoinPool，有的是ScheduledThreadPoolExecutor
 
-### 4. Executor框架
+#### 4.1 newFixedThreadPool
+
+```java
+    /**
+     * 创建一个线程池，该线程池重复使用固定数量的线程，操作共享的无界队列.  
+     * 在任何时候，最多有 nThreads 个线程处理任务
+     * 如果在所有线程都处于活动状态时提交额外的任务，它们将在队列中等待，直到有线程可用
+     * 如果因为执行故障而在关闭之前任意线程终止，如果需要执行后续任务，将会有一个新的线程取代它的位置
+     * 线程池中的线程将存在，直到显式关闭。
+     *
+     * @param nThreads the number of threads in the pool
+     * @return the newly created thread pool
+     * @throws IllegalArgumentException if {@code nThreads <= 0}
+     */
+    public static ExecutorService newFixedThreadPool(int nThreads) {
+        return new ThreadPoolExecutor(nThreads, nThreads,
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
+    }
+```
+
+**与CachedThreadPool的区别**：
+
+- 因为 corePoolSize == maximumPoolSize ，所以FixedThreadPool只会创建核心线程。 而CachedThreadPool因为corePoolSize=0，所以只会创建非核心线程。
+- 在 getTask() 方法，如果队列里没有任务可取，线程会一直阻塞在 LinkedBlockingQueue.take() ，线程不会被回收。 CachedThreadPool会在60s后收回。
+- 由于线程不会被回收，会一直卡在阻塞，所以**没有任务的情况下， FixedThreadPool占用资源更多**。
+- 都几乎不会触发拒绝策略，但是原理不同。FixedThreadPool是因为阻塞队列可以很大（最大为Integer最大值），故几乎不会触发拒绝策略；CachedThreadPool是因为线程池很大（最大为Integer最大值），几乎不会导致线程数量大于最大线程数，故几乎不会触发拒绝策略
+
+**可能会有如下的问题：**
+
+- 队列过大：如果任务数量大于线程数量，那么额外的任务将在队列中等待，直到有线程可用。如果队列过大，会导致内存问题。
+- 长时间阻塞：如果某个任务长时间阻塞，可能会影响其他任务的执行，因为它们都在同一个队列中等待。
+- 难以优化：因为线程数量是固定的，所以如果任务数量增加，它仍然需要等待，直到有线程可用。
+- 难以调整：如果线程数量不够，就需要创建更多的线程，但如果线程数量过多，它们就浪费了系统资源。因此，需要恰当地调整线程数量
+
+#### 4.2 newCachedThreadPool
+
+当需要执行很多**短时间**的任务时，CacheThreadPool的线程复用率比较高， 会显著的**提高性能**。而且线程60s后会回收，意味着即使没有任务进来，CacheThreadPool并不会占用很多资源
+
+```java
+    /**
+     * 创建一个线程池，当需要时会创建新线程，但在可用的情况下会重复使用先前构建的线程。
+     * 这些线程池通常会提高执行许多短生命周期异步任务的程序的性能
+     * 如果可用，执行调用将重复使用先前构建的线程。
+     * 如果没有可用的线程，将创建一个新线程并将其添加到线程池中。
+     * 如果一个线程未使用超过 60 秒，它将被终止并从缓存中删除。
+     * 因此，如果线程池长期闲置，它不会消耗任何资源。
+     * 请注意，可以使用 ThreadPoolExecutor 构造函数创建具有类似属性但具有不同细节（例如超时参数）的线程池
+     *
+     * @return the newly created thread pool
+     */
+    public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                      60L, TimeUnit.SECONDS,
+                                      new SynchronousQueue<Runnable>());
+    }
+```
+
+**可能会有如下的问题：**
+
+- 线程数量暴增：因为 newCachedThreadPool 可以创建任意数量的线程，因此如果没有任务可以完成，它可能会创建大量的线程，从而占用大量的系统资源。
+- 线程长时间空闲：newCachedThreadPool 中的线程可以长时间空闲，直到它们超过 60 秒未使用为止。如果线程数量太多，可能会导致系统资源的浪费。
+- 线程创建和销毁的开销：在 newCachedThreadPool 中，线程可以在需要时创建，并在长时间空闲后销毁。这些操作可能会导致一些开销，特别是当线程频繁创建和销毁时。
+
+#### 4.3 newSingleThreadExecutor
+
+有且仅有一个核心线程（ corePoolSize == maximumPoolSize=1），使用了LinkedBlockingQueue（容量很大），所以，**不会创建非核心线程**。所有任务按照**先来先执行**的顺序执行。如果这个唯一的线程不空闲，那么新来的任务会存储在任务队列里等待执行。
+
+```java
+    /**
+     * 创建一个使用单个工作线程操作无界队列的执行器
+     * （请注意，如果单个线程在关闭前的执行中由于故障而终止，如果需要，新的线程将替代它来执行后续任务。）
+     * 任务保证按顺序执行，且任何时候不会有超过一个任务处于活动状态
+     *
+     * @return the newly created single-threaded Executor
+     */
+    public static ExecutorService newSingleThreadExecutor() {
+        return new FinalizableDelegatedExecutorService
+            (new ThreadPoolExecutor(1, 1,
+                                    0L, TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue<Runnable>()));
+    }
+```
+
+**可能会有如下的问题：**
+
+- 单点故障：如果该线程意外终止，整个Executor将停止工作
+
+- 性能限制：因为只有一个线程，所以Executor的性能可能受到限制
+
+- 线程不可重用：线程不能被重新配置以使用其他线程，这可能导致额外的开销
+
+- 队列不可配置：由于使用无界队列，所以Executor的队列不可以配置
+
+- 需要注意使用的是FinalizableDelegatedExecutorService包装得了ThreadPoolExecutor，实现了finalize()方法，意味着当GC工作时可能会产生意想不到的结果，如线程池异常关闭，参考大佬CSDN博客: [线程池BUG复现和解决](https://blog.csdn.net/educast/article/details/126361731)
+
+  ```java
+      private static class FinalizableDelegatedExecutorService
+              extends DelegatedExecutorService {
+          FinalizableDelegatedExecutorService(ExecutorService executor) {
+              super(executor);
+          }
+          @SuppressWarnings("deprecation")
+          protected void finalize() {
+              super.shutdown();
+          }
+      }
+  ```
+
+  
 
 ### 5. 线程池的监控
 
