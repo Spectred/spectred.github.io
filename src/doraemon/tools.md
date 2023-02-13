@@ -4,19 +4,23 @@ title: 任意门
 
 # 在线工具
 online_tools: [
+    {title: 'Json.cn',  desc: 'json在线工具',         href: 'https://www.json.cn/', img: 'https://www.json.cn/favicon.ico'},
     {title: 'tool.lu',  desc: '在线工具',         href: 'https://tool.lu/', img: 'https://tool.lu/favicon.ico'},
+    {title: '编程狮',desc: '整理一些开发者常用的在线工具',href: 'https://123.w3cschool.cn/webtools', img: 'https://7n.w3cschool.cn/statics/images/favicon.ico'},
     {title: '菜鸟工具', desc: '菜鸟工具',href: 'https://c.runoob.com/', img: 'https://static.runoob.com/images/c-runoob-logo.ico'},
     {title: '开源中国',desc: '开源中国在线工具',href: 'https://tool.oschina.net/', img: 'https://tool.oschina.net/img/favicon.ico'},
     {title: '脚本之家',desc: '脚本之家在线工具',href: 'http://tools.jb51.net/', img: 'http://tools.jb51.net/favicon.ico'},
-    {title: '编程狮',desc: '整理一些开发者常用的在线工具',href: 'https://123.w3cschool.cn/webtools', img: 'https://7n.w3cschool.cn/statics/images/favicon.ico'},
+   
 ]
 
 # 知识网站
 
 knowledge: [
     {title: 'chatGPT',desc: 'OpenAI chatGPT',href: 'https://chat.openai.com/', img: 'https://chat.openai.com/favicon-32x32.png'},
+    {title: 'HowToDoInJava',desc: 'HowToDoInJava',href: 'https://howtodoinjava.com/', img: ''},
+    {title: 'martinFowler.com',desc: 'Martin Fowler',href: 'https://martinfowler.com/', img: 'https://martinfowler.com/favicon.ico'},
+    {title: 'RegexLearn',desc: '学习正则',href: 'https://regexlearn.com/', img: 'https://regexlearn.com/favicon.svg'},
     {title: '美团技术团队',desc: '美团技术团队',href: 'https://tech.meituan.com/', img: 'https://awps-assets.meituan.net/mit/blog/v20190629/asset/icon/favicon.ico'},
-    {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
 ]
 
 # 框架
@@ -30,16 +34,21 @@ frameworks: [
 # 开发工具或类库
 dev_tools: [
     {title: 'Arthas',desc: 'Java 应用诊断利器',href: 'https://arthas.aliyun.com/', img: 'https://arthas.aliyun.com/images/favicon.ico'},
+    {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
+    {title: 'Flyway',desc: '数据库迁移工具',href: 'https://flywaydb.org/', img: 'https://flywaydb.org/wp-content/uploads/2020/12/cropped-favicon-32x32.png'},
+    {title: 'Forest',desc: '声明式HTTP客户端框架',href: 'https://forest.dtflyx.com/', img: 'https://forest.dtflyx.com/img/logo.png'},
+    {title: 'GCeasy',desc: '通用GC日志分析器',href: 'https://gceasy.io/', img: 'https://gceasy.ycrash.cn/assets/new-gc/img/gc-favicon.ico'},
     {title: 'Guava',desc: 'Google核心Java类库',href: 'https://github.com/google/guava', img: 'https://github.githubassets.com/favicons/favicon-dark.svg'},
     {title: 'Hutool',desc: '小而全的Java工具类库',href: 'https://www.hutool.cn/', img: 'https://www.hutool.cn/favicon.ico'},
-    {title: 'Forest',desc: '声明式HTTP客户端框架',href: 'https://forest.dtflyx.com/', img: 'https://forest.dtflyx.com/img/logo.png'},
-    {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
+
+
 ]
 
 # 实用工具
 utilities: [
-    {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
+    {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
     {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'},
+    {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
 ]
 
 
