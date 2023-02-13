@@ -1135,7 +1135,52 @@ Worker类实现了Runnable接口，继承了AQS，构造方法中创建了一个
       }
   ```
 
-  
+#### 4.4 newScheduledThreadPool
+
+```java
+    /**
+     * 创建一个线程池，可以在给定的延迟后调度命令执行，或者定期执行。
+     * @param corePoolSize the number of threads to keep in the pool,
+     * even if they are idle
+     * @return the newly created scheduled thread pool
+     * @throws IllegalArgumentException if {@code corePoolSize < 0}
+     */
+    public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
+        return new ScheduledThreadPoolExecutor(corePoolSize);
+    }
+```
+
+```java
+    public ScheduledThreadPoolExecutor(int corePoolSize) {
+        super(corePoolSize, Integer.MAX_VALUE,  DEFAULT_KEEPALIVE_MILLIS, MILLISECONDS,  new DelayedWorkQueue());
+    }
+```
+
+#### 4.5 newWorkStealingPool
+
+```java
+    /**
+     * 创建一个工作窃取线程池，使用可用处理器的数量作为其目标并行性级别。
+     * 工作窃取线程池是一种特殊的线程池，它支持任务窃取，即一个工作线程从另一个工作线程的任务队列中窃取任务，以减少等待时间并加快任务执行
+     * 它是面向任务的并行编程的重要工具，常用于处理大量并行任务的场景
+     * @return the newly created thread pool
+     * @see #newWorkStealingPool(int)
+     * @since 1.8
+     */
+    public static ExecutorService newWorkStealingPool() {
+        return new ForkJoinPool
+            (Runtime.getRuntime().availableProcessors(),
+             ForkJoinPool.defaultForkJoinWorkerThreadFactory,
+             null, 
+             true);
+    }
+```
+
+**可能存在的问题**：
+
+1. 内存使用问题：工作窃取线程池需要消耗更多的内存来维护任务队列，因此在内存受限的情况下可能会导致性能下降。
+2. 任务同步问题：工作窃取线程池需要处理任务队列同步的问题，这可能导致更多的锁竞争和性能问题。
+3. 线程调整问题：在动态调整线程数的情况下，可能存在线程调整的问题，导致性能波动
 
 ### 5. 线程池的监控
 
