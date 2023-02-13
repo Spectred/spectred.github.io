@@ -1184,4 +1184,23 @@ Worker类实现了Runnable接口，继承了AQS，构造方法中创建了一个
 
 ### 5. 线程池的监控
 
+监控线程池可以帮助了解线程池的性能，诊断问题并确保线程池正常运行。下面是线程池监控的一些方法：
+
+- 使用线程池提供的方法：Java中的线程池一般都提供了一些方法，例如 `getActiveCount` 和 `getQueueSize` 等，可以用来查看线程池当前的活动数和等待队列的大小。
+- 打印日志：在代码中添加日志语句，定期打印线程池的信息，可以帮助您了解线程池的性能。
+- 使用监控工具：使用第三方监控工具，如 JMX、VisualVM 或者 APM 工具，可以在运行时监控线程池的性能。
+- 监控线程状态：通过记录线程的状态（例如，是否正在运行、等待等），可以了解线程池的工作情况
 ### 6. 动态线程池
+
+::: info 动态线程池
+
+动态线程池是一种可以根据实际需求动态调整线程数的线程池。它在运行时可以动态地调整线程数，以适应系统的负载。
+
+动态线程池的优点在于，它可以根据系统负载自动调整线程数量，从而避免了线程数量过多或过少导致的问题。如果系统负载过高，动态线程池可以增加线程数，以加快任务的执行速度；如果系统负载较低，动态线程池可以减少线程数，以节省系统资源。
+
+实现动态线程池的方法有多种，如使用反馈控制、使用预测控制、使用模型预测控制等。通常，动态线程池的实现需要根据实际情况调整参数，以确保线程池能够有效地适应系统的负载。
+
+:::
+
+基于系统负载指标、线程池运行情况的监控情况，可以通过ThreadPoolExecutor提供的setter方法来动态调节：
+`setCorePoolSize(int corePoolSize)`，`setMaximumPoolSize(int maximumPoolSize) `，` setKeepAliveTime(long time, TimeUnit unit)`，` setThreadFactory(ThreadFactory threadFactory)`，`setRejectedExecutionHandler(RejectedExecutionHandler handler) `
