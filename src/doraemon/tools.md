@@ -10,11 +10,9 @@ online_tools: [
     {title: '菜鸟工具', desc: '菜鸟工具',href: 'https://c.runoob.com/', img: 'https://static.runoob.com/images/c-runoob-logo.ico'},
     {title: '开源中国',desc: '开源中国在线工具',href: 'https://tool.oschina.net/', img: 'https://tool.oschina.net/img/favicon.ico'},
     {title: '脚本之家',desc: '脚本之家在线工具',href: 'http://tools.jb51.net/', img: 'http://tools.jb51.net/favicon.ico'},
-   
 ]
 
 # 知识网站
-
 knowledge: [
     {title: 'chatGPT',desc: 'OpenAI chatGPT',href: 'https://chat.openai.com/', img: 'https://chat.openai.com/favicon-32x32.png'},
     {title: 'HowToDoInJava',desc: 'HowToDoInJava',href: 'https://howtodoinjava.com/', img: ''},
@@ -35,7 +33,6 @@ frameworks: [
 # 开发工具或类库
 dev_tools: [
     {title: 'Arthas',desc: 'Java 应用诊断利器',href: 'https://arthas.aliyun.com/', img: 'https://arthas.aliyun.com/images/favicon.ico'},
-    {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
     {title: 'Flyway',desc: '数据库迁移工具',href: 'https://flywaydb.org/', img: 'https://flywaydb.org/wp-content/uploads/2020/12/cropped-favicon-32x32.png'},
     {title: 'Forest',desc: '声明式HTTP客户端框架',href: 'https://forest.dtflyx.com/', img: 'https://forest.dtflyx.com/img/logo.png'},
     {title: 'GCeasy',desc: '通用GC日志分析器',href: 'https://gceasy.io/', img: 'https://gceasy.ycrash.cn/assets/new-gc/img/gc-favicon.ico'},
@@ -46,14 +43,13 @@ dev_tools: [
 
 ]
 
-# 实用工具
+# 实用工具或软件
 utilities: [
     {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
     {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'},
     {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
+     {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
 ]
-
-
 
 
 
