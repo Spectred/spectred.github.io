@@ -17,7 +17,13 @@ export const zhSidebar = sidebar({
 '/java': [
     {
         text: '🪄魔法', collapsible: true, children: [
-            { text: '1. Unsafe', link: '/java/magic/unsafe.md' }
+            { text: '1. Unsafe', link: '/java/magic/Unsafe.md' },
+            { text: '2. Instrumentation', link: '/java/magic/Instrumentation.md' },
+            { text: '3. 反射', link: '/java/magic/reflect.md' },
+            { text: '4. Proxy', link: '/java/magic/Proxy.md' },
+            { text: '5. DirectByteBuffer', link: '/java/magic/DirectByteBuffer.md' },
+            { text: '6. PlatformManagedObject', link: '/java/magic/PlatformManagedObject.md' },
+            { text: '7. SPI', link: '/java/magic/SPI.md' },
         ]
     },
     {
