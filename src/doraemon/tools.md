@@ -21,6 +21,7 @@ knowledge: [
     {title: 'martinFowler.com',desc: 'Martin Fowler',href: 'https://martinfowler.com/', img: 'https://martinfowler.com/favicon.ico'},
     {title: 'RegexLearn',desc: '学习正则',href: 'https://regexlearn.com/', img: 'https://regexlearn.com/favicon.svg'},
     {title: '美团技术团队',desc: '美团技术团队',href: 'https://tech.meituan.com/', img: 'https://awps-assets.meituan.net/mit/blog/v20190629/asset/icon/favicon.ico'},
+    {title: '深入浅出Java多线程',desc: '深入浅出Java多线程',href: 'http://concurrent.redspider.group/', img: 'http://concurrent.redspider.group/gitbook/images/favicon.ico'},
 ]
 
 # 框架
@@ -39,6 +40,7 @@ dev_tools: [
     {title: 'Forest',desc: '声明式HTTP客户端框架',href: 'https://forest.dtflyx.com/', img: 'https://forest.dtflyx.com/img/logo.png'},
     {title: 'GCeasy',desc: '通用GC日志分析器',href: 'https://gceasy.io/', img: 'https://gceasy.ycrash.cn/assets/new-gc/img/gc-favicon.ico'},
     {title: 'Guava',desc: 'Google核心Java类库',href: 'https://github.com/google/guava', img: 'https://github.githubassets.com/favicons/favicon-dark.svg'},
+    {title: 'httpstat',desc: '网站性能的curl统计分析工具',href: 'https://github.com/reorx/httpstat', img: 'https://github.githubassets.com/favicons/favicon-dark.svg'},
     {title: 'Hutool',desc: '小而全的Java工具类库',href: 'https://www.hutool.cn/', img: 'https://www.hutool.cn/favicon.ico'},
 
 
