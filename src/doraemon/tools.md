@@ -22,7 +22,7 @@ knowledge: [
     {title: '深入浅出Java多线程',desc: '深入浅出Java多线程',href: 'http://concurrent.redspider.group/', img: 'http://concurrent.redspider.group/gitbook/images/favicon.ico'},
 ]
 
-# 框架
+# 编程语言或框架
 frameworks: [
     {title: 'Spring',desc: 'J2EE应用程序框架',href: 'https://spring.io/', img: 'https://spring.io/favicon.svg'},
     {title: 'Netty',desc: '基于NIO的客户、服务器端的编程框架',href: 'https://netty.io//', img: 'https://netty.io/images/favicon.ico'},
@@ -48,7 +48,10 @@ utilities: [
     {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
     {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'},
     {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
-     {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
+    {title: 'Charles',desc: '抓包工具软件',href: 'https://www.charlesproxy.com/', img: 'https://www.charlesproxy.com/static/img/icon.850a44d2.png'},
+    {title: 'Mermaid',desc: 'Diagramming and charting tool',href: 'https://mermaid.js.org/', img: 'https://mermaid.js.org/favicon.ico'},
+    {title: 'VuePress',desc: 'Vue 驱动的静态网站生成器',href: 'https://v2.vuepress.vuejs.org/zh/', img: 'https://v2.vuepress.vuejs.org/images/icons/favicon-32x32.png'},
+    {title: 'VuePress Theme Hope',desc: '一个具有强大功能的 vuepress 主题',href: 'https://theme-hope.vuejs.press/zh/', img: 'https://theme-hope.vuejs.press/favicon.ico'},
 ]
 
 
@@ -123,7 +126,7 @@ utilities: [
     </ul>
 </body>
 
-## <font color="yellowgreen">实用工具</font>
+## <font color="yellowgreen">实用工具或软件</font>
 <body class="xbody">
     <ul class="project-list">
         <li v-for="item in $frontmatter.utilities" class="project-list-item-wrap">
