@@ -1,1 +1,0 @@
-import{_ as e,V as n,W as t,Z as l}from"./framework-eedf5ae1.js";const i={},o=l("ol",null,[l("li",null,"单机安装"),l("li",null,"使用: 语法和在Java中使用"),l("li",null,"索引"),l("li",null,"集群"),l("li",null,"架构: 日志、存储引擎等"),l("li",null,"安全认证"),l("li",null,"备份与恢复 ...")],-1),_=[o];function c(s,a){return n(),t("div",null,_)}const r=e(i,[["render",c],["__file","index.html.vue"]]);export{r as default};
