@@ -41,6 +41,7 @@ dev_tools: [
     {title: 'Guava',desc: 'Google核心Java类库',href: 'https://github.com/google/guava', img: 'https://github.githubassets.com/favicons/favicon-dark.svg'},
     {title: 'httpstat',desc: '网站性能的curl统计分析工具',href: 'https://github.com/reorx/httpstat', img: 'https://github.githubassets.com/favicons/favicon-dark.svg'},
     {title: 'Hutool',desc: '小而全的Java工具类库',href: 'https://www.hutool.cn/', img: 'https://www.hutool.cn/favicon.ico'},
+    {title: 'mvnrepository',desc: '查找Maven依赖',href: 'https://mvnrepository.com/', img: ''},
 
 
 ]
