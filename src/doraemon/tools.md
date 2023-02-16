@@ -24,7 +24,8 @@ knowledge: [
 
 # 编程语言或框架
 frameworks: [
-    {title: 'OpenJDK',desc: 'OpenJDK/jdk repositories',href: 'https://hg.openjdk.java.net/jdk', img: 'https://hg.openjdk.java.net/static/duke-pipes.png'},
+    {title: 'OpenJDK Wiki',desc: 'OpenJDK Wiki',href: 'https://wiki.openjdk.org/', img: 'https://wiki.openjdk.org/plugins/servlet/theme/engine/resource/OPENJDKV1/nanoduke.ico'},
+    {title: 'OpenJDK Repositories',desc: 'OpenJDK/jdk repositories',href: 'https://hg.openjdk.java.net/jdk', img: 'https://hg.openjdk.java.net/static/duke-pipes.png'},
     {title: 'Spring',desc: 'J2EE应用程序框架',href: 'https://spring.io/', img: 'https://spring.io/favicon.svg'},
     {title: 'Netty',desc: '基于NIO的客户、服务器端的编程框架',href: 'https://netty.io//', img: 'https://netty.io/images/favicon.ico'},
     {title: 'MyBatis',desc: '持久层框架',href: 'https://mybatis.org/mybatis-3/zh/index.html', img: 'http://www.mybatis.org/images/mybatis-logo.png'},
