@@ -5,8 +5,9 @@ export const zhNavbar = navbar([
   { text: '面试', link: '/interview', icon: "emoji" },
   {
       text: 'Java',icon: "java", children:[
+          {text: '☕️JVM',link: '/java/jvm'},
           {text: '🪄魔法',link: '/java/magic'},
-          {text: '🦋并发',link: '/java/concurrent'},
+          {text: '🛫并发',link: '/java/concurrent'},
       ]
   },
   {

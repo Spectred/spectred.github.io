@@ -16,6 +16,12 @@ export const zhSidebar = sidebar({
 ],
 '/java': [
     {
+        text: '☕️JVM', collapsible: true, children: [
+           
+           
+        ]
+    },
+    {
         text: '🪄魔法', collapsible: true, children: [
             { text: '1. Unsafe', link: '/java/magic/Unsafe.md' },
             { text: '2. Instrumentation', link: '/java/magic/Instrumentation.md' },
@@ -27,7 +33,7 @@ export const zhSidebar = sidebar({
         ]
     },
     {
-        text: '🦋并发', collapsible: true, children: [
+        text: '🛫并发', collapsible: true, children: [
             { text: '1. Java内存模型', link: '/java/concurrent/jmm.md' },
             { text: '2. 线程与线程池', link: '/java/concurrent/threads.md' },
             { text: '3. 锁', link: '/java/concurrent/locks.md' },
