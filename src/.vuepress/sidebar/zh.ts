@@ -190,6 +190,15 @@ export const zhSidebar = sidebar({
     '/doraemon': [
         { text: '任意门', link: '/doraemon/tools.md' },
         { text: '小记', link: '/doraemon/x' },
-        { text: '脚本',link: '/doraemon/qianli/linux'},
+        {
+            text: '脚本集', collapsible: true,
+            children: [
+                { text: 'command', link: '/doraemon/scripts/command' },
+                { text: 'shell', link: '/doraemon/scripts/shell' },
+                { text: 'python', link: '/doraemon/scripts/python' },
+                { text: 'docker', link: '/doraemon/scripts/docker' },
+                { text: 'k8s', link: '/doraemon/scripts/k8s' },
+            ]
+        },
     ]
 });

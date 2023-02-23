@@ -66,7 +66,7 @@ export const zhNavbar = navbar([
       children: [
         { text: '任意门', link: '/doraemon/tools.md' },
         { text: '小记', link: '/doraemon/x' },
-        { text: '脚本',link: '/doraemon/qianli/linux'},
+        { text: '脚本集',link: '/doraemon/scripts'},
       ]
   },
 
