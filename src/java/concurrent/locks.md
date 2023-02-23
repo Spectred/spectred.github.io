@@ -259,10 +259,70 @@ HotSpot虚拟机的自动内存管理系统要求对象起始地址必须是8字
 
 如果一个对象的轻量级锁升级失败，即多个线程竞争同一个锁，那么该锁会升级为重量级锁状态（如轻量级锁自旋达到设定的次数）。重量级锁是一种基于操作系统的锁，它使用操作系统的互斥量来实现锁的竞争，相对于前面的三种锁级别，重量级锁的竞争强度更高，但开销也更大
 
+::: note 锁优化
+
+锁优化还包括 自旋锁与自适应锁、锁消除、锁粗化
+
+:::
+
 ### 1.4 原理
 
-[objectMonitor.cpp](https://github.com/openjdk/jdk/blob/jdk-17-ga/src/hotspot/share/runtime/objectMonitor.cpp)
+`synchronized`的原理是通过对象头的 Mark Word 和操作系统的互斥量实现
 
-[objectMonitor](https://github.com/openjdk/jdk/blob/master/src/hotspot/share/runtime/objectMonitor.hpp)
+在源码中的实现如下：
+
+对于同步代码块,`monitorenter`和`monitorexit`分别对应加锁和解锁操作
+```java
+synchronized (obj) {
+    // synchronized code block
+}
+```
+
+编译后的字节码
+```
+0: aload_1
+1: dup
+2: astore_2
+3: monitorenter    // 加锁
+4: aload_2
+5: monitorexit     // 解锁
+6: goto 14
+9: astore_3
+10: aload_2
+11: monitorexit    // 解锁
+12: aload_3
+13: athrow
+14: return
+```
+
+对于同步方法，使用ACC_SYNCHRONIZED标志来表示该方法是一个同步方法，进入该方法时会自动获取对象监视器（或称为锁），方法执行完成后会自动释放锁。
+
+```java
+public synchronized void method() {
+    // synchronized method
+}
+```
+
+编译后的字节码:
+```
+public synchronized void method();
+    descriptor: ()V
+    flags: ACC_PUBLIC, ACC_SYNCHRONIZED   // ACC_SYNCHRONIZED标志
+    Code:
+      stack=0, locals=1, args_size=1
+         0: return
+      LineNumberTable:
+        line 7: 0
+```
+
+::: info 在JVM源码中的实现
+
+[objectMonitor.hpp](https://github.com/openjdk/jdk/blob/master/src/hotspot/share/runtime/objectMonitor.hpp)
+
+[objectMonitor.cpp](https://github.com/openjdk/jdk/blob/jdk-17-ga/src/hotspot/share/runtime/objectMonitor.cpp)   
+
+:::
+
+
 
 ## 2. 显示锁 `Lock	`
