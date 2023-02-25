@@ -30,6 +30,9 @@ frameworks: [
     {title: 'Netty',desc: '基于NIO的客户、服务器端的编程框架',href: 'https://netty.io//', img: 'https://netty.io/images/favicon.ico'},
     {title: 'MyBatis',desc: '持久层框架',href: 'https://mybatis.org/mybatis-3/zh/index.html', img: 'http://www.mybatis.org/images/mybatis-logo.png'},
     {title: 'MyBatis-Plus',desc: '为简化开发而生',href: 'https://baomidou.com/', img: 'https://baomidou.com/img/favicon.ico'},
+    {title: 'OSChina 在线API文档',desc: '在线API文档',href: 'https://tool.oschina.net/apidocs', img: 'https://tool.oschina.net/img/favicon.ico'},
+    {title: 'devdocs.io',desc: '在线API文档',href: 'https://devdocs.io/', img: 'https://devdocs.io/favicon.ico'},
+
 ]
 
 # 开发工具或类库
@@ -95,7 +98,7 @@ utilities: [
     </ul>
 </body>
 
- ## <font color="yellowgreen">框架</font>
+ ## <font color="yellowgreen">编程语言或框架</font>
 <body class="xbody">
     <ul class="project-list">
         <li v-for="item in $frontmatter.frameworks" class="project-list-item-wrap">
