@@ -334,3 +334,4 @@ public synchronized void method();
 
 ## 2. 显式锁 `Lock`
 
+锁时用来控制多个线程访问共享资源的方式，一般来说一个锁能够防止多个线程同时访问共享资源。
