@@ -335,3 +335,91 @@ public synchronized void method();
 ## 2. 显式锁 `Lock`
 
 锁时用来控制多个线程访问共享资源的方式，一般来说一个锁能够防止多个线程同时访问共享资源。
+
+Java中提供了: `java.util.concurrent.locks.Lock`接口作为显式锁，与内置加锁机制不同的是，Lock提供了一种无条件的、可轮询的、定时的以及可中断的锁获取操作，所有加锁和解锁方法都是显式的、在Lock的实现中必须提供与内部锁相同的内存可见性语义，但在加锁语义、调度算法和顺序保证以及性能特性等方面可以有所不同。
+
+### 2.1 [Lock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/Lock.html)
+
+#### 2.1.1 Lock的使用方式:
+
+```java
+Lock l = ...;  
+l.lock();  
+try {    
+  // access the resource protected by this lock  
+} finally {    
+  l.unlock();  
+}
+```
+
+::: tips 注意
+
+在`finally`中释放锁，保证在获取锁之后，最终能够被释放
+
+不要将获取锁的过程写在`try`中，因为如果在获取锁(自定义锁的实现)时发生了异常，抛出异常的同时也会导致锁无故释放
+
+:::
+
+#### 2.1.2 Lock比`synchronized`提供了更多的功能性: 
+
+- `tryLock()`:  非阻塞尝试获取锁
+- `tryLock(long, TimeUnit)`: 可超时尝试获取锁
+- `lockInterruptibly()`: 可中断尝试获取锁
+
+#### 2.1.3 Lock的API
+
+```JAVA
+public interface Lock {
+
+    /**
+     * 获取锁
+     * 调用该方法当前线程将会获取锁，获锁成功后从该方法返回
+     */
+    void lock();
+
+    /**
+     * 可中断地获取锁
+     * 该方法会响应中断，即在锁的获取中可以终端当前线程
+     */
+    void lockInterruptibly() throws InterruptedException;
+
+    /**
+     * 尝试非阻塞的获取锁
+     * 调用该方法护立刻返回，如果能够获取则返回true,否则返回false
+     * <p>
+     * 典型用法:
+     * <pre> {@code
+     * Lock lock = ...;
+     * if (lock.tryLock()) {
+     *   try {
+     *     // manipulate protected state
+     *   } finally {
+     *     lock.unlock();
+     *   }
+     * } else {
+     *   // perform alternative actions
+     * }}</pre>
+     */
+    boolean tryLock();
+
+    /**
+     * 超时的获取锁，当前线程在以下3种情况下会返回:
+     * - 当前线程在超时时间内 获得锁
+     * - 当前线程在超时时间内 被中断
+     * - 超时时间结束，返回false
+     */
+    boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+
+    /**
+     * 释放锁
+     */
+    void unlock();
+
+    /**
+     * 获取Condition
+     * 该Condition和当前锁绑定，当前线程只有获得了锁，才能调用Condition的wait()方法，而调用后，当前线程将释放锁
+     */
+    Condition newCondition();
+}
+```
+
