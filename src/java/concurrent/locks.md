@@ -423,3 +423,105 @@ public interface Lock {
 }
 ```
 
+### 2.2 [ReentrantLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
+
+ReentrantLock，重入锁，表示该锁能够支持一个线程对资源的重复加锁，任意线程在获取锁之后能够再次获取该锁而不会被锁阻塞，该特性的实现需要解决以下两个问题
+
+1. 线程再次获取锁
+
+   锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是则再次成功获取
+
+2. 锁的最终释放
+
+   线程重复n次获取锁，随后在第n次释放该锁后，其他线程能够获取该锁
+
+#### 2.2.1 轮询锁与定时锁
+
+轮询锁和定时锁的获取模式是由`tryLock`方法实现。
+
+正确的使用可以避免死锁的发生: 如果不能获得所有需要的锁，那么可以使用可定时的或可轮询的锁获取方式，从而是的重新获得控制权，它会释放已经获得的锁，然后重新尝试获取所有锁。
+
+定时锁的实例: 带有时间限制的加锁
+
+```java
+ReentrantLock lock = new ReentrantLock();
+try {
+    if (lock.tryLock(1000, TimeUnit.MILLISECONDS)) { // 尝试获取锁，等待1秒
+        // 获取锁成功后的代码逻辑
+    } else {
+        // 获取锁失败后的处理逻辑
+    }
+} catch (InterruptedException e) {
+    // 处理线程中断异常
+} finally {
+    lock.unlock(); // 释放锁
+}
+```
+
+#### 2.2.2 可中断的锁获取操作
+
+可中断的锁获取操作能在可取消的操作中使用加锁，`lockInterruptibly()`方法能够在获得锁的同时保持对中断的响应，并且由于它包含在Lock中，因此无需创建其他类型的不可中断阻塞机制。
+
+```java
+ReentrantLock lock = new ReentrantLock();
+try {
+    lock.lockInterruptibly(); // 尝试获取锁，并响应线程的中断请求
+    // 获取锁成功后的代码逻辑
+} catch (InterruptedException e) {
+    // 处理线程中断异常
+} finally {
+    lock.unlock(); // 释放锁
+}
+```
+
+#### 2.2.3 非块结构的加锁
+
+内置锁是对一个块结构进行加锁，ReentrantLock是非块结构进行加锁
+
+#### 2.2.4 公平性
+
+可以通过构造函数传参来决定ReentrantLock的公平性，默认是非公平锁
+
+```java
+    public ReentrantLock(boolean fair) {
+        sync = fair ? new FairSync() : new NonfairSync();
+    }
+```
+
+其中FairSync和NonfairSync都继承自内部类Sync，Sync继承AbstractQueuedSynchronizer
+
+公平锁和非公平锁的实现都是独占的，调用了AQS的setExclusiveOwnerThread方法，都是排他锁。
+
+公平锁：线程将按照他们发出请求的顺序来获得锁
+
+非公平锁：当一个线程请求非公平锁时，如果在发出请求的同时该锁的状态变为可用，那么这个线程将跳过队列中所有的等待线程并获得这个锁
+
+::: warn 公平锁
+
+对于公平锁，可轮询的tryLock仍然会“插队”
+
+:::
+
+::: warn 为什么ReentrantLock默认是非公平锁
+
+非公平模式效率更高，因为非公平模式会在一开始就尝试两次获取锁，如果当时正好state是0，那么它就会成功获取锁，少了排队导致的阻塞/唤醒过程，并且减少了线程频繁的切换带来的性能损耗
+
+但是非公平锁有可能导致一开始排队的线程一直获取不到锁，导致线程饿死
+
+:::
+
+#### 2.2.5 `synchronized`和`ReentrantLock`的选择
+
+**功能**上: 优先使用`synchronized`，如果无法满足需求，需要一些高级功能时使用`ReentrantLock`,高级功能包括:
+
+- 可轮询的、可定时的 （tryLock）
+
+- 可中断的锁获取操作 （lockInterruptibly）
+
+- 公平队列 （FairSync）
+
+- 非块结构的锁
+
+**性能**上: 优先选择`synchronized`
+
+因为`synchronized`是JVM的内置属性，能执行一些优化，例如对线程封闭的锁对象的锁消除优化，通过加锁的粒度来消除内置锁
