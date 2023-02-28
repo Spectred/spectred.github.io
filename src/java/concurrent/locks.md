@@ -423,7 +423,7 @@ public interface Lock {
 }
 ```
 
-### 2.2 [ReentrantLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
+### 2.2 重入锁 [ReentrantLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html)
 
 ReentrantLock，重入锁，表示该锁能够支持一个线程对资源的重复加锁，任意线程在获取锁之后能够再次获取该锁而不会被锁阻塞，该特性的实现需要解决以下两个问题
 
@@ -525,3 +525,46 @@ try {
 **性能**上: 优先选择`synchronized`
 
 因为`synchronized`是JVM的内置属性，能执行一些优化，例如对线程封闭的锁对象的锁消除优化，通过加锁的粒度来消除内置锁
+
+### 2.3 读-写锁 [ReentrantReadWriteLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html)
+
+
+
+### 2.4 [StampedLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/StampedLock.html)
+
+
+
+#### 2.5 [Condition](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/Condition.html)
+
+
+
+
+
+---
+
+## 3. 锁相关的源码分析
+
+```
+jdk/src/java.base/share/classes/java/util/concurrent/locks
+├── AbstractOwnableSynchronizer.java
+├── AbstractQueuedLongSynchronizer.java
+├── AbstractQueuedSynchronizer.java
+├── Condition.java
+├── Lock.java
+├── LockSupport.java
+├── ReadWriteLock.java
+├── ReentrantLock.java
+├── ReentrantReadWriteLock.java
+└── StampedLock.java
+```
+
+#### 3.1 AQS
+
+#### 3.2 LockSupport
+
+#### 3.3 ReentrantLock
+
+#### 3.4 ReentrantReadWriteLock
+
+#### 3.5 StampedLock
+
