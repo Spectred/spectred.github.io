@@ -528,6 +528,57 @@ try {
 
 ### 2.3 读-写锁 [ReentrantReadWriteLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html)
 
+`synchronized`和`ReentrantLock`属于排他锁。读-写锁适用于: 一个资源可以被多个读操作访问，或被一个写操作访问，但两者不能同时进行。读-写锁解决了读-读冲突的问题，更适合于读多写少的场景。
+
+Java中提供了一个接口java.util.concurrent.locks.ReadWriteLock，用于实现读写锁。该接口有两个方法：readLock()和writeLock()，分别返回读锁和写锁。当一个线程请求读锁时，如果没有其他线程持有写锁，则该线程会立即获得读锁，否则它会被阻塞，直到所有持有写锁的线程释放写锁。同样地，当一个线程请求写锁时，如果没有其他线程持有读锁或写锁，则该线程会立即获得写锁，否则它会被阻塞，直到所有持有读锁和写锁的线程都释放它们。
+
+示例: 用读-写锁来包装Map
+
+```java
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class ReadWriteMap<K, V> {
+
+    private final Map<K, V> map;
+
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    private final Lock r = lock.readLock();
+
+    private final Lock w = lock.writeLock();
+
+    public ReadWriteMap(Map<K, V> map) {
+        this.map = map;
+    }
+
+    public V put(K key, V val) {
+        // 对remove,putAll等方法执行相同的操作
+        w.lock();
+        try {
+            return map.put(key, val);
+        } finally {
+            w.unlock();
+        }
+    }
+
+    public V get(K key) {
+        r.lock();
+        try {
+            return map.get(key);
+        } finally {
+            r.unlock();
+        }
+    }
+}
+```
+
+
+
+
+
 
 
 ### 2.4 [StampedLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/StampedLock.html)
