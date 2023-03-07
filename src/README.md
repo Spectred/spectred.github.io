@@ -2,9 +2,9 @@
 home: true
 icon: home
 title: 学习笔记
-heroImage: /open-book.png
+heroImage: /study.png
 heroText: 学习笔记
-tagline: 纸上得来终觉浅，绝知此事要躬行
+tagline: 学吧，学无止境，太深了
 actions:
   - text: 开始学习⛵
     link: /java/concurrent
