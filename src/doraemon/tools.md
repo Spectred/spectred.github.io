@@ -55,6 +55,7 @@ dev_tools: [
 
 # 实用工具或软件
 utilities: [
+    {title: 'MockServer',desc: 'Mock Server',href: 'https://www.mock-server.com/', img: 'https://www.mock-server.com/favicon.ico'},
     {title: 'Clibrary',desc: '中文数字图书馆',href: 'https://clibrary.cn/', img: 'https://clibrary.cn/static/img/icon.png'},
     {title: 'cloudconvert',desc: '文件格式转换',href: 'https://cloudconvert.com/', img: 'https://cloudconvert.com/images/logo_flat_32.png'},
     {title: 'smms.app',desc: '图床',href: 'https://smms.app/', img: ''},
