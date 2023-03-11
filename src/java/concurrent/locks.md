@@ -575,21 +575,186 @@ public class ReadWriteMap<K, V> {
 }
 ```
 
-
-
-
-
-
-
 ### 2.4 [StampedLock](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/StampedLock.html)
 
+StampedLock实现了读写锁的功能，将读锁分为乐观读锁和悲观读锁，不会像ReentrantReadWriteLock发生写饥饿，核心思想: 在读的时候如果发生了写，应该通过重试的方式来获取新的值，而不是阻塞该写操作，适用于读多写少，例如缓存系统、数据库系统。
 
+StampedLock的内部实现是基于一个整数stamp，它类似于一个版本号，用来标记当前锁的状态。在读操作的时候，线程会获取一个stamp值，并用这个stamp值来判断读操作是否仍然有效；在写操作的时候，线程需要先获取一个独占锁，然后将stamp值+1，以表示读操作无效。这样，在读操作过程中如果发现当前stamp值已经发生变化，那么就需要重新获取读锁，以保证数据的一致性。
+
+StampedLock提供了三种锁模式，分别是读锁、写锁和乐观锁。
+
+在读锁模式下，多个线程可以同时读取共享数据，但是写操作会被阻塞；
+
+在写锁模式下，独占锁被用于保证数据的一致性，所有读写操作都会被阻塞；
+
+在乐观锁模式下，线程会获取一个stamp值，并尝试读取共享数据，如果读取成功，则返回true，否则需要重新获取锁。
+
+相比于ReadWriteLock，StampedLock具有以下几个特性：
+
+1. 更高的并发性能。StampedLock采用了乐观锁的思想，减少了线程阻塞的情况，从而提高了并发性能。
+2. 更低的线程阻塞。StampedLock内部采用了自旋锁的方式，避免了线程阻塞的情况，从而提高了线程的响应速度。
+3. 更好的可扩展性。StampedLock支持多个读线程同时读取共享数据，从而提高了系统的可扩展性。
+4. 更好的数据一致性。StampedLock内部采用了独占锁的方式，保证了数据的一致性，避免了读写冲突的情况。
+
+代码示例
+
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class StampedLockDemo {
+    private double x, y;
+    private final StampedLock lock = new StampedLock();
+
+    public void move(double deltaX, double deltaY) {
+        // 获取写锁
+        long stamp = lock.writeLock();
+        try {
+            x += deltaX;
+            y += deltaY;
+        } finally {
+            // 释放写锁
+            lock.unlockWrite(stamp);
+        }
+    }
+
+    public double distanceFromOrigin() {
+        // 获取乐观读锁
+        long stamp = lock.tryOptimisticRead();
+        double currentX = x, currentY = y;
+        // 检查锁是否有效
+        if (!lock.validate(stamp)) {
+            // 获取悲观读锁
+            stamp = lock.readLock();
+            try {
+                currentX = x;
+                currentY = y;
+            } finally {
+                // 释放悲观读锁
+                lock.unlockRead(stamp);
+            }
+        }
+        return Math.sqrt(currentX * currentX + currentY * currentY);
+    }
+}
+```
+
+::: details 在缓存中的应用代码示例
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.StampedLock;
+
+public class StampedLockCache<K, V> {
+    private final Map<K, V> cache = new HashMap<>();
+    private final StampedLock lock = new StampedLock();
+
+    public V get(K key) {
+        // 尝试获取乐观读锁
+        long stamp = lock.tryOptimisticRead();
+        V value = cache.get(key);
+        // 检查锁是否有效
+        if (!lock.validate(stamp)) {
+            // 获取悲观读锁
+            stamp = lock.readLock();
+            try {
+                value = cache.get(key);
+            } finally {
+                // 释放悲观读锁
+                lock.unlockRead(stamp);
+            }
+        }
+        return value;
+    }
+
+    public void put(K key, V value) {
+        // 获取写锁
+        long stamp = lock.writeLock();
+        try {
+            cache.put(key, value);
+        } finally {
+            // 释放写锁
+            lock.unlockWrite(stamp);
+        }
+    }
+
+    public void clear() {
+        // 获取写锁
+        long stamp = lock.writeLock();
+        try {
+            cache.clear();
+        } finally {
+            // 释放写锁
+            lock.unlockWrite(stamp);
+        }
+    }
+}
+```
+
+:::
 
 ### 2.5 [Condition](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/Condition.html)
 
+Java中的Condition是一个与Lock相关联的条件队列，它提供了一种让线程能够等待某个条件成立的机制。在Java中，Condition通常用于解决线程间的协作问题，比如生产者消费者问题等。
 
+代码示例: 使用Condition的有界缓存
+```java
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+public class ConditionBoundedBuffer<T> {
 
+    private static final int BUFFER_SIZE = 1 << 10;
+    protected final Lock lock = new ReentrantLock();
+    // count < items.length
+    private final Condition notFull = lock.newCondition();
+    // count > 0
+    private final Condition notEmpty = lock.newCondition();
+
+    private final T[] items = (T[]) new Object[BUFFER_SIZE];
+    private int head, tail, count;
+
+    public void put(T x) throws InterruptedException {
+        lock.lock();
+        try {
+            while (count == items.length) notFull.await();
+
+            items[tail] = x;
+            if (++tail == items.length) tail = 0;
+            ++count;
+
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public T take() throws InterruptedException {
+        lock.lock();
+        try {
+            while (count == 0) notEmpty.await();
+
+            T x = items[head];
+            items[head] = null;
+            if (++head == items.length) head = 0;
+            --count;
+
+            notEmpty.signal();
+            return x;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+::: warning 特别注意
+
+在Condition对象中，与wait、notify和notifyAll方法对应的分别是await，signal和signalAll。
+
+但是Condition对Object进行了扩展，也包含wait、notify和notifyAll。
+
+:::
 
 ---
 
