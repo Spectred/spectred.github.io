@@ -756,6 +756,44 @@ public class ConditionBoundedBuffer<T> {
 
 :::
 
+
+
+::: details Java分段锁示例
+
+> [Java 中常见的细粒度锁实现 - 掘金 (juejin.cn)](https://juejin.cn/post/6898255397497339912)
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class SegmentedLockExample {
+
+    private final ConcurrentHashMap<String, Lock> locks = new ConcurrentHashMap<>();
+
+    private void updateProperty(String objectId, String propertyName, Object value) {
+        Lock lock = getLock(objectId);
+        lock.lock();
+        try {
+            // 进行修改操作
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private Lock getLock(String objectId) {
+        Lock lock = locks.get(objectId);
+        if (lock == null) {
+            locks.putIfAbsent(objectId, new ReentrantLock());
+            lock = locks.get(objectId);
+        }
+        return lock;
+    }
+}
+```
+
+:::
+
 ---
 
 ## 3. 锁相关的源码分析
@@ -774,7 +812,19 @@ jdk/src/java.base/share/classes/java/util/concurrent/locks
 └── StampedLock.java
 ```
 
-#### 3.1 AQS
+#### 3.1 [AQS](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html)
+
+AQS是`AbstractQueuedSynchronizer`的简称，译成抽象队列同步器
+
+AQS可以用来构建锁和同步器的框架，如ReentrantLock,Semaphore,FutureTash,CountDownLatch等
+
+::: tip AOS、AQLS
+
+相关的类有AOS:AbstractOwnableSynchronizer、AQLS: AbstractQueuedLongSynchronizer，AQLS的state是long,AOS是两者的基类
+
+::: 
+
+
 
 #### 3.2 LockSupport
 
