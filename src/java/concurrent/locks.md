@@ -824,7 +824,153 @@ AQS可以用来构建锁和同步器的框架，如ReentrantLock,Semaphore,Futur
 
 ::: 
 
+先看源码注释中的"Overview"
 
+::: details AQS Overview
+```
+The wait queue is a variant of a "CLH" (Craig, Landin, and Hagersten) lock queue. 
+CLH locks are normally used for spinlocks.
+We instead use them for blocking synchronizers by including explicit ("prev" and "next") links plus a "status" field that allo w nodes to signal successors when releasinglocks, and handle cancellation due to interrupts and timeouts.
+The status field includes bits that track whether a thread needs a signal (using LockSupport.unpark). 
+Despite these additions, we maintain most CLH locality properties.
+
+等待队列是“CLH”（Craig，Landin和Hagersten）锁队列的一种变体。
+CLH锁通常用于自旋锁。
+而我们使用它们用于阻塞同步器，包括显式的（“prev”和“next”）链接以及一个“status”字段，允许节点在释放锁时向后继发出信号，并处理由于中断和超时而取消的情况。
+状态字段包括跟踪线程是否需要信号（使用LockSupport.unpark）的位。
+尽管有这些添加，我们仍然保持大部分CLH局部性质。
+
+To enqueue into a CLH lock, you atomically splice it in as newtail. 
+To dequeue, you set the head field, so the next eligible waiter becomes first.
+
+将元素入队到CLH锁中，需要将其作为新的尾节点原子地插入。
+要出队，您需要设置头节点，这样下一个可用的等待者就会成为第一个。
+
+  +------+  prev +-------+       +------+
+  | head | <---- | first | <---- | tail |
+  +------+       +-------+       +------+
+  
+Insertion into a CLH queue requires only a single atomic operation on "tail", so there is a simple point of demarcation from unqueued to queued. 
+The "next" link of the predecessor is set by the enqueuing thread after successful CAS. 
+Even though non-atomic, this suffices to ensure that any blocked thread is signalled by a predecessor when eligible (although in the case of cancellation, possibly with the assistance of a signal in method cleanQueue). 
+Signalling is based in part on a Dekker-like scheme in which the to-be waiting thread indicates WAITING status, then retries acquiring, and then rechecks status before blocking. 
+The signaller atomically clears WAITING status when unparking.
+
+将元素插入到CLH队列中仅需要对“tail”进行单个原子操作，因此从未排队到已排队有一个简单的分界点。
+在成功的CAS操作之后，前置节点的“next”链接由入队线程设置。
+即使非原子性，这也足以确保任何被阻塞的线程在符合条件时由前置节点发出信号（尽管在取消的情况下，可能需要在cleanQueue方法中使用信号来协助）。
+信号部分基于类似Dekker方案的方案，在该方案中，待等待的线程指示等待状态，然后重试获取，然后在阻塞之前重新检查状态。
+发信号者在解除阻塞时原子性地清除WAITING状态。
+
+Dequeuing on acquire involves detaching (nulling) a node's "prev" node and then updating the "head". 
+Other threads check if a node is or was dequeued by checking "prev" rather than head. 
+We enforce the nulling then setting order by spin-waiting if necessary. 
+Because of this, the lock algorithm is not itself strictly "lock-free" because an acquiring thread may need to wait for a previous acquire to make progress. 
+When used with exclusive locks, such progress is required anyway. 
+However Shared mode may (uncommonly) require a spin-wait before setting head field to ensure proper propagation. 
+(Historical note: This allows some simplifications and efficiencies compared to previous versions of this class.)
+
+获取时出列涉及分离（清空）节点的“prev”节点，然后更新“head”。
+其他线程通过检查“prev”而不是 head 来检查节点是否出队。
+如有必要，我们通过自旋等待来强制执行清零然后设置顺序。
+因此，锁定算法本身并不是严格意义上的“无锁”，因为获取线程可能需要等待先前的获取才能取得进展。
+当与独占锁一起使用时，无论如何都需要这样的进展。
+然而，共享模式可能（不常见）需要在设置 head 字段之前进行自旋等待以确保正确传播。
+（历史记录：与此类的先前版本相比，这允许一些简化和效率。）
+
+A node's predecessor can change due to cancellation while it is waiting, until the node is first in queue, at which point it cannot change. 
+The acquire methods cope with this by rechecking "prev" before waiting. 
+The prev and next fields are modified only via CAS by cancelled nodes in method cleanQueue. 
+The unsplice strategy is reminiscent of Michael-Scott queues in that after a successful CAS to prev field, other threads help fix next fields.  
+Because cancellation often occurs in bunches that complicate decisions about necessary signals, each call to cleanQueue traverses the queue until a clean sweep. 
+Nodes that become relinked as first are unconditionally unparked (sometimes unnecessarily, but those cases are not worth avoiding).
+
+节点的前任节点在等待期间可能会因取消而发生更改，直到该节点位于队列中的第一个节点，此时它不能更改。
+acquire 方法通过在等待之前重新检查“prev”来解决这个问题。
+prev 和 next 字段只能通过 cleanQueue 方法中取消的节点通过 CAS 进行修改。
+unsplice 策略让人想起 Michael-Scott 队列，因为在成功 CAS 到上一个字段之后，其他线程帮助修复下一个字段。
+由于取消通常成批发生，这使得有关必要信号的决策变得复杂，因此每次调用 cleanQueue 都会遍历队列，直到彻底清除。
+首先重新链接的节点将无条件地取消停放（有时是不必要的，但这些情况不值得避免）。
+
+A thread may try to acquire if it is first (frontmost) in the queue, and sometimes before.  
+Being first does not guarantee success; it only gives the right to contend. 
+We balance throughput, overhead, and fairness by allowing incoming threads to "barge" and acquire the synchronizer while in the process of enqueuing, in which case an awakened first thread may need to rewait.  
+To counteract possible repeated unlucky rewaits, we exponentially increase retries (up to 256) to acquire each time a thread is unparked.
+Except in this case, AQS locks do not spin; they instead interleave attempts to acquire with bookkeeping steps. 
+(Users who want spinlocks can use tryAcquire.)
+
+如果线程在队列中排在第一位（最前面），有时可能会尝试获取。
+成为第一并不能保证成功； 它只赋予竞争的权利。
+我们通过允许传入线程在排队过程中“闯入”并获取同步器来平衡吞吐量、开销和公平性，在这种情况下，第一个被唤醒的线程可能需要重新等待。
+为了抵消可能重复的不幸重新等待，我们以指数方式增加重试次数（最多 256 次）以获取每次线程未停放的时间。
+除了这种情况，AQS 锁不会自旋； 相反，他们将获取的尝试与簿记步骤交织在一起。
+（想要自旋锁的用户可以使用 tryAcquire。）
+
+To improve garbage collectibility, fields of nodes not yet on list are null. 
+(It is not rare to create and then throw away a node without using it.) 
+Fields of nodes coming off the list are nulled out as soon as possible. 
+This accentuates the challenge of externally determining the first waiting thread (as in method getFirstQueuedThread). 
+This sometimes requires the fallback of traversing backwards from the atomically updated "tail" when fields appear null. (This is never needed in the process of signalling though.)
+
+为了提高垃圾回收能力，尚未在列表中的节点的字段为空。
+（创建然后丢弃一个节点而不使用它的情况并不少见。）
+离开列表的节点字段将尽快清零。
+这突出了从外部确定第一个等待线程的挑战（如在方法 getFirstQueuedThread 中）。
+这有时需要在字段显示为空时从原子更新的“尾部”向后遍历的回退。 （尽管在信号发送过程中从来不需要这样做。）
+
+CLH queues need a dummy header node to get started. 
+But we don't create them on construction, because it would be wasted effort if there is never contention. 
+Instead, the node is constructed and head and tail pointers are set upon first contention.
+
+CLH 队列需要一个虚拟头节点才能开始。
+但是我们不会在构建时创建它们，因为如果永远没有争用，那将是浪费精力。
+取而代之的是，构造节点并在第一次争用时设置头指针和尾指针。
+
+Shared mode operations differ from Exclusive in that an acquire signals the next waiter to try to acquire if it is also Shared. 
+The tryAcquireShared API allows users to indicate the degree of propagation, but in most applications, it is more efficient to ignore this, allowing the successor to try acquiring in any case.
+
+Shared 模式操作与 Exclusive 的不同之处在于，如果它也是 Shared，则 acquire 会通知下一个服务员尝试获取。
+tryAcquireShared API 允许用户指示传播程度，但在大多数应用程序中，忽略这一点效率更高，让后继者在任何情况下都可以尝试获取。
+
+Threads waiting on Conditions use nodes with an additional link to maintain the (FIFO) list of conditions. 
+Conditions only need to link nodes in simple (non-concurrent) linked queues because they are only accessed when exclusively held.  
+Upon await, a node is inserted into a condition queue.  
+Upon signal, the node is enqueued on the main queue.  
+A special status field value is used to track and atomically trigger this.
+
+等待条件的线程使用带有附加链接的节点来维护 (FIFO) 条件列表。
+条件只需要链接简单（非并发）链接队列中的节点，因为它们仅在独占时才被访问。
+在等待时，一个节点被插入到条件队列中。
+收到信号后，节点将在主队列中排队。
+一个特殊的状态字段值用于跟踪和自动触发它。
+
+Accesses to fields head, tail, and state use full Volatile mode, along with CAS. 
+Node fields status, prev and next also do so while threads may be signallable, but sometimes use weaker modes otherwise. 
+Accesses to field "waiter" (the thread to be signalled) are always sandwiched between other atomic accesses so are used in Plain mode. 
+We use jdk.internal Unsafe versions of atomic access methods rather than VarHandles to avoid potential VM bootstrap issues.
+
+对字段 head、tail 和 state 的访问使用完整的 Volatile 模式以及 CAS。
+节点字段 status、prev 和 next 也这样做，而线程可能是可发信号的，但有时使用较弱的模式。
+对字段“waiter”（要发出信号的线程）的访问总是夹在其他原子访问之间，因此在普通模式下使用。
+我们使用 jdk.internal 原子访问方法的不安全版本而不是 VarHandles 来避免潜在的 VM 引导问题。
+
+Most of the above is performed by primary internal method acquire, that is invoked in some way by all exported acquire methods.  
+(It is usually easy for compilers to optimize call-site specializations when heavily used.)
+
+上面的大部分是由主要的内部方法 acquire 执行的，所有导出的 acquire 方法都以某种方式调用它。
+（编译器通常很容易在大量使用时优化调用站点特化。）
+
+There are several arbitrary decisions about when and how to check interrupts in both acquire and await before and/or after blocking. 
+The decisions are less arbitrary in implementation updates because some users appear to rely on original behaviors in ways that are racy and so (rarely) wrong in general but hard to justify changing.
+
+关于何时以及如何在阻塞之前和/或之后检查 acquire 和 await 中的中断，有几个任意的决定。
+这些决定在实施更新中不那么随意，因为一些用户似乎以活泼的方式依赖原始行为，因此（很少）通常是错误的，但很难证明改变是合理的。
+
+Thanks go to Dave Dice, Mark Moir, Victor Luchangco, Bill Scherer and Michael Scott, along with members of JSR-166 expert group, for helpful ideas, discussions, and critiques on the design of this class.
+
+感谢 Dave Dice、Mark Moir、Victor Luchangco、Bill Scherer 和 Michael Scott 以及 JSR-166 专家组的成员，感谢他们对本课程的设计提出了有益的想法、讨论和批评。
+```
+:::
 
 #### 3.2 LockSupport
 
