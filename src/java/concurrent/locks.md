@@ -812,7 +812,7 @@ jdk/src/java.base/share/classes/java/util/concurrent/locks
 └── StampedLock.java
 ```
 
-#### 3.1 [AQS](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html)
+### 3.1 [AQS](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html)
 
 AQS是`AbstractQueuedSynchronizer`的简称，译成抽象队列同步器
 
