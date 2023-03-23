@@ -62,6 +62,12 @@ export const zhNavbar = navbar([
       ]
   },
   {
+    text: 'AI', icon: "customize",
+    children: [
+        { text: 'AI大模型之美',link: '/ai/bigmodel' },
+    ]
+  },
+  {
       text: '四次元口袋', icon: "tool",
       children: [
         { text: '任意门', link: '/doraemon/tools.md' },

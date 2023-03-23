@@ -187,6 +187,15 @@ export const zhSidebar = sidebar({
         ]
     }
 ],
+'/ai/bigmodel': [
+    {
+        text: 'AI大模型之美',
+        collapsible: true,
+        children: [
+            // {text: '工具',link: '/ai/bigmodel/tools.md'},
+        ]    
+    }
+],
     '/doraemon': [
         { text: '任意门', link: '/doraemon/tools.md' },
         {
