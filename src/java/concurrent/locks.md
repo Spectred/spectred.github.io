@@ -824,7 +824,7 @@ AQS可以用来构建锁和同步器的框架，如ReentrantLock,Semaphore,Futur
 
 ::: 
 
-先看源码注释中的"Overview"
+#### 3.1.1 源码注释中的"Overview"
 
 ::: details AQS Overview
 ```
@@ -970,6 +970,161 @@ Thanks go to Dave Dice, Mark Moir, Victor Luchangco, Bill Scherer and Michael Sc
 
 感谢 Dave Dice、Mark Moir、Victor Luchangco、Bill Scherer 和 Michael Scott 以及 JSR-166 专家组的成员，感谢他们对本课程的设计提出了有益的想法、讨论和批评。
 ```
+:::
+
+#### 3.1.2 AQS的使用示例
+
+> 来自于源码类注释中的Usage Examples
+
+##### 3.1.2.1 不可重入的互斥锁
+
+::: details Mutex (non-reentrant mutual exclusion lock)
+
+Here is a non-reentrant mutual exclusion lock class that uses the value zero to represent the unlocked state, and one to represent the locked state. While a non-reentrant lock does not strictly require recording of the current owner thread, this class does so anyway to make usage easier to monitor. It also supports conditions and exposes some instrumentation methods:
+
+```java
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
+public class Mutex implements Lock, Serializable {
+
+    private static class Sync extends AbstractQueuedSynchronizer {
+
+        // Acquires the lock if state is zero
+        @Override
+        protected boolean tryAcquire(int acquires) {
+            assert acquires == 1;
+            if (compareAndSetState(0, 1)) {
+                setExclusiveOwnerThread(Thread.currentThread());
+                return true;
+            }
+            return false;
+        }
+
+        // Releases the lock by setting state to zero
+        @Override
+        protected boolean tryRelease(int releases) {
+            assert releases == 1;
+            // 非独占锁则抛出异常
+            if (!isHeldExclusively()) throw new IllegalMonitorStateException();
+            setExclusiveOwnerThread(null);
+            setState(0);
+            return true;
+        }
+
+        public boolean isLocked() {
+            // 状态不为零则持有锁
+            return getState() != 0;
+        }
+
+        public boolean isHeldExclusively() {
+            // 持有锁的线程如果是当前线程则返回true
+            // a data race, but safe due to out-of-thin-air guarantees
+            return getExclusiveOwnerThread() == Thread.currentThread();
+        }
+
+        // Provides a Condition      
+        public Condition newCondition() {
+            return new ConditionObject();
+        }
+
+        // Deserializes properly      
+        private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+            s.defaultReadObject();
+            setState(0); // reset to unlocked state      
+        }
+    }
+
+    // The sync object does all the hard work. We just forward to it.
+    private final Sync sync = new Sync();
+
+    @Override
+    public void lock() {
+        sync.acquire(1);
+    }
+
+    @Override
+    public boolean tryLock() {
+        return sync.tryAcquire(1);
+    }
+
+    
+    @Override
+    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {
+        return sync.tryAcquireNanos(1, unit.toNanos(timeout));
+    }
+
+
+    @Override
+    public void lockInterruptibly() throws InterruptedException {
+        sync.acquireInterruptibly(1);
+    }
+
+
+    @Override
+    public void unlock() {
+        sync.release(1);
+    }
+
+
+    @Override
+    public Condition newCondition() {
+        return sync.newCondition();
+    }
+}
+```
+
+:::
+
+3.1.2.2 闩锁类 （类似于CountDownLatch，但是只计数1则触发）
+
+::: details BooleanLatch
+
+Here is a latch class that is like a CountDownLatch except that it only requires a single signal to fire. Because a latch is non-exclusive, it uses the shared acquire and release methods.
+
+```java
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
+public class BooleanLatch {
+
+    private static class Sync extends AbstractQueuedSynchronizer {
+        boolean isSignalled() {
+            return getState() != 0;
+        }
+
+        @Override
+        protected int tryAcquireShared(int ignore) {
+            return isSignalled() ? 1 : -1;
+        }
+
+        @Override
+        protected boolean tryReleaseShared(int ignore) {
+            setState(1);
+            return true;
+        }
+    }
+
+    private final Sync sync = new Sync();
+
+    public boolean isSignalled() {
+        return sync.isSignalled();
+    }
+
+    public void signal() {
+        sync.releaseShared(1);
+    }
+
+    public void await() throws InterruptedException {
+        sync.acquireSharedInterruptibly(1);
+    }
+}
+```
+
 :::
 
 #### 3.2 LockSupport
