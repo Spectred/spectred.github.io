@@ -64,7 +64,7 @@ export const zhNavbar = navbar([
   {
     text: 'AI', icon: "customize",
     children: [
-        { text: 'AI大模型之美',link: '/ai/bigmodel' },
+        { text: '提示词',link: '/ai/prompt' },
     ]
   },
   {
