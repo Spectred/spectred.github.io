@@ -1,1 +1,0 @@
-import{_ as t,V as a,W as o,Z as e,$ as c}from"./framework-b6120433.js";const n={},r=e("h1",{id:"about-ai",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#about-ai","aria-hidden":"true"},"#"),c(" About AI")],-1),s=[r];function _(d,i){return a(),o("div",null,s)}const l=t(n,[["render",_],["__file","index.html.vue"]]);export{l as default};
