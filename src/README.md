@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 学习笔记
-heroImage: /study.png
+heroImage: /spectred.png
 heroText: 学习笔记
 tagline: 学吧，学无止境，太深了
 actions:
