@@ -143,6 +143,8 @@ message AddResponse{
 }
 ```
 
+`mvn clean compile`
+
 Server
 ```java
 import io.grpc.Server;
