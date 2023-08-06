@@ -10,6 +10,8 @@
 
 ## 简单示例(Java)
 
+[代码示例](https://github.com/Spectred/x-rpc/tree/main/x-grpc)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
