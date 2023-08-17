@@ -38,3 +38,55 @@ $ ./bin/mongo --host=localhost --port=27017
 ## 3. 客户端-可视化
 
 DataGrip
+
+## 4. k8s部署单实例mongodb
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: mongo
+spec:
+  selector:
+    app: mongodb
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+      nodePort: 30017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  namespace: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:6.0.8
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-data
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-data
+          emptyDir: {}
+```
+
