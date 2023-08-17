@@ -107,7 +107,8 @@ export const zhSidebar = sidebar({
         {
             text: 'gRPC',
             children: [
-                { text: '使用', link: '/frame/gRPC/started.md' },
+                { text: 'Java示例', link: '/frame/gRPC/grpc-java.md' },
+                { text: 'SpringBoot示例', link: '/frame/gRPC/grpc-spring-boot.md' },
             ]
         }
     ],
