@@ -118,7 +118,8 @@ export const zhSidebar = sidebar({
             text: 'Redis',
             collapsible: true,
             children: [
-                { text: '1. 安装', link: '/middleware/redis/started.md' }
+                { text: '安装', link: '/middleware/redis/started.md' },
+                { text: '概览', link: '/middleware/redis/overview.md' },
             ]
         }
     ],
