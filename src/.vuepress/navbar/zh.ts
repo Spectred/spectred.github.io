@@ -12,7 +12,7 @@ export const zhNavbar = navbar([
   },
   {
       text: '框架', icon: "frame",children: [
-          {text: 'gRPC',link: '/frame/gRPC',icon: "/assets/icons/grpc.ico"},
+          {text: 'gRPC',link: '/frame/gRPC',icon: ""},
           {text: 'Dubbo',link: '/frame/dubbo'},
           {text: 'MyBatis',link: '/frame/mybatis'},
           {text: 'Netty',link: '/frame/netty'},               
@@ -22,13 +22,13 @@ export const zhNavbar = navbar([
   },
   {
       text: '中间件',icon: "any", children: [
-          { text: 'Flink', link: '/middleware/flink' ,icon: "/assets/icons/flink.ico"},
-          { text: 'Kafka', link: '/middleware/kafka',icon: "/assets/icons/kafka.ico"},
-          { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "/assets/icons/mongo.ico" },
-          { text: 'MySQL', link: '/middleware/mysql',icon: "/assets/icons/mysql.ico" },
-          { text: 'Pulsar', link: '/middleware/pulsar',icon: "/assets/icons/pulsar.ico" },
-          { text: 'Redis', link: '/middleware/redis',icon: "/assets/icons/redis.ico" },
-          { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "/assets/icons/zookeeper.ico" },  
+          { text: 'Flink', link: '/middleware/flink' ,icon: ""},
+          { text: 'Kafka', link: '/middleware/kafka',icon: ""},
+          { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "✅" },
+          { text: 'MySQL', link: '/middleware/mysql',icon: "" },
+          { text: 'Pulsar', link: '/middleware/pulsar',icon: "" },
+          { text: 'Redis', link: '/middleware/redis',icon: "😈" },
+          { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "" },  
       ]
   },
   {
