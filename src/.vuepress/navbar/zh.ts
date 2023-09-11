@@ -27,7 +27,7 @@ export const zhNavbar = navbar([
           { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "" },
           { text: 'MySQL', link: '/middleware/mysql',icon: "mysql" },
           { text: 'Pulsar', link: '/middleware/pulsar',icon: "" },
-          { text: 'Redis', link: '/middleware/redis',icon: "Redis" },
+          { text: 'Redis', link: '/middleware/redis',icon: "like" },
           { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "" },  
       ]
   },
