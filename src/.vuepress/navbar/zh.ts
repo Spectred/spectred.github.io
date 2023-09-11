@@ -25,9 +25,9 @@ export const zhNavbar = navbar([
           { text: 'Flink', link: '/middleware/flink' ,icon: ""},
           { text: 'Kafka', link: '/middleware/kafka',icon: ""},
           { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "" },
-          { text: 'MySQL', link: '/middleware/mysql',icon: "" },
+          { text: 'MySQL', link: '/middleware/mysql',icon: "mysql" },
           { text: 'Pulsar', link: '/middleware/pulsar',icon: "" },
-          { text: 'Redis', link: '/middleware/redis',icon: "" },
+          { text: 'Redis', link: '/middleware/redis',icon: Redis },
           { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "" },  
       ]
   },
