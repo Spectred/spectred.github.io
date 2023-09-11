@@ -120,10 +120,8 @@ export const zhSidebar = sidebar({
             children: [
                 { text: '安装', link: '/middleware/redis/started.md' },
                 { text: '概览', link: '/middleware/redis/overview.md' },
-                { text: '数据类型与数据结构', collapsible: true, children: [
-                    { text: 'string', link: '/middleware/redis/string.md' },
-                  
-                ]
+                { text: '数据类型与数据结构', collapsible: true, children: [{ text: 'string', link: '/middleware/redis/string.md' }]
+                }
             ]
         }
     ],
