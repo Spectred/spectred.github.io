@@ -24,10 +24,10 @@ export const zhNavbar = navbar([
       text: '中间件',icon: "any", children: [
           { text: 'Flink', link: '/middleware/flink' ,icon: ""},
           { text: 'Kafka', link: '/middleware/kafka',icon: ""},
-          { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "✅" },
+          { text: 'MongoDB', link: '/middleware/mongodb/README.md', icon: "" },
           { text: 'MySQL', link: '/middleware/mysql',icon: "" },
           { text: 'Pulsar', link: '/middleware/pulsar',icon: "" },
-          { text: 'Redis', link: '/middleware/redis',icon: "😈" },
+          { text: 'Redis', link: '/middleware/redis',icon: "" },
           { text: 'ZooKeeper', link: '/middleware/zookeeper',icon: "" },  
       ]
   },
