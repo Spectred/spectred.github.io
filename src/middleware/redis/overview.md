@@ -75,6 +75,8 @@ src
 ├── intset.h    | intset.c
 ├── zipmap.c    | zipmap.h
 ├── quicklist.h | quicklist.c
+├── listpack.h	| listpack.c
+├── listpack_malloc.h
 ├── geo.h | geo.c | geohash.h | geohash.c | geohash_helper.h | geohash_helper.c
 ├── hyperloglog.c
 ├── bitops.c
@@ -132,8 +134,6 @@ src
 ├── fmacros.h
 ├── gopher.c
 ├── help.h
-├── listpack.h	| listpack.c
-├── listpack_malloc.h
 ├── localtime.c
 ├── lolwut.h	| lolwut.c
 ├── lolwut5.c
