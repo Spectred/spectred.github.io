@@ -1,16 +1,14 @@
 # Redis概览
 
 ## Redis全景图
-
-
 ![https://time.geekbang.org/column/article/268247](https://static001.geekbang.org/resource/image/79/e7/79da7093ed998a99d9abe91e610b74e7.jpg?wh=2001*1126)
 
+## Redis问题画像图
 ![https://time.geekbang.org/column/article/268247](https://static001.geekbang.org/resource/image/70/b4/70a5bc1ddc9e3579a2fcb8a5d44118b4.jpeg?wh=2048*1536)
 
 
 
 ## Redis目录结构
-
 ![http://gk.link/a/129Il](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg?wh=2238x811)
 
 ```
@@ -23,6 +21,7 @@ redis
 └── utils               # 辅助性功能
 ```
 
+### 依赖包
 ```
 deps
 ├── hdr_histogram
@@ -32,6 +31,7 @@ deps
 └── lua             # lua脚本代码
 ```
 
+### 测试包
 ```
 tests
 ├── cluster					# Cluster功能测试
@@ -47,6 +47,7 @@ tests
 └── assets
 ```
 
+### 源码包
 ```
 src
 ├── modules     模块示例代码
