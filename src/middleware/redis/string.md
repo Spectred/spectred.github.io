@@ -1,4 +1,4 @@
-# String
+![image](https://github.com/Spectred/spectred.github.io/assets/51708640/9c88ce1d-4b2e-4414-9296-647698844bbe)# String
 
 [数据类型: string](https://redis.io/docs/data-types/strings)
 
@@ -13,7 +13,7 @@
 ## 数据结构
 - 如果value是64位有符号整数，Redis保存为8字节的Long类型整数(int编码方式)
 - 如果value中包含字符串，Redis使用SDS(Simple Dynamic String)结构体保存
-- 
+
 ### 数据结构定义
 在[sds.h](https://github.com/Spectred/redis/blob/unstable/src/sds.h)中定义如下结构体(包括sdshdr5,sdshdr8,sdshdr16,sdshdr32,sdshdr64)
 ```C
@@ -31,13 +31,8 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 
 ### SDS关键函数
 [sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
-- `sdsnewlen`: 创建一个新的SDS,并分配足够的空间以容纳指定长度的字符串
-- `sdslen`: 返回SDS的当前长度
-- `sdsfree`：释放SDS的内存空间。
-- `sdscat`：将指定的字符串追加到SDS的末尾。
-- `sdscpy`：将指定的字符串复制到SDS中。
-- `sdsgrowzero`：将SDS的长度扩展到指定长度，并将扩展的字节用零填充。
-- `sdscatprintf`：类似于C语言中的sprintf函数，将格式化的字符串追加到SDS中。
+😈图中函数可能和新版本有出入
+![Redis设计与实现 http://redisbook.com/](https://s2.loli.net/2023/09/13/3nT8eFVHgpXckGC.jpg)
 
 
 
