@@ -84,7 +84,19 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 ![http://redisbook.com/](https://s2.loli.net/2023/09/13/PUng9ikxzwZIRJ1.jpg)
 :::
 
-### Redis中的String有哪些不足
+::: info Redis的String占用内存高的问题
+[极客时间:Redis核心技术与实战:11 | “万金油”的String，为什么不好用了？](https://time.geekbang.org/column/article/279649)
+由于RedisObject，和SDS中属性的元数据存储，在存储较长数据时会有更多的额外内存空间开销 ，内存增大会导致因为生成RDB而变慢。
+
+可以使用压缩列表(ziplist)数据结构节省内存（用一系列连续的 entry 保存数据），基于ziplist的实现数据类型有:Hash,List,SortedSet。
+
+如果使用Hash则可以采用二级编码的方式(将前一部分key做为key,后一部分key作为field),
+需要注意,Redis中的Hash的两种底层结构是压缩列表和哈希表，需要将key的长度控制在压缩列表结构上(例如将1101000060中的前7位1101000作为Hash的key,060作为field)
+
+Hash阈值配置项:
+hash-max-ziplist-entries：用压缩列表保存时哈希集合中的最大元素个数
+hash-max-ziplist-value：用压缩列表保存时哈希集合中单个元素的最大长度
+:::
 
 
 
