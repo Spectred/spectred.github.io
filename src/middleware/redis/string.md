@@ -31,8 +31,9 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 
 ### SDS关键函数
 [sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
+
 😈图中函数可能和新版本有出入
-![Redis设计与实现 http://redisbook.com/](https://s2.loli.net/2023/09/13/3nT8eFVHgpXckGC.jpg)
+![http://redisbook.com/](https://s2.loli.net/2023/09/13/3nT8eFVHgpXckGC.jpg)
 
 
 
