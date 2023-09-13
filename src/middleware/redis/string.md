@@ -31,12 +31,11 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 :::
 
 ### RedisObject
-![https://time.geekbang.org/column/article/279649]https://static001.geekbang.org/resource/image/34/57/3409948e9d3e8aa5cd7cafb9b66c2857.jpg)
-![https://time.geekbang.org/column/article/279649]https://static001.geekbang.org/resource/image/ce/e3/ce83d1346c9642fdbbf5ffbe701bfbe3.jpg)
+![https://time.geekbang.org/column/article/279649](https://static001.geekbang.org/resource/image/34/57/3409948e9d3e8aa5cd7cafb9b66c2857.jpg)
+![https://time.geekbang.org/column/article/279649](https://static001.geekbang.org/resource/image/ce/e3/ce83d1346c9642fdbbf5ffbe701bfbe3.jpg)
 
 ### SDS关键函数
-[sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
-
+相关源码实现: [sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
 
 [Redis设计与实现 表2-2](http://redisbook.com/preview/sds/api.html)
 |函数|作用|时间复杂度|
