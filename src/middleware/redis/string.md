@@ -1,4 +1,4 @@
-![image](https://github.com/Spectred/spectred.github.io/assets/51708640/9c88ce1d-4b2e-4414-9296-647698844bbe)# String
+# String
 
 [数据类型: string](https://redis.io/docs/data-types/strings)
 
