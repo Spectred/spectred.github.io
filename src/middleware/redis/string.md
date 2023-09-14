@@ -49,6 +49,7 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 |`sdstrim`|接受一个 SDS 和一个 C 字符串作为参数， 从 SDS 左右两端分别移除所有在 C 字符串中出现过的字符。|O(M*N) ， `M` 为 SDS 的长度， `N` 为给定 C 字符串的长度。|
 |`sdscmp`|对比两个 SDS 字符串是否相同。|O(N) ， `N` 为两个 SDS 中较短的那个 SDS 的长度。|
 
+### 为什么使用SDS，而不是char*
 ::: info Redis为什么使用SDS，而不是char*
 背景：C语言中使用char*字符数组来实现字符串，char*指针指向字符数组起始位置，\0表示字符串的结尾
 
@@ -76,7 +77,7 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 ![http://redisbook.com/](https://s2.loli.net/2023/09/13/PUng9ikxzwZIRJ1.jpg)
 :::
 
-
+### 占用内存高
 ::: info Redis的String占用内存高的问题
 [极客时间:Redis核心技术与实战:11 | “万金油”的String，为什么不好用了？](https://time.geekbang.org/column/article/279649)
 <br>
@@ -93,6 +94,7 @@ hash-max-ziplist-value：用压缩列表保存时哈希集合中单个元素的�
 :::
 
 
+### 嵌入式字符串(embstr)的条件是44字节
 ::: info 为什么SDS判断是否使用嵌入式字符串(embstr)的条件是44字节
 embstr将RedisObject对象头和SDS对象连续存一起，使用一次`malloc`分配。raw需要两次`malloc`分配，两个对象头在内存地址上一般不连续。
 内存分配子jmalloc最少分配32字节空间(只会分配2的幂)，当字符串再长一点就会分配64字节。如果超过64字节，将使用raw形式存储。
@@ -115,7 +117,7 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 };
 ```
 [object.c/createStringObject](https://github.com/Spectred/redis/blob/spectred_6.2/src/object.c)
-```C
+``` c
 /* Create a string object with EMBSTR encoding if it is smaller than
  * OBJ_ENCODING_EMBSTR_SIZE_LIMIT, otherwise the RAW encoding is
  * used.
@@ -133,7 +135,7 @@ robj *createStringObject(const char *ptr, size_t len) {
 :::
 
 
-
+### 扩容策略
 ::: info Redis中String的扩容策略
 [sds.c/sdsMakeRoomFor](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
 <br>
