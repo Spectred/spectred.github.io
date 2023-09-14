@@ -27,11 +27,6 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 ```
 其中`__attribute__ ((__packed__))`表示 告诉编译器在对结构体进行内存对齐时不要进行字节对齐填充，采用紧凑的方式分配内存。默认如果变量5个字节，不够8字节也会分配8字节，使用后只有5个字节。
 
-### RedisObject
-
-![https://time.geekbang.org/column/article/279649](https://static001.geekbang.org/resource/image/34/57/3409948e9d3e8aa5cd7cafb9b66c2857.jpg)
-
-![https://time.geekbang.org/column/article/279649](https://static001.geekbang.org/resource/image/ce/e3/ce83d1346c9642fdbbf5ffbe701bfbe3.jpg)
 
 ### SDS关键函数
 相关源码实现: [sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
@@ -124,7 +119,8 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 
 
 ::: info Redis中String的扩容策略
-
+字符串长度小于1M: `n = 2 * n`,
+字符串长度大于1M: `n = n + 1`
 :::
 
 
