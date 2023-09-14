@@ -1,34 +1,31 @@
-# String
+# 字符串
 
+
+## String简介
 [数据类型: string](https://redis.io/docs/data-types/strings)
 
+## 有哪些命令
 [命令: string](https://redis.io/commands/?group=string)
-
 [命令源码 t_string.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/t_string.c)
-
-[数据结构 sds](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.h)
-
-
 
 ## 数据结构
 - 如果value是64位有符号整数，Redis保存为8字节的Long类型整数(int编码方式)
 - 如果value中包含字符串，Redis使用SDS(Simple Dynamic String)结构体保存
 
-### 数据结构定义
+### 数据结构
+[sds.h](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.h)
+[sds.c](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
 
-在[sds.h](https://github.com/Spectred/redis/blob/unstable/src/sds.h)中定义如下结构体(包括sdshdr5,sdshdr8,sdshdr16,sdshdr32,sdshdr64)
+源码中定义如下结构体(包括sdshdr5,sdshdr8,sdshdr16,sdshdr32,sdshdr64)
 ```C
 struct __attribute__ ((__packed__)) sdshdr8 {
-    uint8_t len;            /* buf的已用长度,占4个字节 */
-    uint8_t alloc;          /* buf的实际分配长度,占4个字节, 排除了header和null终止符 */
+    uint8_t len;            /* buf的已用长度,占1个字节 */
+    uint8_t alloc;          /* buf的实际分配长度,占1个字节, 排除了header和null终止符 */
     unsigned char flags;    /* SDS类型,和SDS_TYPE_MASK计算出是sdshdr5/8/16/32/64 */
     char buf[];             /* 实际数据 */
 };
 ```
 其中`__attribute__ ((__packed__))`表示 告诉编译器在对结构体进行内存对齐时不要进行字节对齐填充，采用紧凑的方式分配内存。默认如果变量5个字节，不够8字节也会分配8字节，使用后只有5个字节。
-::: note
-和JDK中的@Contended的异同
-:::
 
 ### RedisObject
 
@@ -84,8 +81,10 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 ![http://redisbook.com/](https://s2.loli.net/2023/09/13/PUng9ikxzwZIRJ1.jpg)
 :::
 
+
 ::: info Redis的String占用内存高的问题
 [极客时间:Redis核心技术与实战:11 | “万金油”的String，为什么不好用了？](https://time.geekbang.org/column/article/279649)
+<br>
 由于RedisObject，和SDS中属性的元数据存储，在存储较长数据时会有更多的额外内存空间开销 ，内存增大会导致因为生成RDB而变慢。
 
 可以使用压缩列表(ziplist)数据结构节省内存（用一系列连续的 entry 保存数据），基于ziplist的实现数据类型有:Hash,List,SortedSet。
@@ -98,5 +97,34 @@ hash-max-ziplist-entries：用压缩列表保存时哈希集合中的最大元�
 hash-max-ziplist-value：用压缩列表保存时哈希集合中单个元素的最大长度
 :::
 
+
+::: info 为什么SDS判断是否使用嵌入式字符串(embstr)的条件是44字节
+embstr将RedisObject对象头和SDS对象连续存一起，使用一次`malloc`分配。raw需要两次`malloc`分配，两个对象头在内存地址上一般不连续。
+内存分配子jmalloc最少分配32字节空间(只会分配2的幂)，当字符串再长一点就会分配64字节。如果超过64字节，将使用raw形式存储。
+
+条件是44字节的原因是`redisObject`和`sdshdr`结构体元数据和字符数组结束符占了20个字节(64-20=44)
+```C
+typedef struct redisObject {
+    unsigned type:4;        // 4 bits
+    unsigned encoding:4;    // 4 bits
+    unsigned lru:LRU_BITS;  // 24 bits
+    int refcount;           // 4 bytes
+    void *ptr;              // 8 bytes
+} robj;
+
+struct __attribute__ ((__packed__)) sdshdr8 {
+    uint8_t len;            // 1 byte
+    uint8_t alloc;          // 1 byte
+    unsigned char flags;    // 1 byte
+    char buf[];             // 44 bytes + 1 byte(结尾\0)
+};
+```
+:::
+
+
+
+::: info Redis中String的扩容策略
+
+:::
 
 
