@@ -119,6 +119,14 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 
 
 ::: info Redis中String的扩容策略
+[sds.c/sdsMakeRoomFor](https://github.com/Spectred/redis/blob/spectred_6.2/src/sds.c)
+<br>
+```C
+  if (newlen < SDS_MAX_PREALLOC)
+        newlen *= 2;
+    else
+        newlen += SDS_MAX_PREALLOC;
+```
 字符串长度小于1M: `n = 2 * n`,
 字符串长度大于1M: `n = n + 1`
 :::
