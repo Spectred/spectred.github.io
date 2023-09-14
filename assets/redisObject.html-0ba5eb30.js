@@ -1,0 +1,1 @@
+import{_ as t,V as c,W as r,Z as e,$ as s}from"./framework-eedf5ae1.js";const a={},o=e("h1",{id:"redisobject",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#redisobject","aria-hidden":"true"},"#"),s(" redisObject")],-1),d=[o];function i(n,_){return c(),r("div",null,d)}const l=t(a,[["render",i],["__file","redisObject.html.vue"]]);export{l as default};
